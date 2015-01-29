@@ -1,9 +1,8 @@
 package boardem.jake.experiment;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
+import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.yammer.dropwizard.config.Configuration;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /*
  * Configuration class specifies environment-specific parameters
