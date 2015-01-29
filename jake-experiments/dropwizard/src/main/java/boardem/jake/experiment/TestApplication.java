@@ -26,9 +26,13 @@ public class TestApplication extends Application<TestConfiguration>
 	@Override
 	public void run(TestConfiguration config, Environment env)
 	{
+		//Create and register the resource and health check
 		final TestResource resource = new TestResource(
 				config.getTemplate(),
 				config.getDefaultName());
+		final TemplateHealthCheck healthCheck = new TemplateHealthCheck(config.getTemplate());
+		
+		env.healthChecks().register("template", healthCheck);
 		env.jersey().register(resource);
 	}
 }
