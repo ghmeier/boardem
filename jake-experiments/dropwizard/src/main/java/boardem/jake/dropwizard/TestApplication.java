@@ -4,6 +4,9 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
+/*
+The application class pulls everything together into a full application.
+*/
 public class TestApplication extends Application<TestConfiguration>
 {
 	public static void main(String args[]) throws Exception

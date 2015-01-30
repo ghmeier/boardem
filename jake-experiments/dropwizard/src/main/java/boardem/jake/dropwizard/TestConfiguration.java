@@ -4,6 +4,10 @@ import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
+/*
+The configuration subclass is where environment specific settings are stored.
+In this case, its just defining the template and default name for the message to be displayed
+*/
 public class TestConfiguration extends Configuration
 {
 	@NotEmpty

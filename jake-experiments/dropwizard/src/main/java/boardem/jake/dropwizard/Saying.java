@@ -3,6 +3,13 @@ package boardem.jake.dropwizard;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Length;
 
+/*
+The Saying class is a representation of a JSON object representation of a hello world saying
+{
+	"id":1,
+	"content":"Hi!"
+}
+*/
 public class Saying
 {
 	private long id;
