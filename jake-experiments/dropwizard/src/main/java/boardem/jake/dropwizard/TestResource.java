@@ -10,6 +10,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.swing.JOptionPane;
+
 @Path("/test")
 @Produces(MediaType.APPLICATION_JSON)
 public class TestResource 
@@ -30,6 +32,7 @@ public class TestResource
     public Saying sayHello(@QueryParam("name") Optional<String> name) 
     {
         final String value = String.format(template, name.or(defaultName));
+        JOptionPane.showMessageDialog(null, value, "Hello", JOptionPane.INFORMATION_MESSAGE);
         return new Saying(counter.incrementAndGet(), value);
     }
 }
