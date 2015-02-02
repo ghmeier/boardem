@@ -53,7 +53,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       'menuContent': {
         templateUrl: "templates/profile.html"
       }
-  }
+    }
+  })
     .state('app.playlists', {
       url: "/playlists",
       views: {
