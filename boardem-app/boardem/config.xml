@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.boardem556587" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>boardem</name>
+<widget id="com.join.up" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>JoinUp</name>
   <description>
-        An Ionic Framework and Cordova project.
+        a project for COM S 309
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+  <author email="ghmeier@iastat.edu" href="http://garretmeier.com">
+      Garret, Luke, Jake, and Ben
     </author>
   <content src="index.html"/>
   <access origin="*"/>
