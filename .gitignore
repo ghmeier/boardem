@@ -1,3 +1,4 @@
 *.jar
 *.class
 jake-experiments/dropwizard/target/*
+*.DS_Store
