@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
  
-    <groupId>boardem.jake.dropwizard</groupId>
+    <groupId>boardem.experiment.fbdw</groupId>
     <artifactId>test</artifactId>
     <version>0.0.1-SNAPSHOT</version>
  
@@ -80,7 +80,7 @@
                                 <transformers>
                                     <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                     <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                        <mainClass>boardem.jake.dropwizard.TestApplication</mainClass>
+                                        <mainClass>boardem.experiment.fbdw.TestApplication</mainClass>
                                     </transformer>
                                 </transformers>
                             </configuration>
