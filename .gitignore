@@ -2,3 +2,4 @@
 *.class
 jake-experiments/dropwizard/target/*
 *.DS_Store
+boardem-server/target/

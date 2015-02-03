@@ -1,4 +1,4 @@
-package bordem.server;
+package boardem.server;
 
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
