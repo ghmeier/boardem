@@ -2,7 +2,8 @@ package boardem.experiment.fbdw;
 
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.*;
+import javax.validation.constraints.NotNull;
 
 /*
 The configuration subclass is where environment specific settings are stored.
@@ -16,7 +17,7 @@ public class TestConfiguration extends Configuration
 	@NotEmpty
 	private String defaultName = "Stranger";
 
-	@NotEmpty
+	@NotNull
 	private int defaultYear = 1492;
 
 	@JsonProperty
