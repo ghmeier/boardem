@@ -1,5 +1,5 @@
 
-angular.module('starter', ['ionic', 'starter.controllers'])
+var app = angular.module('starter', ['ionic', 'starter.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -15,22 +15,36 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
   $stateProvider
   .state('auth',{
     url: "/auth",
     templateUrl: "templates/auth.html",
     controller: 'AuthCtrl'
   })
-  .state('signin',{
-    url: "/signin",
-    templateUrl:"templates/signin.html",
-    controller:"signinCtrl"
+  .state('login',{
+    url: "/login",
+    abstract: true,
+    templateUrl: "templates/login.html",
+    controller:"loginCtrl"
   })
-  .state('signup',{
+  .state('login.signin',{
+    url: "/signin",
+    views:{
+      'signinContent':{
+        templateUrl:"templates/signin.html",
+        controller:"signinCtrl"
+      }
+    }
+  })
+  .state('login.signup',{
     url: "/signup",
-    templateUrl:"templates/signup.html",
-    controller:"signupCtrl"
+    views:{
+      'signupContent':{
+        templateUrl:"templates/signup.html",
+        controller:"signupCtrl"
+      }
+    }
   })
   .state('app', {
     url: "/app",
@@ -74,7 +88,9 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         controller: 'eventCtrl'
       }
     }
-  });
+  })
+  $ionicConfigProvider.views.maxCache(5);
+  $ionicConfigProvider.tabs.position('bottom');
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/auth');
 });

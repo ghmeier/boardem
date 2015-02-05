@@ -1,4 +1,12 @@
 {
-  "name": "boardem",
-  "app_id": ""
+  "name": "tab-test",
+  "app_id": "",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
 }
