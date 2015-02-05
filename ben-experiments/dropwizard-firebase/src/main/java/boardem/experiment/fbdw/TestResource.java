@@ -42,7 +42,7 @@ public class TestResource
 
         //Generate the hello message from the template
         final String value = String.format(template, name.or(defaultName), year.or(defaultYear));
-        int intVal = year.or(defaltYear);
+        int intVal = year.or(defaultYear);
 
         main.runFB(value, intVal);
 
