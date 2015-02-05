@@ -14,11 +14,13 @@ import javax.swing.JOptionPane;
 
 @Path("/test") //Specifies the path to locate the resource at
 @Produces(MediaType.APPLICATION_JSON) //Specifies the type of resource represented here
-public class TestResource extends Main
+public class TestResource
 {
     private final String template;
     private final String defaultName;
     private final int defaultYear;
+
+    private Main main;
 
     //The counter is used to generate unique IDs for the sayings
     private final AtomicLong counter;
@@ -29,6 +31,8 @@ public class TestResource extends Main
         this.defaultName = defaultName;
         this.defaultYear = defaultYear;
         this.counter = new AtomicLong();
+
+        main = new Main();
     }
 
     @GET
@@ -37,10 +41,10 @@ public class TestResource extends Main
     {
 
         //Generate the hello message from the template
-        final String value = String.format(template, name.or(defaultName));
-        final int intVal = year.or(defaultYear);
+        final String value = String.format(template, name.or(defaultName), year.or(defaultYear));
+        int intVal = year.or(defaltYear);
 
-        runFB(value, intVal);
+        main.runFB(value, intVal);
 
         //Display the hello message in a dialog box
         JOptionPane.showMessageDialog(null, value, "Hello", JOptionPane.INFORMATION_MESSAGE);

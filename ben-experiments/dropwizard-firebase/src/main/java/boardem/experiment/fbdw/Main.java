@@ -3,6 +3,7 @@ package boardem.experiment.fbdw;
 import com.firebase.client.Firebase;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JOptionPane;
 
 public class Main
 {
@@ -17,11 +18,14 @@ public class Main
 	public Main()
 	{
 		//Create new Firebase object to interface with later
+		JOptionPane.showMessageDialog(null, "Main()", "Hello", JOptionPane.INFORMATION_MESSAGE);
+
 		fb = new Firebase("https://glaring-heat-4154.firebaseio.com/");
 	}
 
 	public void runFB(String username, int year)
 	{
+		JOptionPane.showMessageDialog(null, "runFB()", "Hello", JOptionPane.INFORMATION_MESSAGE);
 		fb = new Firebase("https://glaring-heat-4154.firebaseio.com/");
 		//Create new example users
 		User tempUser = new User(username, year);
