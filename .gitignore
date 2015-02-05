@@ -1,6 +1,8 @@
 *.jar
 *.class
 jake-experiments/dropwizard/target/*
+jake-experiments/firebase/target
+
 *.DS_Store
 boardem-server/target/*
 boardem-server/target/maven-archiver/pom.properties

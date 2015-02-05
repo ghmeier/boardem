@@ -1,5 +1,7 @@
-all :
+all : build
+
+build :
 	mvn package
 
-run : 
+run : build
 	java -jar target/firebase-1.jar

@@ -1,6 +1,6 @@
 package boardem.experiment.firebase;
 
-import com.firebase.client.Firebase;
+import com.firebase.client.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,37 +10,28 @@ public class Main
 
 	public static void main(String[] args)
 	{
-		//Run the "run" method of "Main" at program start
-		new Main().run();
+		Firebase ref = new Firebase("https://jake-experiments.firebaseio.com/").child("users");
+		ref.goOnline();
+		ref.child("jakelong").setValue(new User("Jake Long", 1995),
+			new Firebase.CompletionListener()
+			{
+				@Override
+				public void onComplete(FirebaseError error, Firebase firebase)
+				{
+					System.out.println("onComplete()");
+					if(error != null)
+					{
+						System.out.printf("Data could not be saved. %s\n", error.getMessage());
+					}
+					else
+					{
+						System.out.println("It worked");
+					}
+				}
+			});
 	}
 
-	public Main()
-	{
-		//Create new Firebase object to interface with later
-		fb = new Firebase("https://jake-experiment.firebaseio.com/");
-	}
-
-	public void run()
-	{
-		//Create new example users
-		User alanisawesome = new User("Alan Turing", 1912);
-		User gracehop = new User("Grace Hopper", 1906);
-
-		//create new Firebase object from "fb" child "users"
-		Firebase usersRef = fb.child("users");
-
-		//Create new HashMap for storing user data before sending to Firebase
-		Map<String, User> users = new HashMap<String, User>();
-
-		//Put the username (string) and the User (object) into the HashMap
-		users.put("alanisawesome", alanisawesome);
-		users.put("gracehop", gracehop);
-
-		//Update Firebase with the HashMap data
-		usersRef.setValue(users);
-	}
-
-	public class User
+	public static class User
 	{
 		private int birthYear;
 		private String fullName;
