@@ -10,7 +10,7 @@ public class Main
 
 	public static void main(String[] args)
 	{
-		Firebase ref = new Firebase("https://jake-experiments.firebaseio.com/").child("users");
+		Firebase ref = new Firebase("https://jake-experiment.firebaseio.com/").child("users");
 		ref.goOnline();
 		ref.child("jakelong").setValue(new User("Jake Long", 1995),
 			new Firebase.CompletionListener()
@@ -18,7 +18,6 @@ public class Main
 				@Override
 				public void onComplete(FirebaseError error, Firebase firebase)
 				{
-					System.out.println("onComplete()");
 					if(error != null)
 					{
 						System.out.printf("Data could not be saved. %s\n", error.getMessage());
@@ -29,6 +28,18 @@ public class Main
 					}
 				}
 			});
+		
+		while(true)
+		{
+			try
+			{
+				Thread.sleep(100);
+			}
+			catch(InterruptedException e)
+			{
+				System.out.printf("It's rude to interrupt: %s\n", e.getMessage());
+			}
+		}
 	}
 
 	public static class User
