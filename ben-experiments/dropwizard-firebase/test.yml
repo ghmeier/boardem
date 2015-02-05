@@ -1,0 +1,3 @@
+template: Hello, %s! Born in %i!
+defaultName: Stranger
+defaultYear: 1492
