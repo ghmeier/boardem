@@ -1,23 +1,25 @@
 package boardem.server;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
-import java.util.concurrent.atomic.AtomicLong;
+import com.firebase.client.*;
 
 @Path("/signup")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class SignUpResource
 {
-	//Used to generate unique IDs for the users
-	private final AtomicLong counter;
-
-	public SignUpResource()
+	@GET
+	public String getUsers()
 	{
-		counter = new AtomicLong();
-	}	
+		return "";
+	}
 
 	@POST
 	@Path("username")
@@ -27,6 +29,6 @@ public class SignUpResource
 	*/
 	public int addUser(@QueryParam("username") String username, @QueryParam("password") String password)
 	{
-		return UserCreator.createUser(username, password, counter.incrementAndGet());
+		return UserCreator.addUser(username, password);
 	}
 }
