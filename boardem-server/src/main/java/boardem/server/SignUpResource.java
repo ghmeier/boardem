@@ -10,6 +10,8 @@ import javax.ws.rs.core.MediaType;
 
 import com.firebase.client.*;
 
+import javax.swing.JOptionPane;
+
 @Path("/signup")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -18,7 +20,32 @@ public class SignUpResource
 	@GET
 	public String getUsers()
 	{
-		return "";
+		Firebase fb = new Firebase("https://boardem.firebaseio.com/users");
+		fb.addListenerForSingleValueEvent(new ValueEventListener()
+		{
+			@Override
+			public void onDataChange(DataSnapshot snapshot)
+			{
+				JOptionPane.showMessageDialog(null, snapshot.getValue().toString(), "Hey", JOptionPane.INFORMATION_MESSAGE);
+			}
+
+			@Override
+			public void onCancelled(FirebaseError firebaseError)
+			{
+
+			}
+		});
+
+		try
+		{
+			Thread.sleep(5000);
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+
+		return "users";
 	}
 
 	@POST
