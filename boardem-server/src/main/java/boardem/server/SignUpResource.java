@@ -8,48 +8,16 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.firebase.client.*;
+import java.util.concurrent.CountDownLatch;
 
-import javax.swing.JOptionPane;
+import com.firebase.client.*;
 
 @Path("/signup")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class SignUpResource
 {
-	@GET
-	public String getUsers()
-	{
-		Firebase fb = new Firebase("https://boardem.firebaseio.com/users");
-		fb.addListenerForSingleValueEvent(new ValueEventListener()
-		{
-			@Override
-			public void onDataChange(DataSnapshot snapshot)
-			{
-				JOptionPane.showMessageDialog(null, snapshot.getValue().toString(), "Hey", JOptionPane.INFORMATION_MESSAGE);
-			}
-
-			@Override
-			public void onCancelled(FirebaseError firebaseError)
-			{
-
-			}
-		});
-
-		try
-		{
-			Thread.sleep(5000);
-		}
-		catch(InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-
-		return "users";
-	}
-
 	@POST
-	@Path("username")
 	/**
 	Adds a new user using a username/password combo instead of Facebook login
 	@return 
