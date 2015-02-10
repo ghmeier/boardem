@@ -7,8 +7,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 {
 	public static void main(String[] args) throws Exception
 	{
-		BoardemApplication app = new BoardemApplication();
-		app.run(args);
+		new BoardemApplication().run(args);
 	}
 
 	@Override
@@ -27,5 +26,8 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 	public void run(BoardemConfiguration config, Environment env)
 	{
 		//Register resources and health checks here
+		final SignUpResource signUp = new SignUpResource();
+
+		env.jersey().register(signUp);
 	}
 }
