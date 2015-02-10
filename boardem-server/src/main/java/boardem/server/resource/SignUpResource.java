@@ -1,4 +1,4 @@
-package boardem.server;
+package boardem.server.resource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;

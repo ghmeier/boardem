@@ -3,6 +3,8 @@ package boardem.server;
 import io.dropwizard.Application;
 import io.dropwizard.setup.*;
 
+import boardem.server.resource.*;
+
 public class BoardemApplication extends Application<BoardemConfiguration>
 {
 	public static void main(String[] args) throws Exception

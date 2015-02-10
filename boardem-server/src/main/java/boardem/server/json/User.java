@@ -1,5 +1,8 @@
-package boardem.server;
+package boardem.server.json;
 
+/**
+JSON representation of a user.
+*/
 public class User
 {
 	private String username;
