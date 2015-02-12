@@ -1,3 +1,3 @@
-appCtrl.controller('eventCtrl', function($scope, $stateParams) {
+appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams) {
   
 });

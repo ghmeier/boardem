@@ -1,8 +1,11 @@
 var appCtrl =angular.module('starter.controllers', ['ionic'])
 
-.controller('MenuCtrl', function($scope, $ionicModal, $timeout) {
-
-
+.controller('MenuCtrl', function($rootScope, $scope) {
+		
+	 $scope.changeDate = function(direction) {
+			$rootScope.changeDate(direction);
+  };
+	 
 });
 
 function facebookLogin(){

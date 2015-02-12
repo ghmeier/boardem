@@ -1,6 +1,6 @@
-appCtrl.controller('AuthCtrl',function($scope,$state){
+appCtrl.controller('AuthCtrl',function($rootScope, $scope, $state){
 	
-$state.transitionTo("login.signup");
+	$state.transitionTo("login.signup");
 
 
 });

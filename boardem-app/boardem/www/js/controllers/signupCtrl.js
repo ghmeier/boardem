@@ -1,4 +1,4 @@
-appCtrl.controller("signupCtrl",function($scope,$state){
+appCtrl.controller("signupCtrl",function($rootScope, $scope,$state){
 
 	$scope.toEvents = function(){
 		$state.transitionTo("app.events");
