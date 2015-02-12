@@ -1,5 +1,6 @@
 package boardem.server;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -9,6 +10,9 @@ import boardem.server.json.Response;
 import boardem.server.json.ResponseList;
 import boardem.server.json.User;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -32,7 +36,7 @@ public class UserCreator
 		final DataSnapshotHolder holder = new DataSnapshotHolder();
 
 		//Used to wait for firebase to send the data before continuing
-		final CountDownLatch stopSignal = new CountDownLatch(1);
+		final CountDownLatch readLatch = new CountDownLatch(1);
 
 		//Connect to Firebase
 		Firebase usersRef = new Firebase("https://boardem.firebaseio.com/users");
@@ -42,7 +46,7 @@ public class UserCreator
 			public void onDataChange(DataSnapshot snapshot)
 			{
 				holder.setSnapshot(snapshot);
-				stopSignal.countDown(); //Indicate that the data was received
+				readLatch.countDown(); //Indicate that the data was received
 			}
 
 			@Override
@@ -55,20 +59,19 @@ public class UserCreator
 		//Wait for the Firebase data to be received
 		try
 		{
-			stopSignal.await();
+			readLatch.await();
 		}
 		catch(InterruptedException e)
 		{
 			e.printStackTrace();
 		}
 
-		System.out.println(holder.getSnapshot());
-
 		//Get the map of user data out of the data snapshot
+		//stringValues holds the JSON string before it is converted to a Java object
 		@SuppressWarnings("unchecked")
-		Map<String, User> users = (Map<String, User>) holder.getSnapshot().getValue();
+		Map<String, HashMap> dataMap = (Map<String, HashMap>) holder.getSnapshot().getValue();
 
-		if(users == null)
+		if(dataMap == null)
 		{
 			//No users are in the database, create one
 			Firebase newUserRef = usersRef.child(user.getUsername());
@@ -82,7 +85,7 @@ public class UserCreator
 
 			final CountDownLatch writeLatch = new CountDownLatch(1);
 
-			newUserRef.push().setValue(data, new Firebase.CompletionListener()
+			newUserRef.setValue(data, new Firebase.CompletionListener()
 			{
 				@Override
 				public void onComplete(FirebaseError arg0, Firebase arg1)
@@ -106,6 +109,38 @@ public class UserCreator
 		}
 		else
 		{
+			//Convert the JSON string to Java objects
+			Map<String, User> users = new HashMap<String, User>();
+			ObjectMapper mapper = new ObjectMapper();
+			
+			Iterator<String> keyIterator = dataMap.keySet().iterator();
+			while(keyIterator.hasNext())
+			{
+				String key = keyIterator.next();
+				User u = null;
+				
+				try
+				{
+					String json = mapper.writeValueAsString(dataMap.get(key));
+					System.out.println("\n\n" + json + "\n");
+					u = mapper.readValue(json, User.class);
+				} 
+				catch (JsonParseException e)
+				{
+					e.printStackTrace();
+				}
+				catch (JsonMappingException e)
+				{
+					e.printStackTrace();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				
+				users.put(key, u);
+			}
+			
 			//Check if the username is already in use
 			Iterator<User> iter = users.values().iterator();
 			while(iter.hasNext())
