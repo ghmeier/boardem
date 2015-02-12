@@ -1,0 +1,13 @@
+This document gives information about the endpoints in the dropwizard server.
+
+/signup
+-Pass in user information
+	*username
+	*facebookId
+	*displayName
+	*pictureUrl
+-Example
+	/signup?username=americandragon&facebookId=jdkakdhfhakd&displayName=Jake&pictureUrl=jake.png
+-Returns a JSON response
+	*0 if operation completed successfully
+	*2 if username has already been used
