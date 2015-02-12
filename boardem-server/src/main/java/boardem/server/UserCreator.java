@@ -68,7 +68,7 @@ public class UserCreator
 
 		//Get the map of user data out of the data snapshot
 		//stringValues holds the JSON string before it is converted to a Java object
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Map<String, HashMap> dataMap = (Map<String, HashMap>) holder.getSnapshot().getValue();
 
 		if(dataMap == null)
