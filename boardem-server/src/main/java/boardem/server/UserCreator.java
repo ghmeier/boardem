@@ -1,7 +1,6 @@
 package boardem.server;
 
 import java.util.concurrent.CountDownLatch;
-
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -17,7 +16,7 @@ public class UserCreator
 	Adds a new user using a username/password combo instead of Facebook login
 	@return 0 if the user was created successfully, error code if not
 	*/
-	public static int addUser(String username, String password)
+	public static int addUser()
 	{
 		//Holds the DataSnapshot received by the anonymous inner class ValueEventListener
 		final DataSnapshotHolder holder = new DataSnapshotHolder();
@@ -50,6 +49,7 @@ public class UserCreator
 		{
 			e.printStackTrace();
 		}
+
 		//TODO - Make error codes a thing
 		//Need to check if the username is in use
 		//Write data to Firebase

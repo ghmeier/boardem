@@ -18,9 +18,8 @@ public class SignInResource {
 	 */
 	public int signIn(@QueryParam("facebookId")String fbId, @QueryParam("auth")String auth){
 		
-		
+		//check if user exists, return success if exists, otherwise error
 		return 0;
 	}
-	
 
 }

@@ -5,6 +5,7 @@ appCtrl.controller("signinCtrl",function($scope,$state){
 	}
 
 	$scope.toFacebook = function(){
+		$http.get(SERVER_LOCATION + "signin");
 		facebookLogin();
 		$scope.toEvents();
 	}
