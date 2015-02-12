@@ -1,11 +1,12 @@
 package boardem.experiment.fbdw;
 
 import com.firebase.client.Firebase;
+import com.firebase.security.token;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 
-public class Main
+public class UserAuth
 {
 	private Firebase fb;
 
@@ -15,7 +16,7 @@ public class Main
 	// 	new Main().run("ten", 1500);
 	// }
 
-	public Main()
+	public UserAuth()
 	{
 		//Create new Firebase object to interface with later
 		//JOptionPane.showMessageDialog(null, "Main()", "Hello", JOptionPane.INFORMATION_MESSAGE);
@@ -23,7 +24,7 @@ public class Main
 		fb = new Firebase("https://glaring-heat-4154.firebaseio.com/");
 
 		Object uid = "Ben";
-		Object password = "correcthorsebatterystaple"
+		Object password = "correcthorsebatterystaple";
 
 		authUser(uid, password);
 	}
@@ -51,3 +52,4 @@ public class Main
 			}
 		});
 	}
+}
