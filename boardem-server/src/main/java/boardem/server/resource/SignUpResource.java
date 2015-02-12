@@ -4,10 +4,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import boardem.server.json.User;
+import boardem.server.json.Response;
 import boardem.server.UserCreator;
 
 @Path("/signup")
@@ -15,13 +15,13 @@ import boardem.server.UserCreator;
 @Consumes(MediaType.APPLICATION_JSON)
 public class SignUpResource
 {
-	@POST
 	/**
 	Adds a new user using a username/password combo instead of Facebook login
 	@return 
 	*/
-	public int addUser()
+	@POST
+	public Response addUser(User user)
 	{
-		return UserCreator.addUser();
+		return UserCreator.addUser(user);
 	}
 }
