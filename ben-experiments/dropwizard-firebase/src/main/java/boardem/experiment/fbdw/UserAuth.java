@@ -21,19 +21,25 @@ public class Main
 		//JOptionPane.showMessageDialog(null, "Main()", "Hello", JOptionPane.INFORMATION_MESSAGE);
 
 		fb = new Firebase("https://glaring-heat-4154.firebaseio.com/");
+
+		Object uid = "Ben";
+		Object password = "correcthorsebatterystaple"
+
+		authUser(uid, password);
 	}
 
-	public void generateToken () {
+	public String generateToken (Object uid, Object password) {
 		Map<String, Object> payload = new HashMap<String, Object>();
-			payload.put("uid", "PUT USER ID HERE");
-			payload.put("password", "PUT PASSWORD HERE");
+			payload.put("uid", uid);
+			payload.put("password", password);
 
 		TokenGenerator tokengenerator = new TokenGenerator("PUT FIREBASE SECRET HERE");
 		String token = tokengenerator.createtoken(payload);
+		return token;
 	}
 
-	public void authUser() {
-		fb.authWithCustomToken(AUTH_TOKEN, new Firebase.AuthResultHandler() {
+	public void authUser(Object uid, Object password) {
+		fb.authWithCustomToken(generateToken(uid, password), new Firebase.AuthResultHandler() {
 			@Override
 			public void onAuthenticationError(FirebaseError error) {
 				System.err.println("Login failed! " + error.getMessage());
