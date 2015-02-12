@@ -10,6 +10,8 @@ import javax.ws.rs.core.MediaType;
 
 import java.util.concurrent.CountDownLatch;
 
+import boardem.server.UserCreator;
+
 import com.firebase.client.*;
 
 @Path("/signup")

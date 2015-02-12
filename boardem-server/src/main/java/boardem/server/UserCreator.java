@@ -1,5 +1,12 @@
 package boardem.server;
 
+import java.util.concurrent.CountDownLatch;
+
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
 /**
 The UserCreator class creates a user based off of the provided information and
 stores the user in Firebase

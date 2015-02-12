@@ -29,7 +29,9 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 	{
 		//Register resources and health checks here
 		final SignUpResource signUp = new SignUpResource();
+		final SignInResource signIn = new SignInResource();
 
 		env.jersey().register(signUp);
+		env.jersey().register(signIn);
 	}
 }
