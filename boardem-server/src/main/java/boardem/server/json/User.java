@@ -6,6 +6,9 @@ JSON representation of a user.
 public class User
 {
 	private String username;
+	private String facebookId;
+	private String displayName;
+	private String pictureUrl;
 
 	public void setUsername(String username)
 	{
@@ -15,5 +18,35 @@ public class User
 	public String getUsername()
 	{
 		return username;
+	}
+
+	public void setFacebookId(String id)
+	{
+		facebookId = id;
+	}
+
+	public String getFacebookId()
+	{
+		return facebookId;
+	}
+
+	public void setDisplayName(String name)
+	{
+		displayName = name;
+	}
+
+	public String getDisplayName()
+	{
+		return displayName;
+	}
+
+	public void setPictureUrl(String url)
+	{
+		pictureUrl = url;
+	}
+
+	public String getPictureUrl()
+	{
+		return pictureUrl;
 	}
 }

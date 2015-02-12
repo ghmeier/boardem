@@ -1,4 +1,4 @@
-appCtrl.controller('loginCtrl',function($scope,$state){
+appCtrl.controller('loginCtrl',function($rootScope, $scope,$state){
 	$scope.toSignin = function(){
 		$state.transitionTo("login.signin");
 	}
