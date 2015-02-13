@@ -99,8 +99,7 @@ public class UserCreator
 			{
 				response = ResponseList.RESPONSE_USERNAME_USED;
 			}
-
-			if(response == null)
+			else
 			{
 				Firebase newUserRef = usersRef.child(user.getUsername());
 				Firebase newIdRef = facebookIdRef.child(user.getFacebookId());
