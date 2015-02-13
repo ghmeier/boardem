@@ -64,37 +64,7 @@ public class SignUpLogic
 		}
 		else
 		{
-			//Convert the JSON string to Java objects
-			Map<String, User> users = new HashMap<String, User>();
-			ObjectMapper mapper = new ObjectMapper();
-			
-			Iterator<String> keyIterator = dataMap.keySet().iterator();
-			while(keyIterator.hasNext())
-			{
-				String key = keyIterator.next();
-				User u = null;
-				
-				try
-				{
-					String json = mapper.writeValueAsString(dataMap.get(key));
-					System.out.println("\n\n" + json + "\n");
-					u = mapper.readValue(json, User.class);
-				} 
-				catch (JsonParseException e)
-				{
-					e.printStackTrace();
-				}
-				catch (JsonMappingException e)
-				{
-					e.printStackTrace();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				
-				users.put(key, u);
-			}
+			Map<String, User> users = FirebaseHelper.convertToObjectMap(dataMap, User.class);
 			
 			//Check if the username is already used
 			if(users.containsKey(user.getUsername()))

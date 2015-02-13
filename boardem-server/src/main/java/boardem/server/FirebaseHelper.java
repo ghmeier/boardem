@@ -1,8 +1,13 @@
 package boardem.server;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -83,5 +88,36 @@ public class FirebaseHelper
 		}
 		
 		return holder.getSnapshot();
+	}
+	
+	public static <T> Map<String, T> convertToObjectMap(Map<String, HashMap> data, Class<T> type)
+	{
+		HashMap<String, T> map = new HashMap<String, T>();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		Iterator<String> keyIterator = data.keySet().iterator();
+		while(keyIterator.hasNext())
+		{
+			String key = keyIterator.next();
+			T t = null;
+			
+			try
+			{
+				String json = mapper.writeValueAsString(data.get(key));
+				t = mapper.readValue(json, type);
+			}
+			catch(JsonProcessingException e)
+			{
+				e.printStackTrace();
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			map.put(key, t);
+		}
+		
+		return map;
 	}
 }
