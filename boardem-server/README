@@ -1,5 +1,7 @@
 This document gives information about the endpoints in the dropwizard server.
 
+Date format = "yyy-MM-dd HH:mm:ss"
+
 /signup
 -Pass in user information
 	*username
@@ -11,3 +13,12 @@ This document gives information about the endpoints in the dropwizard server.
 -Returns a JSON response
 	*0 if operation completed successfully
 	*2 if username has already been used
+	
+/events
+-For creating events
+	*lat
+	*lng
+	*date
+	*owner
+	*games
+	*participants
