@@ -18,10 +18,10 @@ public class BoardemResponse
 		this.code = code;
 		this.message = message;
 	}
-	
-	public void setCode(int c)
+
+	public void setCode(int code)
 	{
-		code = c;
+		this.code = code;
 	}
 	
 	public int getCode()
@@ -29,9 +29,9 @@ public class BoardemResponse
 		return code;
 	}
 	
-	public void setMessage(String m)
+	public void setMessage(String message)
 	{
-		message = m;
+		this.message = message;
 	}
 	
 	public String getMessage()

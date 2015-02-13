@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.ResponseList;
@@ -15,8 +14,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 /**
 The UserCreator class creates a user based off of the provided information and
@@ -31,51 +28,24 @@ public class UserCreator
 	public static BoardemResponse addUser(User user)
 	{
 		BoardemResponse response = null;
+		Firebase rootRef = new Firebase("https://boardem.firebaseio.com/");
+		
+		Firebase usersRef = rootRef.child("users");
+		Firebase facebookIdRef = rootRef.child("facebook_id");
 
-		//Holds the DataSnapshot received by the anonymous inner class ValueEventListener
-		final DataSnapshotHolder holder = new DataSnapshotHolder();
-
-		//Used to wait for firebase to send the data before continuing
-		final CountDownLatch readLatch = new CountDownLatch(1);
-
-		//Connect to Firebase
-		Firebase usersRef = new Firebase("https://boardem.firebaseio.com/users");
-		usersRef.addListenerForSingleValueEvent(new ValueEventListener()
-		{
-			@Override
-			public void onDataChange(DataSnapshot snapshot)
-			{
-				holder.setSnapshot(snapshot);
-				readLatch.countDown(); //Indicate that the data was received
-			}
-
-			@Override
-			public void onCancelled(FirebaseError firebaseError)
-			{
-				System.out.printf("FirebaseError: %s\n", firebaseError.getMessage());
-			}
-		});
-
-		//Wait for the Firebase data to be received
-		try
-		{
-			readLatch.await();
-		}
-		catch(InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-
+		DataSnapshot userData = FirebaseHelper.readData(usersRef);
+		
 		//Get the map of user data out of the data snapshot
 		//stringValues holds the JSON string before it is converted to a Java object
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		Map<String, HashMap> dataMap = (Map<String, HashMap>) holder.getSnapshot().getValue();
+		Map<String, HashMap> dataMap = (Map<String, HashMap>) userData.getValue();
 
 		if(dataMap == null)
 		{
 			//No users are in the database, create one
 			Firebase newUserRef = usersRef.child(user.getUsername());
-
+			Firebase newIdRef = facebookIdRef.child(user.getFacebookId());
+			
 			//Create a map of the properties and their values
 			Map<String, String> data = new HashMap<String, String>();
 			data.put("username", user.getUsername());
@@ -83,27 +53,11 @@ public class UserCreator
 			data.put("display_name", user.getDisplayName());
 			data.put("picture_url", user.getPictureUrl());
 
-			final CountDownLatch writeLatch = new CountDownLatch(1);
-
-			newUserRef.setValue(data, new Firebase.CompletionListener()
-			{
-				@Override
-				public void onComplete(FirebaseError arg0, Firebase arg1)
-				{
-					//Notify that the write completed
-					writeLatch.countDown();
-				}
-			});
-
-			//Wait for the write to complete
-			try
-			{
-				writeLatch.await();
-			} 
-			catch (InterruptedException e)
-			{
-
-			}
+			Map<String, String> facebookIdData = new HashMap<String, String>();
+			facebookIdData.put("username", user.getUsername());
+			
+			FirebaseHelper.writeData(newUserRef, data);
+			FirebaseHelper.writeData(newIdRef, facebookIdData);
 
 			response = ResponseList.RESPONSE_SUCCESS;
 		}
@@ -156,9 +110,9 @@ public class UserCreator
 
 			if(response == null)
 			{
-				//Write data to Firebase
 				Firebase newUserRef = usersRef.child(user.getUsername());
-
+				Firebase newIdRef = facebookIdRef.child(user.getFacebookId());
+				
 				//Create a map of the properties and their values
 				Map<String, String> data = new HashMap<String, String>();
 				data.put("username", user.getUsername());
@@ -166,32 +120,16 @@ public class UserCreator
 				data.put("display_name", user.getDisplayName());
 				data.put("picture_url", user.getPictureUrl());
 
-				final CountDownLatch writeLatch = new CountDownLatch(1);
-
-				newUserRef.push().setValue(data, new Firebase.CompletionListener()
-				{
-					@Override
-					public void onComplete(FirebaseError arg0, Firebase arg1)
-					{
-						//Notify that the write completed
-						writeLatch.countDown();
-					}
-				});
-
-				//Wait for the write to complete
-				try
-				{
-					writeLatch.await();
-				} 
-				catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-
+				Map<String, String> facebookIdData = new HashMap<String, String>();
+				facebookIdData.put("username", user.getUsername());
+				
+				FirebaseHelper.writeData(newUserRef, data);
+				FirebaseHelper.writeData(newIdRef, facebookIdData);
+				
 				response = ResponseList.RESPONSE_SUCCESS;
 			}
 		}
 
 		return response;
-	}	
+	}
 }
