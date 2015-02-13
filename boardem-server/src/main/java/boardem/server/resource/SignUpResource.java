@@ -17,7 +17,6 @@ public class SignUpResource
 {
 	/**
 	 * Adds a new user using a username/password combo instead of Facebook login
-	 * @return 
 	 */
 	@POST
 	public Response addUser(User user)
