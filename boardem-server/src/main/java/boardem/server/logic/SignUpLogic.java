@@ -1,10 +1,11 @@
-package boardem.server;
+package boardem.server.logic;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import boardem.server.FirebaseHelper;
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.ResponseList;
 import boardem.server.json.User;
@@ -19,7 +20,7 @@ import com.firebase.client.Firebase;
  * The UserCreator class creates a user based off of the provided information and
  * stores the user in Firebase
  */
-public class UserCreator
+public class SignUpLogic
 {
 	/**
 	 * Adds a new user using a username/password combo instead of Facebook login

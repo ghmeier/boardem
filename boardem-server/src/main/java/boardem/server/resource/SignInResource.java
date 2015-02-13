@@ -22,10 +22,11 @@ public class SignInResource {
 	public Response signIn(@QueryParam("facebookId")String fbId, @QueryParam("auth")String auth){
 		
 		//get user data here and stuff
-		User user = new User("default","test","Test User","test.png");
+//		User user = new User("default","test","Test User","test.png");
 		
 		//check if user exists, return success if exists, otherwise error
-		return Response.ok(user).header("Access-Control-Allow-Origin","http://localhost:8100").build();
+//		return Response.ok(user).header("Access-Control-Allow-Origin","http://localhost:8100").build();
+		return null;
 	}
 
 }

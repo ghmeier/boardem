@@ -7,8 +7,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import boardem.server.UserCreator;
 import boardem.server.json.User;
+import boardem.server.logic.SignUpLogic;
 
 @Path("/signup")
 @Produces(MediaType.APPLICATION_JSON)
@@ -22,6 +22,6 @@ public class SignUpResource
 	@POST
 	public Response addUser(User user)
 	{
-		return Response.ok(UserCreator.addUser(user)).header("Access-Control-Allow-Origin","http://localhost:8100").build();
+		return Response.ok(SignUpLogic.addUser(user)).header("Access-Control-Allow-Origin","http://localhost:8100").build();
 	}
 }
