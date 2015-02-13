@@ -22,8 +22,8 @@ import com.firebase.client.Firebase;
 public class UserCreator
 {
 	/**
-	Adds a new user using a username/password combo instead of Facebook login
-	@return BoardemResponse indicating if the operation completed succesfully, or the reason it failed
+	 * Adds a new user using a username/password combo instead of Facebook login
+	 * @return BoardemResponse indicating if the operation completed succesfully, or the reason it failed
 	 */
 	public static BoardemResponse addUser(User user)
 	{
@@ -95,6 +95,7 @@ public class UserCreator
 				users.put(key, u);
 			}
 			
+			//Check if the username is already used
 			if(users.containsKey(user.getUsername()))
 			{
 				response = ResponseList.RESPONSE_USERNAME_USED;
