@@ -12,9 +12,19 @@ appCtrl.controller("signupCtrl",function($scope,$state,$ionicPopup){
           		template: "We'll need a username."
         	});
 		}else{
-			console.log($scope.data.username);
-			facebookLogin();
+			facebookLogin($scope.data.username,$scope.fbCallback);
 			$scope.toEvents();
+		}
+	}
+
+	$scope.fbCallback = function(error,authData,username){
+	 	if (error) {
+			$ionicPopup.alert({
+          		title: "Login Error",
+          		template: error
+        	});
+		} else {
+	    	return (authData.facebook);
 		}
 	}
 });

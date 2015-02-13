@@ -9,6 +9,13 @@ public class User
 	private String facebookId;
 	private String displayName;
 	private String pictureUrl;
+	
+	public User(String username,String facebookId,String displayName, String pictureUrl){
+		this.username = username;
+		this.facebookId = facebookId;
+		this.displayName = displayName;
+		this.pictureUrl = pictureUrl;
+	}
 
 	public void setUsername(String username)
 	{

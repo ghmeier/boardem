@@ -8,17 +8,10 @@ var appCtrl =angular.module('starter.controllers', ['ionic'])
 
 });
 
-function facebookLogin(){
+function facebookLogin(username, callback){
 	var ref = new Firebase("https://boardem.firebaseio.com");
-	ref.authWithOAuthPopup("facebook", function(error, authData) {
-	 	if (error) {
-			$ionicPopup.alert({
-          		title: "Login Error",
-          		template: error
-        	});
-		} else {
-	    	console.log("Authenticated successfully with payload:", JSON.stringify(authData.facebook));
-		}
+	ref.authWithOAuthPopup("facebook", function(error,authData){
+		callback(error, authData,username);
 	});
 }
 

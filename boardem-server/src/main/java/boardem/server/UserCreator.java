@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
-import boardem.server.json.Response;
+import boardem.server.json.BoardemResponse;
 import boardem.server.json.ResponseList;
 import boardem.server.json.User;
 
@@ -26,11 +26,11 @@ public class UserCreator
 {
 	/**
 	Adds a new user using a username/password combo instead of Facebook login
-	@return Response indicating if the operation completed succesfully, or the reason it failed
+	@return BoardemResponse indicating if the operation completed succesfully, or the reason it failed
 	 */
-	public static Response addUser(User user)
+	public static BoardemResponse addUser(User user)
 	{
-		Response response = null;
+		BoardemResponse response = null;
 
 		//Holds the DataSnapshot received by the anonymous inner class ValueEventListener
 		final DataSnapshotHolder holder = new DataSnapshotHolder();
