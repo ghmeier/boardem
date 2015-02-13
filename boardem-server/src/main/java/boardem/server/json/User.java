@@ -1,8 +1,8 @@
 package boardem.server.json;
 
 /**
-JSON representation of a user.
-*/
+ * JSON representation of a user.
+ */
 public class User
 {
 	private String username;
@@ -10,7 +10,13 @@ public class User
 	private String displayName;
 	private String pictureUrl;
 	
-	public User(String username,String facebookId,String displayName, String pictureUrl){
+	public User()
+	{
+		
+	}
+	
+	public User(String username, String facebookId, String displayName, String pictureUrl)
+	{
 		this.username = username;
 		this.facebookId = facebookId;
 		this.displayName = displayName;
