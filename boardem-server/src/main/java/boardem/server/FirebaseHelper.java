@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -90,11 +89,18 @@ public class FirebaseHelper
 		return holder.getSnapshot();
 	}
 	
-	public static <T> Map<String, T> convertToObjectMap(Map<String, HashMap> data, Class<T> type)
+	/**
+	 * Converts from a map containing generic Firebase data to a map containing specific Java objects
+	 * @param data Map received from Firebase
+	 * @param type Type to convert to
+	 * @return Map containing Java objects
+	 */
+	public static <T> Map<String, T> convertToObjectMap(@SuppressWarnings("rawtypes") Map<String, HashMap> data, Class<T> type)
 	{
 		HashMap<String, T> map = new HashMap<String, T>();
 		ObjectMapper mapper = new ObjectMapper();
 		
+		//Iterate through each key and convert the associated object
 		Iterator<String> keyIterator = data.keySet().iterator();
 		while(keyIterator.hasNext())
 		{
@@ -105,10 +111,6 @@ public class FirebaseHelper
 			{
 				String json = mapper.writeValueAsString(data.get(key));
 				t = mapper.readValue(json, type);
-			}
-			catch(JsonProcessingException e)
-			{
-				e.printStackTrace();
 			}
 			catch(IOException e)
 			{

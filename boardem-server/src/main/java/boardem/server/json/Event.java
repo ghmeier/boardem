@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Event
 {
+	private String id;
 	private double lat;
 	private double lng;
 	private Date date;
@@ -22,6 +23,18 @@ public class Event
 	public Event()
 	{
 		
+	}
+	
+	@JsonProperty("event_id")
+	public void setId(String id)
+	{
+		this.id = id;
+	}
+	
+	@JsonProperty("event_id")
+	public String getId()
+	{
+		return id;
 	}
 	
 	@JsonProperty("lat")

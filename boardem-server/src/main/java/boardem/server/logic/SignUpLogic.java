@@ -1,8 +1,6 @@
 package boardem.server.logic;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import boardem.server.FirebaseHelper;
@@ -10,9 +8,6 @@ import boardem.server.json.BoardemResponse;
 import boardem.server.json.ResponseList;
 import boardem.server.json.User;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
