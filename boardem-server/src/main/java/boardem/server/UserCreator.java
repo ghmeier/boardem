@@ -16,8 +16,8 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
 /**
-The UserCreator class creates a user based off of the provided information and
-stores the user in Firebase
+ * The UserCreator class creates a user based off of the provided information and
+ * stores the user in Firebase
  */
 public class UserCreator
 {
@@ -95,17 +95,9 @@ public class UserCreator
 				users.put(key, u);
 			}
 			
-			//Check if the username is already in use
-			Iterator<User> iter = users.values().iterator();
-			while(iter.hasNext())
+			if(users.containsKey(user.getUsername()))
 			{
-				User toCheck = iter.next();
-
-				if(toCheck.getUsername().equals(user.getUsername()))
-				{
-					response = ResponseList.RESPONSE_USERNAME_USED;
-					break;
-				}
+				response = ResponseList.RESPONSE_USERNAME_USED;
 			}
 
 			if(response == null)
