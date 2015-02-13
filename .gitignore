@@ -6,4 +6,8 @@ jake-experiments/firebase/target/**
 *.DS_Store
 boardem-server/target/**
 boardem-server/target/maven-archiver/pom.properties
+boardem-server/.gitignore
+boardem-server/.classpath
+boardem-server/.project
+boardem-server/.settings/**
 ben-experiments/firebase-dropwizard/target/**
