@@ -1,7 +1,7 @@
 package boardem.server.json;
 
 /**
- * Represents a JSON response object
+ * Represents a JSON response 
  */
 public class BoardemResponse
 {
@@ -18,7 +18,7 @@ public class BoardemResponse
 		this.code = code;
 		this.message = message;
 	}
-	
+
 	public void setCode(int code)
 	{
 		this.code = code;
