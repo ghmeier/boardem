@@ -1,5 +1,7 @@
 This document gives information about the endpoints in the dropwizard server.
 
+curl -H "Content-Type: application/json" -X POST -d data http://localhost:8080/endpoint
+
 Date format = "yyy-MM-dd HH:mm:ss"
 
 /signup

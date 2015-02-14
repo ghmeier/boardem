@@ -12,7 +12,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
 /**
- * The UserCreator class creates a user based off of the provided information and
+ * The SignUpLogic class creates a user based off of the provided information and
  * stores the user in Firebase
  */
 public class SignUpLogic

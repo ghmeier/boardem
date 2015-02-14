@@ -2,6 +2,7 @@ package boardem.server.json;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,9 @@ public class Event
 	
 	public Event()
 	{
-		
+		//Make sure the objects exist in case they don't in Firebase
+		participantIds = new ArrayList<String>();
+		gameIds = new ArrayList<String>();
 	}
 	
 	@JsonProperty("event_id")

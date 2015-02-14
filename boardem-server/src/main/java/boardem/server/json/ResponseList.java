@@ -11,4 +11,5 @@ public class ResponseList
 	public static final BoardemResponse RESPONSE_USERNAME_USED = new BoardemResponse(2, "This username is already used");
 	public static final BoardemResponse RESPONSE_USER_DOES_NOT_EXIST = new BoardemResponse(3, "User does not exist");
 	public static final BoardemResponse RESPONSE_EVENT_DOES_NOT_EXIST = new BoardemResponse(4, "Event does not exist");
+	public static final BoardemResponse RESPONSE_USER_IN_EVENT = new BoardemResponse(5, "User is already in the event");
 }

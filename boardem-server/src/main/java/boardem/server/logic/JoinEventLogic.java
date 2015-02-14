@@ -13,6 +13,9 @@ import boardem.server.json.User;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
+/**
+ * The JoinEventLogic class contains the logic to add a user to an event
+ */
 public class JoinEventLogic
 {
 	public static BoardemResponse joinEvent(String eventId, String userId)
@@ -25,12 +28,12 @@ public class JoinEventLogic
 		
 		DataSnapshot eventData = FirebaseHelper.readData(eventsRef);
 		DataSnapshot userData = FirebaseHelper.readData(usersRef);
-		
+				
 		@SuppressWarnings({"unchecked", "rawtypes"})
 		Map<String, HashMap> eventDataMap = (Map<String, HashMap>) eventData.getValue();
 		@SuppressWarnings({"unchecked", "rawtypes"})
 		Map<String, HashMap> userDataMap = (Map<String, HashMap>) userData.getValue();
-		
+
 		//Check if the event exists
 		if(eventDataMap == null)
 		{
@@ -44,6 +47,7 @@ public class JoinEventLogic
 		{
 			Map<String, Event> eventMap = FirebaseHelper.convertToObjectMap(eventDataMap, Event.class);
 			
+			//Make sure the event exists
 			if(!eventMap.containsKey(eventId))
 			{
 				response = ResponseList.RESPONSE_EVENT_DOES_NOT_EXIST;
@@ -51,7 +55,8 @@ public class JoinEventLogic
 			else
 			{
 				Map<String, User> userMap = FirebaseHelper.convertToObjectMap(userDataMap, User.class);
-				
+								
+				//Make sure the user exists
 				if(!userMap.containsKey(userId))
 				{
 					response = ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
@@ -60,13 +65,24 @@ public class JoinEventLogic
 				{
 					Firebase joinEventRef = eventsRef.child(eventId);
 					
+					//Get the event from the list of events
 					Event toUpdate = eventMap.get(eventId);
-					toUpdate.getParticipants().add(userId);
+
+					//Check if the user is already in the event
+					if(toUpdate.getParticipants().contains(userId))
+					{
+						response = ResponseList.RESPONSE_USER_IN_EVENT;
+					}
+					else
+					{
+						//Write the data to Firebase
+						Map<String, List<String>> data = new HashMap<String, List<String>>();
+						data.put("participants", toUpdate.getParticipants());
 					
-					Map<String, List<String>> data = new HashMap<String, List<String>>();
-					data.put("participants", toUpdate.getParticipants());
-					
-					FirebaseHelper.writeData(joinEventRef, data);
+						FirebaseHelper.writeData(joinEventRef, data);
+						
+						response = ResponseList.RESPONSE_SUCCESS;
+					}
 				}
 			}
 		}
