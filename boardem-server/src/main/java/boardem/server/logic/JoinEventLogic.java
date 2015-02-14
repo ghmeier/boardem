@@ -77,8 +77,10 @@ public class JoinEventLogic
 					{
 						//Write the data to Firebase
 						Map<String, List<String>> data = new HashMap<String, List<String>>();
+						toUpdate.getParticipants().add(userId);
 						data.put("participants", toUpdate.getParticipants());
 					
+						System.out.println("Got to here");
 						FirebaseHelper.writeData(joinEventRef, data);
 						
 						response = ResponseList.RESPONSE_SUCCESS;

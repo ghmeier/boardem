@@ -13,6 +13,7 @@ import boardem.server.json.BoardemResponse;
 import boardem.server.json.Event;
 import boardem.server.logic.CreateEventLogic;
 import boardem.server.logic.JoinEventLogic;
+import boardem.server.logic.LeaveEventLogic;
 
 
 @Path("/event")
@@ -39,5 +40,15 @@ public class EventResource
 	public Response joinEvent(@PathParam("eid") String eventId, @QueryParam("user_id") String userId)
 	{
 		return Response.ok(JoinEventLogic.joinEvent(eventId, userId)).header("Access-Control-Allow-Origin","http://localhost:8100").build();
+	}
+	
+	/**
+	 * A user leaves an event
+	 */
+	@POST
+	@Path("{eid}/leave")
+	public Response leaveEvent(@PathParam("eid") String eventId, @QueryParam("user_id") String userId)
+	{
+		return Response.ok(LeaveEventLogic.leaveEvent(eventId, userId)).header("Access-Control-Allow-Origin", "http://localhost:8100").build();
 	}
 }
