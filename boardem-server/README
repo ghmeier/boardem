@@ -15,10 +15,15 @@ Date format = "yyy-MM-dd HH:mm:ss"
 	*2 if username has already been used
 	
 /events
+-ID is generated automatically by server
 -For creating events
 	*lat
 	*lng
 	*date
 	*owner
 	*games
-	*participants
+
+/events/{eid}/join
+-For joining events
+	*eid is the event id
+	*user_id is the ID of the user joining - Query param (NOT the Facebook ID)	

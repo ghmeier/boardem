@@ -15,7 +15,7 @@ import com.firebase.client.Firebase;
 
 public class CreateEventLogic
 {
-	public BoardemResponse createEvent(Event event)
+	public static BoardemResponse createEvent(Event event)
 	{
 		//Give the event a unique id
 		event.setId(RandomStringUtils.randomAlphanumeric(20));

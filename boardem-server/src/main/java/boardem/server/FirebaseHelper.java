@@ -22,11 +22,12 @@ public class FirebaseHelper
 	 * @param ref Firebase reference
 	 * @param data data to be written
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T, G> void writeData(Firebase ref, Map<T, G> data)
 	{
 		final CountDownLatch writeLatch = new CountDownLatch(1);
 		
-		ref.setValue(data, new Firebase.CompletionListener()
+		ref.updateChildren((Map<String, Object>) data, new Firebase.CompletionListener()
 		{
 			@Override
 			public void onComplete(FirebaseError error, Firebase fb)
