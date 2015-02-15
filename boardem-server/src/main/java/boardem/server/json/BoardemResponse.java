@@ -10,7 +10,7 @@ public class BoardemResponse
 	private int code;
 	private String message;
 	
-	private String extra;
+	private Object extra;
 	
 	public BoardemResponse()
 	{
@@ -55,7 +55,7 @@ public class BoardemResponse
 	}
 	
 	@JsonProperty("extra")
-	public String getExtra()
+	public Object getExtra()
 	{
 		return extra;
 	}
