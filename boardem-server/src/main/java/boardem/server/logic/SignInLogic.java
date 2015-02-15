@@ -20,9 +20,42 @@ public class SignInLogic
 	 * Logs a user in using just Facebook ID
 	 * @return BoardemResponse indicating if the operation completed succesfully, or the reason it failed
 	 */
-	public static BoardemResponse signIn(String fbid, String auth)
+	public static BoardemResponse signIn(String fbid)
 	{
 		BoardemResponse response = null;
+		Firebase rootRef = new Firebase("https://boardem.firebaseio.com/");
+		
+		Firebase facebookIdRef = rootRef.child("facebook_id");
+
+		DataSnapshot facebookIdData = FirebaseHelper.readData(facebookIdRef);
+		
+		//Get the map of user data out of the data snapshot
+		//stringValues holds the JSON string before it is converted to a Java object
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		Map<String, HashMap> dataMap = (Map<String, HashMap>) facebookIdData.getValue();
+
+		if(dataMap == null)
+		{
+			//No users in database, send to login screen
+			response = ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
+		}
+		else
+		{
+			Map<String, User> users = FirebaseHelper.convertToObjectMap(dataMap, User.class);
+			
+			//Check if the Facebook ID exists in the database
+			if(users.containsKey(fbid))
+			{
+				//If Faebook ID exists in database, send success message for verification
+				response = ResponseList.RESPONSE_SUCCESS;
+			}
+
+			//If the Facebook ID does not exist in the database, send out response 
+			else
+			{	
+				response = ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
+			}
+		}
 
 		return response;
 	}
