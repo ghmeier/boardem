@@ -17,13 +17,11 @@ import boardem.server.logic.SignInLogic;
 public class SignInResource {
 	
 	@GET
-	/*
-	 * get request that takes in the facebook Id and hashed user password as params to check against firebase.
+	/**
+	 * Requests the FacebookID and checks it against the Firebase server
+	 * @return response code "success" if ID exists, "error" if ID doesn't exist
 	 */
 	public Response signIn(@QueryParam("facebookId")String facebookId){
-		
-		//get user data here and stuff
-//		User user = new User("default","test","Test User","test.png");
 		
 		//check if user exists, return success if exists, otherwise error
 		return Response.ok(SignInLogic.signIn(facebookId)).header("Access-Control-Allow-Origin","http://localhost:8100").build();
