@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import boardem.server.json.User;
+import boardem.server.logic.SignInLogic;
 
 @Path("/signin")
 @Produces(MediaType.APPLICATION_JSON)
@@ -19,14 +20,13 @@ public class SignInResource {
 	/*
 	 * get request that takes in the facebook Id and hashed user password as params to check against firebase.
 	 */
-	public Response signIn(@QueryParam("facebookId")String fbId, @QueryParam("auth")String auth){
+	public Response signIn(@QueryParam("facebookId")String facebookId){
 		
 		//get user data here and stuff
 //		User user = new User("default","test","Test User","test.png");
 		
 		//check if user exists, return success if exists, otherwise error
-//		return Response.ok(user).header("Access-Control-Allow-Origin","http://localhost:8100").build();
-		return null;
+		return Response.ok(SignInLogic.signIn(facebookId)).header("Access-Control-Allow-Origin","http://localhost:8100").build();
 	}
 
 }
