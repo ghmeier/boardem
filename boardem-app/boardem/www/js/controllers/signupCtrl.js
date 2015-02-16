@@ -1,4 +1,4 @@
-appCtrl.controller("signupCtrl",function($scope,$state,$ionicPopup){
+appCtrl.controller("signupCtrl",function($scope,$rootScope,$http,$state,$ionicPopup){
 	$scope.data = {username : ''};
 
 	$scope.toEvents = function(){
@@ -12,8 +12,7 @@ appCtrl.controller("signupCtrl",function($scope,$state,$ionicPopup){
           		template: "We'll need a username."
         	});
 		}else{
-			facebookLogin($scope.data.username,$scope.fbCallback);
-			$scope.toEvents();
+			var response = facebookLogin($scope.data.username,$scope.fbCallback);
 		}
 	}
 
@@ -24,7 +23,22 @@ appCtrl.controller("signupCtrl",function($scope,$state,$ionicPopup){
           		template: error
         	});
 		} else {
-	    	return (authData.facebook);
+			console.log(authData);
+			var url = $rootScope.SERVER_LOCATION + "signup";
+		
+			$http.post(url,{username:username,facebookId:authData.facebook.id,displayName:authData.facebook.displayName,pictureUrl:authData.facebook.cachedUserProfile.picture.url}).
+			success(function(data, status, headers, config) {
+			  // this callback will be called asynchronously
+			  // when the response is available
+			  console.log(data,status,headers,config);
+			  $scope.toEvents();
+			}).
+			error(function(data, status, headers, config) {
+				$ionicPopup.alert({
+	          		title: "Login Error",
+	          		template: "Unable to Communicate with server."
+	        	});
+			});
 		}
 	}
 });

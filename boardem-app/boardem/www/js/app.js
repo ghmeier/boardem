@@ -1,6 +1,7 @@
 angular.module('starter', ['ionic', 'starter.controllers'])
 
-.run(function($ionicPlatform, $rootScope) {
+.run(function($ionicPlatform, $rootScope,$http) {
+  $http.defaults.headers.common["Access-Control-Allow-Origin"] = "http://localhost:8100";
 
   $ionicPlatform.ready(function() {
 	 $rootScope.SERVER_LOCATION = "http://localhost:8080/";
@@ -49,7 +50,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 	
 })
 
-.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
+.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
   $stateProvider
   .state('auth',{
     url: "/auth",
@@ -125,6 +126,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   })
   $ionicConfigProvider.views.maxCache(5);
   $ionicConfigProvider.tabs.position('bottom');
+  $httpProvider.defaults.headers.common["Access-Control-Allow-Origin"] = "http://localhost:8100";
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/auth');
 });

@@ -21,6 +21,6 @@ public class SignUpResource
 	@POST
 	public Response addUser(User user)
 	{
-		return Response.ok(SignUpLogic.addUser(user)).header("Access-Control-Allow-Origin","http://localhost:8100").build();
+		return Response.ok(SignUpLogic.addUser(user)).header("Access-Control-Allow-Origin","*").build();
 	}
 }
