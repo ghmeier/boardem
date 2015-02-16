@@ -10,7 +10,7 @@ public class BoardemResponse
 	private int code;
 	private String message;
 	
-	private String extra;
+	private Object extra;
 	
 	public BoardemResponse()
 	{
@@ -49,14 +49,25 @@ public class BoardemResponse
 	}
 	
 	@JsonProperty("extra")
-	public void setExtra(String message)
+	public void setExtra(Object message)
 	{
 		extra = message;
 	}
 	
 	@JsonProperty("extra")
-	public String getExtra()
+	public Object getExtra()
 	{
 		return extra;
+	}
+	
+	/**
+	 * Clones this BoardemResponse
+	 */
+	public BoardemResponse clone()
+	{
+		BoardemResponse r = new BoardemResponse();
+		r.setMessage(this.message);
+		r.setCode(this.code);
+		return r;
 	}
 }
