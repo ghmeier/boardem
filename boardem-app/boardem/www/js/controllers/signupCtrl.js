@@ -1,4 +1,4 @@
-appCtrl.controller("signupCtrl",function($scope,$rootScope,$http,$state,$ionicPopup){
+appCtrl.controller("signupCtrl",function($window,$scope,$rootScope,$http,$state,$ionicPopup){
 	$scope.data = {username : ''};
 
 	$scope.toEvents = function(){
@@ -23,15 +23,21 @@ appCtrl.controller("signupCtrl",function($scope,$rootScope,$http,$state,$ionicPo
           		template: error
         	});
 		} else {
-			console.log(authData);
 			var url = $rootScope.SERVER_LOCATION + "signup";
-		
-			$http.post(url,{username:username,facebookId:authData.facebook.id,displayName:authData.facebook.displayName,pictureUrl:authData.facebook.cachedUserProfile.picture.url}).
+			var id = authData.facebook.id;
+			$http.post(url,{username:username,facebook_id:authData.facebook.id,display_name:authData.facebook.displayName,picture_url:authData.facebook.cachedUserProfile.picture.url}).
 			success(function(data, status, headers, config) {
-			  // this callback will be called asynchronously
-			  // when the response is available
-			  console.log(data,status,headers,config);
-			  $scope.toEvents();
+			  	// this callback will be called asynchronously
+			  	// when the response is available
+			  	if (data.code === 0){
+			  		$window.localStorage.setItem('id', id);
+			  		$scope.toEvents();
+				}else {
+					$ionicPopup.alert({
+		          		title: "Login Error",
+		          		template: data.message,
+		        	});					
+				}
 			}).
 			error(function(data, status, headers, config) {
 				$ionicPopup.alert({

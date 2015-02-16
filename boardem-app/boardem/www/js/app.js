@@ -1,10 +1,10 @@
-angular.module('starter', ['ionic', 'starter.controllers'])
+var myApp = angular.module('starter', ['ionic', 'starter.controllers'])
 
 .run(function($ionicPlatform, $rootScope,$http) {
   $http.defaults.headers.common["Access-Control-Allow-Origin"] = "http://localhost:8100";
 
   $ionicPlatform.ready(function() {
-	 $rootScope.SERVER_LOCATION = "http://localhost:8080/";
+	 $rootScope.SERVER_LOCATION = "http://localhost:9292/localhost:8080/";
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {
