@@ -1,6 +1,7 @@
 package boardem.server.resource;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -12,6 +13,7 @@ import javax.ws.rs.core.Response;
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.Event;
 import boardem.server.logic.CreateEventLogic;
+import boardem.server.logic.GetEventLogic;
 import boardem.server.logic.JoinEventLogic;
 import boardem.server.logic.LeaveEventLogic;
 
@@ -27,7 +29,7 @@ public class EventResource
 	@POST
 	public Response addEvent(Event event)
 	{
-		BoardemResponse response = CreateEventLogic.createEvent(event);
+		BoardemResponse response = CreateEventLogic.createEvent(event).clone();
 		response.setExtra(event.getId());
 		return Response.ok(response).header("Access-Control-Allow-Origin","http://localhost:8100").build();
 	}
@@ -50,5 +52,15 @@ public class EventResource
 	public Response leaveEvent(@PathParam("eid") String eventId, @QueryParam("user_id") String userId)
 	{
 		return Response.ok(LeaveEventLogic.leaveEvent(eventId, userId)).header("Access-Control-Allow-Origin", "http://localhost:8100").build();
+	}
+	
+	/**
+	 * Gets information about an event
+	 */
+	@GET
+	@Path("{eid}")
+	public Response getEvent(@PathParam("eid") String eventId)
+	{
+		return Response.ok(GetEventLogic.getEvent(eventId)).header("Access-Control-Allow-Origin", "http://localhost:8100").build();
 	}
 }
