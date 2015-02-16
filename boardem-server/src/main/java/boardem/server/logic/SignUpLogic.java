@@ -36,6 +36,10 @@ public class SignUpLogic
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Map<String, HashMap> dataMap = (Map<String, HashMap>) userData.getValue();
 
+		DataSnapshot facebookIdData = FirebaseHelper.readData(facebookIdRef);
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		Map<String, HashMap> fbDataMap = (Map<String, HashMap>) facebookIdData.getValue();
+		
 		if(dataMap == null)
 		{
 			//No users are in the database, create one
@@ -49,22 +53,27 @@ public class SignUpLogic
 			data.put("display_name", user.getDisplayName());
 			data.put("picture_url", user.getPictureUrl());
 
-			Map<String, String> facebookIdData = new HashMap<String, String>();
-			facebookIdData.put("username", user.getUsername());
+			Map<String, String> fbIdData = new HashMap<String, String>();
+			fbIdData.put("username", user.getUsername());
 			
 			FirebaseHelper.writeData(newUserRef, data);
-			FirebaseHelper.writeData(newIdRef, facebookIdData);
+			FirebaseHelper.writeData(newIdRef, fbIdData);
 
 			response = ResponseList.RESPONSE_SUCCESS;
 		}
 		else
 		{
 			Map<String, User> users = FirebaseHelper.convertToObjectMap(dataMap, User.class);
+			Map<String, User> facebookIds = FirebaseHelper.convertToObjectMap(fbDataMap, User.class);
 			
 			//Check if the username is already used
 			if(users.containsKey(user.getUsername()))
 			{
 				response = ResponseList.RESPONSE_USERNAME_USED;
+			}
+			else if(facebookIds.containsKey(user.getFacebookId()))
+			{
+				response = ResponseList.RESPONSE_FB_ID_USED;
 			}
 			else
 			{
@@ -78,11 +87,11 @@ public class SignUpLogic
 				data.put("display_name", user.getDisplayName());
 				data.put("picture_url", user.getPictureUrl());
 
-				Map<String, String> facebookIdData = new HashMap<String, String>();
-				facebookIdData.put("username", user.getUsername());
+				Map<String, String> fbIdData = new HashMap<String, String>();
+				fbIdData.put("username", user.getUsername());
 				
 				FirebaseHelper.writeData(newUserRef, data);
-				FirebaseHelper.writeData(newIdRef, facebookIdData);
+				FirebaseHelper.writeData(newIdRef, fbIdData);
 				
 				response = ResponseList.RESPONSE_SUCCESS;
 			}
