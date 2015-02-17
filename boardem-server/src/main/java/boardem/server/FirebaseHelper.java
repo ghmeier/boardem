@@ -55,6 +55,18 @@ public class FirebaseHelper
 	 */
 	public static DataSnapshot readData(Firebase ref)
 	{
+		DataSnapshot retVal = readHelper(ref);
+		
+		if(retVal == null)
+		{
+			retVal = readHelper(ref);
+		}
+		
+		return retVal;
+	}
+	
+	private static DataSnapshot readHelper(Firebase ref)
+	{
 		final CountDownLatch readLatch = new CountDownLatch(1);
 		final DataSnapshotHolder holder = new DataSnapshotHolder();
 		
