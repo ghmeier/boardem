@@ -70,7 +70,7 @@ public class SignInLogic
 		Firebase rootRef = new Firebase("https://boardem.firebaseio.com/");
 		
 		Firebase usersRef = rootRef.child("users");
-		Firebase facebookIdRef = rootRef.child("facebook_id");
+		//Firebase facebookIdRef = rootRef.child("facebook_id");
 
 		DataSnapshot userData = FirebaseHelper.readData(usersRef);
 		
