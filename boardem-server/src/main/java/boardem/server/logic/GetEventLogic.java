@@ -11,6 +11,9 @@ import boardem.server.json.ResponseList;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
+/**
+ * Contains logic to get information about events
+ */
 public class GetEventLogic
 {
 	public static BoardemResponse getEvent(String eventId)
@@ -41,7 +44,7 @@ public class GetEventLogic
 			}
 			else
 			{
-				response = ResponseList.RESPONSE_EVENT_DOES_NOT_EXIST.clone();
+				response = ResponseList.RESPONSE_SUCCESS.clone();
 				response.setExtra(eventMap.get(eventId));
 			}
 		}
