@@ -1,15 +1,15 @@
-appCtrl.controller("signinCtrl",function($window,$rootScope,$ionicPopup, $scope,$state,$http){
+appCtrl.controller("signinCtrl",function($window,$rootScope,$ionicPopup, $scope,$state,$http,$firebase,$firebaseAuth){
 
 	$scope.toEvents = function(){
 		$state.transitionTo("app.events");
 	}
 
 	$scope.toFacebook = function(){
-		var response = facebookLogin("",$scope.fbLoginCall);
+		var response = $scope.facebookLogin("",$scope.fbLoginCall);
 		
 	}
 
-	$scope.fbLoginCall = function(error,authData,username){
+	$scope.fbLoginCall = function(authData,username){
 		var id = authData.facebook.id;
 		var url = $rootScope.SERVER_LOCATION + "signin?facebookId="+id;
 		$scope.idLogin(id,$scope.toEvents);
@@ -36,5 +36,19 @@ appCtrl.controller("signinCtrl",function($window,$rootScope,$ionicPopup, $scope,
 	          });
 	    });
 	};
+
+	$scope.facebookLogin = function(username, callback){
+		var ref = new Firebase("https://boardem.firebaseio.com");
+		var authRef = $firebaseAuth(ref);
+
+		authRef.$authWithOAuthPopup("facebook").then(function(authData){
+			callback(authData,username);
+		}).catch(function(error){
+			$ionicPopup.alert({
+          		title: "Login Error",
+          		template: error
+        	});
+	  	});
+	}
 
 });

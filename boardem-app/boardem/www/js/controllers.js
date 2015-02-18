@@ -1,4 +1,4 @@
-var appCtrl =angular.module('starter.controllers', ['ionic'])
+var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 
 .controller('MenuCtrl', function($rootScope, $scope, $ionicHistory) {
 	$ionicHistory.clearHistory();
@@ -7,13 +7,6 @@ var appCtrl =angular.module('starter.controllers', ['ionic'])
   };
 
 });
-
-function facebookLogin(username, callback){
-	var ref = new Firebase("https://boardem.firebaseio.com");
-	ref.authWithOAuthPopup("facebook", function(error,authData){
-		callback(error, authData,username);
-	});
-}
 
 function safeApply($scope, $root, fn) {
   var phase = $root.$$phase;

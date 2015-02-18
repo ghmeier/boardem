@@ -31,7 +31,7 @@ public class EventResource
 	{
 		BoardemResponse response = CreateEventLogic.createEvent(event).clone();
 		response.setExtra(event.getId());
-		return Response.ok(response).header("Access-Control-Allow-Origin","http://localhost:8100").build();
+		return Response.ok(response).header("Access-Control-Allow-Origin","*").build();
 	}
 	
 	/**
@@ -41,7 +41,7 @@ public class EventResource
 	@Path("{eid}/join")
 	public Response joinEvent(@PathParam("eid") String eventId, @QueryParam("user_id") String userId)
 	{
-		return Response.ok(JoinEventLogic.joinEvent(eventId, userId)).header("Access-Control-Allow-Origin","http://localhost:8100").build();
+		return Response.ok(JoinEventLogic.joinEvent(eventId, userId)).header("Access-Control-Allow-Origin","*").build();
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class EventResource
 	@Path("{eid}/leave")
 	public Response leaveEvent(@PathParam("eid") String eventId, @QueryParam("user_id") String userId)
 	{
-		return Response.ok(LeaveEventLogic.leaveEvent(eventId, userId)).header("Access-Control-Allow-Origin", "http://localhost:8100").build();
+		return Response.ok(LeaveEventLogic.leaveEvent(eventId, userId)).header("Access-Control-Allow-Origin", "*").build();
 	}
 	
 	/**
@@ -61,6 +61,6 @@ public class EventResource
 	@Path("{eid}")
 	public Response getEvent(@PathParam("eid") String eventId)
 	{
-		return Response.ok(GetEventLogic.getEvent(eventId)).header("Access-Control-Allow-Origin", "http://localhost:8100").build();
+		return Response.ok(GetEventLogic.getEvent(eventId)).header("Access-Control-Allow-Origin", "*").build();
 	}
 }
