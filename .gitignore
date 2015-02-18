@@ -10,4 +10,5 @@ boardem-server/.gitignore
 boardem-server/.classpath
 boardem-server/.project
 boardem-server/.settings/**
+boardem-server/output.txt
 ben-experiments/firebase-dropwizard/target/**
