@@ -15,39 +15,6 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
       StatusBar.styleDefault();
     }
   });
-	
-	var dateObject = new Date();
-	$rootScope.days =
-	$rootScope.daysArray = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-	$rootScope.monthsArray = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-	//Get date in numbers
-  $rootScope.month = dateObject.getMonth();
-	$rootScope.day = dateObject.getDate();
-	$rootScope.year = dateObject.getFullYear();
-	//Get date in string format
-	$rootScope.monthString = $rootScope.monthsArray[dateObject.getMonth()];
-	$rootScope.dayString = $rootScope.daysArray[dateObject.getDay()];
-	
-	$rootScope.locationSearch = "1";
-	$rootScope.gameType = "all";
-	
-	$rootScope.changeDate = function(direction) {
-			var dateObject = new Date($rootScope.year, $rootScope.month, $rootScope.day);
-      if(direction == 1 || direction == "1") {
-				dateObject.setDate(dateObject.getDate()+1);
-			} else {
-				dateObject.setDate(dateObject.getDate()-1);
-			}
-			
-			//Get date in numbers
-			$rootScope.month = dateObject.getMonth();
-			$rootScope.day = dateObject.getDate();
-			$rootScope.year = dateObject.getFullYear();
-			//Get date in string format
-			$rootScope.monthString = $rootScope.monthsArray[dateObject.getMonth()];
-			$rootScope.dayString = $rootScope.daysArray[dateObject.getDay()];
-	}
-	
 })
 
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {

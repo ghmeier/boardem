@@ -2,7 +2,8 @@
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="event in events" href="#/app/events/{{playlist.id}}">
-        {{event.title}}
+        <h4>{{event.title}}</h4>
+				<h4>{{event.date}}</h4>
       </ion-item>
     </ion-list>
   </ion-content>
