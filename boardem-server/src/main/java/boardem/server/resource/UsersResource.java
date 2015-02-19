@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.User;
+import boardem.server.logic.UserLogic;
 
 
 
@@ -29,7 +30,18 @@ public class UsersResource
 		//ultimately returns hashmap or array of all users, probably not just a response
 		return null;
 	}
+	
+	/**
+	 * gets details for user with uid
+	 * @return user information
+	 */
+	@GET
+	@Path("{uid}")
+	public Response getUser(@PathParam("uid") String userId){
 
+		return Response.ok(UserLogic.getUserFromId(userId)).build();
+	}
+	
 	/**
 	 * Returns list of friends that the user has
 	 * @return THe user's friends

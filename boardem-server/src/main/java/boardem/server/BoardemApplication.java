@@ -13,6 +13,8 @@ import boardem.server.resource.*;
 
 public class BoardemApplication extends Application<BoardemConfiguration>
 {
+	
+	public static final String FIREBASE_URL = "https://boardem.firebaseio.com";
 	public static void main(String[] args) throws Exception
 	{
 		new BoardemApplication().run(args);
@@ -37,10 +39,12 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		final SignUpResource signUp = new SignUpResource();
 		final SignInResource signIn = new SignInResource();
 		final EventResource event = new EventResource();
+		final UsersResource users = new UsersResource();
 		configureCors(env);
 		env.jersey().register(signUp);
 		env.jersey().register(signIn);
 		env.jersey().register(event);
+		env.jersey().register(users);
 	}
 	
 	  private void configureCors(Environment environment) {
