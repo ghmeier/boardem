@@ -28,7 +28,7 @@ var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 
 });
 
-.service('SearchCriteria', ['$http', function ($scope, $http) {
+appCtrl.service('SearchCriteria', ['$http', function ($scope, $http) {
 	
 		this.changeDateSearch = function (direction) {
 					

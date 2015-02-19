@@ -16,7 +16,7 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
     }
   });
 	
-});
+})
 
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
    $httpProvider.defaults.useXDomain = true;
