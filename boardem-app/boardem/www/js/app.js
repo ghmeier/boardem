@@ -15,7 +15,6 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
       StatusBar.styleDefault();
     }
   });
-	
 })
 
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {

@@ -53,7 +53,8 @@ appCtrl.controller("signupCtrl",function($window,$scope,$rootScope,$http,$state,
           		title: "Login Error",
           		template: error
         	});
-	  	});*/
+	  	});
+			*/
 			$state.transitionTo("app.events");
 	}
 });
