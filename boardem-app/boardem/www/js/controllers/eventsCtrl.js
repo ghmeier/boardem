@@ -4,7 +4,7 @@ appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, RestService
 	$scope.day = SearchCriteria.getDay();
 	$scope.month = SearchCriteria.getMonth();
 	$scope.year = SearchCriteria.getYear();
-	$scope.events = RestService.getEvents(($scope.month + " " + $scope.day + " " + $scope.year));
+	$rootScope.events = RestService.getEvents(($scope.month + " " + $scope.day + " " + $scope.year));
   
 });
 

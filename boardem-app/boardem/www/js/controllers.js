@@ -1,10 +1,11 @@
 var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 
-.controller('MenuCtrl', function($rootScope, $scope, $ionicHistory, SearchCriteria) {
+.controller('MenuCtrl', function($rootScope, $scope, $ionicHistory, SearchCriteria, RestService) {
 
 	$scope.day = SearchCriteria.getDay();
 	$scope.month = SearchCriteria.getMonth();
 	$scope.year = SearchCriteria.getYear();
+	$scope.locationSearch = SearchCriteria.getLocationSearch();
 	
 	$ionicHistory.clearHistory();
 	
@@ -14,6 +15,7 @@ var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 			$scope.day = SearchCriteria.getDay();
 			$scope.month = SearchCriteria.getMonth();
 			$scope.year = SearchCriteria.getYear();
+			$rootScope.events = RestService.getEvents(($scope.month + " " + $scope.day + " " + $scope.year));
 	}
 
 });
@@ -40,11 +42,11 @@ appCtrl.service('SearchCriteria', function () {
 				if(direction == 1 || direction == "1") {
 					newDateObject.setDate(newDateObject.getDate()+1);
 				} else {
-					newDateObject.newDateObject(dateObject.getDate()-1);
+					newDateObject.setDate(newDateObject.getDate()-1);
 				}
 			
 				//Get date in numbers
-				$month = newDateObject.getMonth();
+				month = newDateObject.getMonth();
 				day = newDateObject.getDate();
 				year = newDateObject.getFullYear();
 				//Get date in string format
@@ -64,15 +66,15 @@ appCtrl.service('SearchCriteria', function () {
 		};
 		
 		this.getMonth = function () {
-					
-				var datestring = day + " " + monthString + " " + year;
 				return monthString;
 		};
 		
 		this.getYear = function () {
-					
-				var datestring = day + " " + monthString + " " + year;
 				return year;
+		};
+		this.getLocationSearch = function () {
+				
+				return locationSearch;
 		};
 		
 });

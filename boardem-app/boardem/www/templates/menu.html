@@ -23,11 +23,11 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
+				<ion-item nav-clear menu-close href="#/app/events">
+          Events
+        </ion-item>
         <ion-item nav-clear menu-close href="#/app/browse">
           Browse
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/app/events">
-          Events
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/profile">
            Profile
@@ -44,7 +44,8 @@
 			<h5>Location Distance: {{locationSearch}}</h5>
 			<br>
 			<div>
-			<h5><button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" ng-click="changeDate('0')"></button>
+			<h5>
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" ng-click="changeDate('2')"></button>
 			{{month}} {{day}} {{year}}
 			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" ng-click="changeDate('1')"></button>
 			</h5>
