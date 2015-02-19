@@ -1,55 +1,81 @@
 var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 
-.controller('MenuCtrl', function($rootScope, $scope, $ionicHistory,SearchCriteria) {
-	
-	var dateObject = new Date();
-	$scope.daysArray = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-	$scope.monthsArray = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-	//Get date in numbers
-  $scope.month = dateObject.getMonth();
-	$scope.day = dateObject.getDate();
-	$scope.year = dateObject.getFullYear();
-	//Get date in string format
-	$scope.monthString = $rootScope.monthsArray[dateObject.getMonth()];
-	$scope.dayString = $rootScope.daysArray[dateObject.getDay()];
-	
-	$scope.locationSearch = "1";
-	$scope.gameType = "all";
+.controller('MenuCtrl', function($rootScope, $scope, $ionicHistory, SearchCriteria) {
 
+	$scope.day = SearchCriteria.getDay();
+	$scope.month = SearchCriteria.getMonth();
+	$scope.year = SearchCriteria.getYear();
+	
 	$ionicHistory.clearHistory();
-	 $scope.changeDate = function(direction) {
-			$rootScope.changeDate(direction);
-  };
 	
 	//Actions
 	$scope.changeDate = function(direction){
 			SearchCriteria.changeDateSearch(direction);
+			$scope.day = SearchCriteria.getDay();
+			$scope.month = SearchCriteria.getMonth();
+			$scope.year = SearchCriteria.getYear();
 	}
 
 });
 
-appCtrl.service('SearchCriteria', ['$http', function ($scope, $http) {
+appCtrl.service('SearchCriteria', function () {
+		
+		var dateObject = new Date();
+		var daysArray = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+		var monthsArray = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+		//Get date in numbers
+		var month = dateObject.getMonth();
+		var day = dateObject.getDate();
+		var year = dateObject.getFullYear();
+		//Get date in string format
+		var monthString = monthsArray[dateObject.getMonth()];
+		var dayString = daysArray[dateObject.getDay()];
 	
+		var locationSearch = "1";
+		var gameType = "all";
+		
 		this.changeDateSearch = function (direction) {
 					
-				var dateObject = new Date($scope.year, $scope.month, $scope.day);
+				var newDateObject = new Date(year, month, day);
 				if(direction == 1 || direction == "1") {
-					dateObject.setDate(dateObject.getDate()+1);
+					newDateObject.setDate(newDateObject.getDate()+1);
 				} else {
-					dateObject.setDate(dateObject.getDate()-1);
+					newDateObject.newDateObject(dateObject.getDate()-1);
 				}
 			
 				//Get date in numbers
-				$scope.month = dateObject.getMonth();
-				$scope.day = dateObject.getDate();
-				$scope.year = dateObject.getFullYear();
+				$month = newDateObject.getMonth();
+				day = newDateObject.getDate();
+				year = newDateObject.getFullYear();
 				//Get date in string format
-				$scope.monthString = $scope.monthsArray[dateObject.getMonth()];
-				$scope.dayString = $scope.daysArray[dateObject.getDay()];
-				//It will look like this
-				//return $http.get(urlBase);
+				monthString = monthsArray[newDateObject.getMonth()];
+				dayString = daysArray[newDateObject.getDay()];
 		};
-}]);
+		
+		this.getSearchDate = function () {
+					
+				var datestring = day + " " + monthString + " " + year;
+				return datestring;
+		};
+		
+		this.getDay = function () {
+					
+				return day;
+		};
+		
+		this.getMonth = function () {
+					
+				var datestring = day + " " + monthString + " " + year;
+				return monthString;
+		};
+		
+		this.getYear = function () {
+					
+				var datestring = day + " " + monthString + " " + year;
+				return year;
+		};
+		
+});
 
 function safeApply($scope, $root, fn) {
   var phase = $root.$$phase;
