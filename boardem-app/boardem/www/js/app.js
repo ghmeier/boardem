@@ -100,6 +100,16 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
     }
   })
 
+  .state('app.profile',{
+    url: "/profile",
+    views: {
+      'menuContent':{
+        templateUrl: "templates/profile.html",
+        controller: 'profileCtrl'
+      }
+    }
+  })
+
   .state('app.browse', {
     url: "/browse",
     views: {

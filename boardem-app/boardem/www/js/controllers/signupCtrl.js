@@ -19,7 +19,8 @@ appCtrl.controller("signupCtrl",function($window,$scope,$rootScope,$http,$state,
 	$scope.fbCallback = function(authData,username){
 			var url = $rootScope.SERVER_LOCATION + "signup";
 			var id = authData.facebook.id;
-			$http.post(url,{username:username,facebook_id:authData.facebook.id,display_name:authData.facebook.displayName,picture_url:authData.facebook.cachedUserProfile.picture.url}).
+
+			$http.post(url,{username:username,facebook_id:authData.facebook.id,display_name:authData.facebook.displayName,picture_url:authData.facebook.cachedUserProfile.picture.data.url}).
 			success(function(data, status, headers, config) {
 			  	// this callback will be called asynchronously
 			  	// when the response is available
