@@ -1,5 +1,28 @@
-<ion-view view-title="Browse">
+<ion-view view-title="Setup Event">
   <ion-content>
-    <h1>Browse</h1>
+    <div>
+		<h3>
+			Event On:
+		</h3>
+		<h4>
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" ng-click="changeEventDay('2')"></button>
+			{{eventDay}}
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" ng-click="changeEventDay('1')"></button>
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" ng-click="changeEventMonth('2')"></button>
+			{{eventMonth}}
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" ng-click="changeEventMonth('1')"></button>
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" ng-click="changeEventYear('2')"></button>
+			{{eventYear}}
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" ng-click="changeEventYear('1')"></button>
+		</h4>
+		<h3>
+			List of Games:
+		</h3>
+		<input type="text" ng-model="data.games" placeholder="game1, game2, ..." style="border-top:1px solid grey; border-bottom:1px solid grey;">
+		</div>
+		</br>
+		<button  class="button button-block button-royal" on-tap="createEvent()">
+						Create Event
+		</button>
   </ion-content>
 </ion-view>
