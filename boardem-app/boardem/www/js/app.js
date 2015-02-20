@@ -106,6 +106,15 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
       }
     }
   })
+	.state('app.create', {
+    url: "/event/create",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/create-event.html",
+        controller: 'createEventCtrl'
+      }
+    }
+  })
   $ionicConfigProvider.views.maxCache(5);
   $ionicConfigProvider.tabs.position('bottom');
   $httpProvider.defaults.headers.common["Access-Control-Allow-Origin"] = "http://localhost:8100";
