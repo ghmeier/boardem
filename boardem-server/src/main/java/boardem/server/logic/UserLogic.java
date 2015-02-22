@@ -25,8 +25,8 @@ public class UserLogic {
 		if (userData == null){
 			return ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
 		}
-		
-		//DataSnapshot userData = FirebaseHelper.readData(userRef.child(username.get("username")));
+
+		//Map<String, Object> newPost = (Map<String, Object>) userData.getValue();
 
 		response = new BoardemResponse();
 		response.setExtra(userData.getValue());
