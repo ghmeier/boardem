@@ -12,6 +12,27 @@ import boardem.server.json.BoardemResponse;
 import boardem.server.json.ResponseList;
 
 public class UserLogic {
+
+	public static BoardemResponse getAllUsers()
+	{
+		BoardemResponse response = null;
+		
+		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
+		Firebase userRef = rootRef.child("users");
+		
+		DataSnapshot userData = FirebaseHelper.readData(userRef);
+		
+		if (userData == null){
+			return ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
+		}
+		
+		//DataSnapshot userData = FirebaseHelper.readData(userRef.child(username.get("username")));
+
+		response = new BoardemResponse();
+		response.setExtra(userData.getValue());
+		return response;
+		
+	}
 	
 	public static BoardemResponse getUserFromId(String uId)
 	{

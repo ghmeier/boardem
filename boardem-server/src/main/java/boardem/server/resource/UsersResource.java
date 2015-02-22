@@ -25,10 +25,10 @@ public class UsersResource
 	 * @return All current users
 	 */
 	@GET
-	public Response listUsers(User user)
+	public Response listUsers()
 	{
 		//ultimately returns hashmap or array of all users, probably not just a response
-		return null;
+		return Response.ok(UserLogic.getAllUsers()).build();
 	}
 	
 	/**
