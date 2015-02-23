@@ -1,29 +1,68 @@
 <ion-view view-title="Setup Event">
   <ion-content>
-    <div>
-		<h3>
-			Event On:
-		</h3>
-		<h4>
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeEventTime('2')"></button>
-			{{eventTime}}:00
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeEventTime('1')"></button>
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeEventDay('2')"></button>
-			{{eventDay}}
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeEventDay('1')"></button>
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeEventMonth('2')"></button>
-			{{eventMonth}}
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeEventMonth('1')"></button>
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeEventYear('2')"></button>
-			{{eventYear}}
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeEventYear('1')"></button>
-		</h4>
-		<h3>
-			List of Games:
-		</h3>
-		<input type="text" ng-model="data.games" placeholder="game1, game2, ..." style="border-top:1px solid grey; border-bottom:1px solid grey;">
+    <div class="card">
+		<div class="item item-divider">
+			Event Details:
 		</div>
-		</br>
+		<div class="item row">
+			<div class="col-25">
+
+						<h1>Time</h1>
+
+			</div>
+			<div class="col">
+				<div class="button-bar">
+					<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeEventTime('2')"></button>
+					<button class="button button-clear button-dark">{{eventTime}}:00</button>
+					<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeEventTime('1')"></button>
+				</div>
+			</div>
+		</div>
+		<div class="item row">
+			<div class="col-25">
+
+						<h1>Day</h1>
+
+			</div>
+			<div class="col">
+				<div class="button-bar">
+					<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeEventDay('2')"></button>
+					<button class="button button-clear button-dark">{{eventDay}}</button>
+					<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeEventDay('1')"></button>
+				</div>
+			</div>
+		</div>
+		<div class="item row">
+			<div class="col-25">
+
+						<h1>Month</h1>
+
+			</div>
+			<div class="col">
+				<div class="button-bar">
+					<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeEventMonth('2')"></button>
+					<button class="button button-clear button-dark">{{eventMonth}}</button>
+					<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeEventMonth('1')"></button>
+				</div>
+			</div>
+		</div>
+		<div class="item row">
+			<div class="col-25">
+				<h1>Year</h1>
+			</div>
+			<div class="col">
+				<div class="button-bar">
+					<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeEventYear('2')"></button>
+					<button class="button button-clear button-dark">{{eventYear}}</button>
+					<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeEventYear('1')"></button>
+				</div>
+			</div>
+		</div>
+		<div class="item item-input item-floating-label">
+			<span class="input-label">Games</span>
+		<input type="text" ng-model="data.games" placeholder="Games">
+		</div>
+		</div>
 		<button  class="button button-block button-royal" on-tap="createEvent()">
 						Create Event
 		</button>
