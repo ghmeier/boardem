@@ -27,7 +27,7 @@ public class CreateEventLogic
 		
 		@SuppressWarnings({ "unchecked", "rawtypes"})
 		Map<String, HashMap> dataMap = (Map<String, HashMap>) eventData.getValue();
-		
+
 		if(dataMap == null)
 		{
 			//No events are in the database, create one
@@ -47,7 +47,7 @@ public class CreateEventLogic
 		else
 		{
 			Map<String, Event> events = FirebaseHelper.convertToObjectMap(dataMap, Event.class);
-			
+
 			//Check if the event ID is already in use and change it if necessary
 			while(events.containsKey(event.getId()))
 			{

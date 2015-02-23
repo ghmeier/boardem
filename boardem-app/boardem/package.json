@@ -17,6 +17,7 @@
   "cordovaPlugins": [
     "https://github.com/Wizcorp/phonegap-facebook-plugin/",
     "https://github.com/phonegap/phonegap-facebook-plugin/",
-    "org.apache.cordova.inappbrowser"
+    "org.apache.cordova.inappbrowser",
+    "org.apache.cordova.geolocation"
   ]
 }

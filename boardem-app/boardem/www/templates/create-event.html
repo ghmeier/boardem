@@ -5,15 +5,18 @@
 			Event On:
 		</h3>
 		<h4>
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" ng-click="changeEventDay('2')"></button>
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeEventTime('2')"></button>
+			{{eventTime}}:00
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeEventTime('1')"></button>
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeEventDay('2')"></button>
 			{{eventDay}}
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" ng-click="changeEventDay('1')"></button>
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" ng-click="changeEventMonth('2')"></button>
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeEventDay('1')"></button>
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeEventMonth('2')"></button>
 			{{eventMonth}}
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" ng-click="changeEventMonth('1')"></button>
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" ng-click="changeEventYear('2')"></button>
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeEventMonth('1')"></button>
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeEventYear('2')"></button>
 			{{eventYear}}
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" ng-click="changeEventYear('1')"></button>
+			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeEventYear('1')"></button>
 		</h4>
 		<h3>
 			List of Games:

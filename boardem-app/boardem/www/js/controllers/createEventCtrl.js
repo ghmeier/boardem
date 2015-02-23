@@ -1,8 +1,9 @@
-appCtrl.controller('createEventCtrl', function($rootScope, $scope, CreateEventService) {
+appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window, CreateEventService) {
   $scope.data = {games : ''};
 	$scope.eventDay = CreateEventService.getDay();
 	$scope.eventMonth = CreateEventService.getMonth();
 	$scope.eventYear = CreateEventService.getYear();
+	$scope.eventTime = CreateEventService.getTime();
 	
 	$scope.changeEventDay = function(direction) {
 			CreateEventService.changeEventDay(direction);
@@ -18,14 +19,36 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope, CreateEventSe
 			CreateEventService.changeEventYear(direction);
 			$scope.eventYear = CreateEventService.getYear();
 	}
+
+	$scope.changeEventTime = function(direction){
+			CreateEventService.changeEventTime(direction);
+			$scope.eventTime = CreateEventService.getTime();
+	}
 	
 	$scope.createEvent = function() {
-			//Get Longitude and Latitude
-			//Send request to server to create this event
+			CreateEventService.getLocation(function(pos){
+				var loc = {};
+				var day = CreateEventService.getDay();
+				var month = CreateEventService.getMonthInt();
+				var year = CreateEventService.getYear();
+				var time = CreateEventService.getTime();
+
+				loc.lat = pos.coords.latitude;
+				loc.lng = pos.coords.longitude;
+				loc.owner = $rootScope.user_id;
+				loc.games = $scope.data.games.split(',');
+				loc.date = year+"-"+month+"-"+day+" "+time+":00:00";
+				console.log(JSON.stringify(loc));
+				CreateEventService.createEvent($rootScope.SERVER_LOCATION,loc).success(function(response){
+					console.log(response);
+				}).error(function(error){
+					console.log(error);
+				});
+			});
 	}
 });
 
-appCtrl.service('CreateEventService', function () {
+appCtrl.service('CreateEventService', ['$http', function ($http) {
 		
 		var dateObject = new Date();
 		var daysArray = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -34,6 +57,7 @@ appCtrl.service('CreateEventService', function () {
 		var month = dateObject.getMonth();
 		var day = dateObject.getDate();
 		var year = dateObject.getFullYear();
+		var time = dateObject.getHours();
 		var currentYear = dateObject.getFullYear();
 		//Get date in string format
 		var monthString = monthsArray[dateObject.getMonth()];
@@ -70,6 +94,16 @@ appCtrl.service('CreateEventService', function () {
 			
 				}
 		};
+
+		this.changeEventTime = function(direction){
+			if (direction == 1 || direction === '1'){
+				time++;
+				time % 25;
+			}else{
+				time --;
+				if (time<0)time = 24
+			}
+		}
 		
 		this.getDay = function () {
 					
@@ -79,9 +113,30 @@ appCtrl.service('CreateEventService', function () {
 		this.getMonth = function () {
 				return monthString;
 		};
+
+		this.getMonthInt = function(){
+			return month;
+		}
 		
 		this.getYear = function () {
 				return year;
 		};
+
+		this.getTime = function(){
+			return time;
+		}
+
+		this.getLocation = function(callback){
+			navigator.geolocation.getCurrentPosition(callback,
+			function(error){
+				console.log(error);
+			});
+		};
+
+		this.createEvent = function(base_url,data){
+			var url = base_url + "event/";
+
+			return $http.post(url,JSON.stringify(data));
+		}
 		
-});
+}]);
