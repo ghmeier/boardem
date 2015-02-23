@@ -25,23 +25,23 @@ public class LeaveEventLogic
 		BoardemResponse response = null;
 		
 		Firebase rootRef = new Firebase("https://boardem.firebaseio.com");
-		Firebase usersRef = rootRef.child("users");
+		Firebase idRef = rootRef.child("facebook_id");
 		Firebase eventsRef = rootRef.child("events");
 		
 		DataSnapshot eventData = FirebaseHelper.readData(eventsRef);
-		DataSnapshot userData = FirebaseHelper.readData(usersRef);
+		DataSnapshot idData = FirebaseHelper.readData(idRef);
 				
 		@SuppressWarnings({"unchecked", "rawtypes"})
 		Map<String, HashMap> eventDataMap = (Map<String, HashMap>) eventData.getValue();
 		@SuppressWarnings({"unchecked", "rawtypes"})
-		Map<String, HashMap> userDataMap = (Map<String, HashMap>) userData.getValue();
+		Map<String, HashMap> idDataMap = (Map<String, HashMap>) idData.getValue();
 
 		//Check if the event exists
 		if(eventDataMap == null)
 		{
 			response = ResponseList.RESPONSE_EVENT_DOES_NOT_EXIST;
 		}
-		else if(userDataMap == null)
+		else if(idDataMap == null)
 		{
 			response = ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
 		}
@@ -58,10 +58,10 @@ public class LeaveEventLogic
 			}
 			else
 			{
-				Map<String, User> userMap = FirebaseHelper.convertToObjectMap(userDataMap, User.class);
+				Map<String, User> idMap = FirebaseHelper.convertToObjectMap(idDataMap, User.class);
 								
 				//Make sure the user exists
-				if(!userMap.containsKey(userId))
+				if(!idMap.containsKey(userId))
 				{
 					response = ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
 				}
@@ -78,6 +78,12 @@ public class LeaveEventLogic
 					else
 					{
 						Firebase ref = eventsRef.child(eventId);
+						Firebase userRef = rootRef.child("users/" + idMap.get(userId).getUsername());
+
+						//Have to get user first to avoid null pointer
+						DataSnapshot userSnapshot = FirebaseHelper.readData(userRef);
+						User user = User.getUserFromSnapshot(userSnapshot);
+						
 						final CountDownLatch removeLatch = new CountDownLatch(1);
 						
 						//Remove the existing list
@@ -101,13 +107,37 @@ public class LeaveEventLogic
 							e.printStackTrace();
 						}
 						
+						final CountDownLatch userRemoveLatch = new CountDownLatch(1);
+						userRef.child("events").removeValue(new Firebase.CompletionListener()
+						{
+							@Override
+							public void onComplete(FirebaseError arg0, Firebase arg1)
+							{
+								userRemoveLatch.countDown();
+							}
+						});
+						
+						try
+						{
+							userRemoveLatch.await();
+						}
+						catch(InterruptedException e)
+						{
+							e.printStackTrace();
+						}
+						 
 						//Write the data to Firebase
 						Map<String, List<String>> data = new HashMap<String, List<String>>();
+						Map<String, List<String>> userData = new HashMap<String, List<String>>();
 						
 						toUpdate.getParticipants().remove(userId);
 						data.put("participants", toUpdate.getParticipants());
 					
+						user.getEvents().remove(toUpdate.getId());
+						userData.put("events", user.getEvents());
+						
 						FirebaseHelper.writeData(ref, data);
+						FirebaseHelper.writeData(userRef, userData);
 						
 						response = ResponseList.RESPONSE_SUCCESS;
 					}

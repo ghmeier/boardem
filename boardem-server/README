@@ -25,12 +25,15 @@ Date format = "yyy-MM-dd HH:mm:ss"
 	*owner
 	*games
 
+/event/{eid}
+-Gets information about the event
+
 /event/{eid}/join
 -For joining events
 	*eid is the event id
-	*user_id is the ID of the user joining - Query param (NOT the Facebook ID)	
+	*user_id is the ID of the user joining - Query param
 
 /event/{eid}/leave
 -For leaving events
 	*eid is the event id
-	*user_id is the ID of the user leaving - Query param (NOT the Facebook ID)
+	*user_id is the ID of the user leaving - Query param

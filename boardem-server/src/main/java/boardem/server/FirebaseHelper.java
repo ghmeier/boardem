@@ -47,7 +47,7 @@ public class FirebaseHelper
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Reads data from Firebase
 	 * @param ref Reference for the location to read from
