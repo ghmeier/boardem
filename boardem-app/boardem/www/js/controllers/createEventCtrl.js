@@ -1,4 +1,4 @@
-appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window, CreateEventService) {
+appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionicPopup,$state, CreateEventService) {
   $scope.data = {games : ''};
 	$scope.eventDay = CreateEventService.getDay();
 	$scope.eventMonth = CreateEventService.getMonth();
@@ -38,9 +38,15 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window, Creat
 				loc.owner = $rootScope.user_id;
 				loc.games = $scope.data.games.split(',');
 				loc.date = year+"-"+month+"-"+day+" "+time+":00:00";
-				console.log(JSON.stringify(loc));
+
 				CreateEventService.createEvent($rootScope.SERVER_LOCATION,loc).success(function(response){
 					console.log(response);
+			      	$ionicPopup.alert({
+			            title: "Success",
+			            template: "Added Event: "+response.extra
+			    	});
+			    	$state.go("app.single",{eventId:response.extra});
+
 				}).error(function(error){
 					console.log(error);
 				});

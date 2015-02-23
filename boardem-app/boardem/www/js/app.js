@@ -99,7 +99,7 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
     })
 
   .state('app.single', {
-    url: "/events/:playlistId",
+    url: "/events/:eventId",
     views: {
       'menuContent': {
         templateUrl: "templates/event.html",
