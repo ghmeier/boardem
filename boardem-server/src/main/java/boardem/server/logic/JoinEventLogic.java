@@ -74,6 +74,11 @@ public class JoinEventLogic
 					{
 						response = ResponseList.RESPONSE_USER_IN_EVENT;
 					}
+					//Check if the user is the owner of the event
+					else if(toUpdate.getOwner().equals(userId))
+					{
+						response = ResponseList.RESPONSE_USER_OWNS_EVENT;
+					}
 					else
 					{
 						//Write the data to Firebase
