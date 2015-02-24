@@ -41,7 +41,6 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 				loc.date = year+"-"+month+"-"+day+" "+time+":00:00";
 
 				CreateEventService.createEvent($rootScope.SERVER_LOCATION,loc).success(function(response){
-					console.log(response);
 			      	$ionicPopup.alert({
 			            title: "Success",
 			            template: "Added Event: "+response.extra

@@ -1,7 +1,7 @@
 appCtrl.controller('profileCtrl',function($rootScope,$window,$ionicPopup,$http, $scope, $state,UserService){
 	$scope.user={};
-	$scope.url = $rootScope.SERVER_LOCATION + "users/"+$window.localStorage['id'];
-	UserService.getUser($scope.url).
+
+	UserService.getUser($rootScope.SERVER_LOCATION,$window.localStorage['id']).
 	    success(function(data) {
 	        if (data.code === 0){
 	        	console.log(data.extra);
@@ -24,8 +24,8 @@ appCtrl.controller('profileCtrl',function($rootScope,$window,$ionicPopup,$http, 
 
 appCtrl.service("UserService",['$http',function($http){
 
-
-	this.getUser = function(url){
-		return $http.get(url);
+	var endpoint = "users/"
+	this.getUser = function(base_url,userid){
+		return $http.get(base_url+endpoint+userid);
 	}
 }]);

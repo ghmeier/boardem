@@ -3,7 +3,7 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams,EventS
   $scope.event = {};
   $scope.url = $rootScope.SERVER_LOCATION+"event/"+$stateParams.eventId;
 
-  EventService.getEvent($scope.url).success(function(res){
+  EventService.getEvent($rootScope.SERVER_LOCATION,$stateParams.eventId).success(function(res){
   	$scope.event = res.extra;
     $scope.date = EventService.getTimeDifference(res.extra.date);
     navigator.geolocation.getCurrentPosition(function(pos){
@@ -14,7 +14,7 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams,EventS
       //nothing
     });
 
-  	UserService.getUser($rootScope.SERVER_LOCATION + "users/"+$scope.event.owner)
+  	UserService.getUser($rootScope.SERVER_LOCATION ,$scope.event.owner)
   	.success(function(data){
   		$scope.owner = data.extra;
   	})
@@ -24,20 +24,22 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams,EventS
 
 appCtrl.service('EventService', ['$http', function ($http) {
 	
-        var urlBase = '/events';
+        var endpoint = 'event/';
 				
 				//Any other http request will be used as a service function
-        this.getEvent = function (url,callback) {
-			     return $http.get(url);
+        this.getEvent = function (base_url,eventId,callback) {
+			     return $http.get(base_url+endpoint+eventId);
         };
+
+        this.joinEvent = function(base_url,event_id,user_id){
+          return $http.post(base_url+endpoint+event_id+"/join",{user_id:user_id});
+        }
 
         this.getTimeDifference = function(date){
           var cur = "20"+date.replace(/-/g,"/");
 
           var millis1 = Date.parse(cur);
           var millis2 = Date.now();
-
-          console.log(millis1,millis2);
 
           var diff = Math.abs(millis2 - millis1);
 

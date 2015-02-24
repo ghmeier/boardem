@@ -1,10 +1,20 @@
 <ion-view view-title="Events">
   <ion-content>
-    <ion-list>
-      <ion-item ng-repeat="event in events" href="#/app/events/{{event.id}}">
-        <h4>{{event.owner}}</h4>
-				<h4>{{event.date}}</h4>
-      </ion-item>
-    </ion-list>
+    <div class="list ">
+
+	    <div class="card" ng-repeat="event in events">
+
+	      	<ion-item class="item item-thumbnail-left" href="#/app/events/{{event.event_id}}">
+		      	<img src="{{event.owner_profile.picture_url}}"/>
+		        <h2>{{event.name}}</h2>
+				<p>{{event.time.days}} days {{event.time.hours}} hours</p>
+				<p>Games: {{event.games.join(", ")}}</p>
+	      	</ion-item>
+	      	<ion-item class="item tabs tabs-secondary tabs-icon-left">
+				<div class="tab-item balanced" on-tap="join(event.event_id)"><i class="icon ion-checkmark-circled"></i>&nbsp;Join</div>
+	      	</ion-item>
+
+	    </div>
+    </div>
   </ion-content>
 </ion-view>
