@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Event
 {
 	private String id;
+	private String name;
 	private double lat;
 	private double lng;
 	private Date date;
@@ -38,6 +39,18 @@ public class Event
 	public String getId()
 	{
 		return id;
+	}
+	
+	@JsonProperty("name")
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+	@JsonProperty("name")
+	public String getName()
+	{
+		return name;
 	}
 	
 	@JsonProperty("lat")

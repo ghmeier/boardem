@@ -35,6 +35,7 @@ public class CreateEventLogic
 			
 			Map<String, Object> data = new HashMap<String, Object>();
 			data.put("event_id", event.getId());
+			data.put("name", event.getName());
 			data.put("lat", event.getLatitude());
 			data.put("lng", event.getLongitude());
 			data.put("date", event.getDate());
@@ -58,6 +59,7 @@ public class CreateEventLogic
 			
 			Map<String, Object> data = new HashMap<String, Object>();
 			data.put("event_id", event.getId());
+			data.put("name", event.getName());
 			data.put("lat", event.getLatitude());
 			data.put("lng", event.getLongitude());
 			data.put("date", event.getDate());
