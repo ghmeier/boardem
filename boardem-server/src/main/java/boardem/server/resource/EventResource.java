@@ -14,6 +14,7 @@ import boardem.server.json.BoardemResponse;
 import boardem.server.json.Event;
 import boardem.server.logic.CreateEventLogic;
 import boardem.server.logic.GetEventLogic;
+import boardem.server.logic.GetEventsLogic;
 import boardem.server.logic.JoinEventLogic;
 import boardem.server.logic.LeaveEventLogic;
 
@@ -32,6 +33,15 @@ public class EventResource
 		BoardemResponse response = CreateEventLogic.createEvent(event).clone();
 		response.setExtra(event.getId());
 		return Response.ok(response).header("Access-Control-Allow-Origin","*").build();
+	}
+	
+	/**
+	 * Gets the list of events
+	 */
+	@GET
+	public Response getEvents()
+	{
+		return Response.ok(GetEventsLogic.getEvents()).header("Access-Control-Allow-Origin", "*").build();
 	}
 	
 	/**

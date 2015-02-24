@@ -16,7 +16,10 @@ Date format = "yyy-MM-dd HH:mm:ss"
 	*0 if operation completed successfully
 	*2 if username has already been used
 	
-/event
+/event - GET
+-Gets a list of all event IDs in the database
+	
+/event - POST
 -ID is generated automatically by server
 -For creating events
 	*lat
