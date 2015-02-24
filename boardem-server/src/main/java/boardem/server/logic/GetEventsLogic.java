@@ -2,7 +2,6 @@ package boardem.server.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +12,9 @@ import boardem.server.json.ResponseList;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
+/**
+ * Logic for getting the list of event IDs from Firebase
+ */
 public class GetEventsLogic
 {
 	public static BoardemResponse getEvents()

@@ -4,9 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.firebase.client.DataSnapshot;
 
 /**
  * JSON representation for an event
@@ -133,5 +135,33 @@ public class Event
 	public List<String> getGames()
 	{
 		return gameIds;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Event getEventFromSnapshot(DataSnapshot snap)
+	{
+		Event event = new Event();
+		HashMap<String, Object> map = (HashMap<String, Object>) snap.getValue();
+		
+		event.setId((String) map.get("event_id"));
+		event.setName((String) map.get("name"));
+		event.setLatitude((double) map.get("lat"));
+		event.setLongitude((double) map.get("lng"));
+		event.setDate((String) map.get("date"));
+		event.setOwner((String) map.get("owner"));
+		
+		//Check if lists are null and set if they are not
+		List<String> participants = (List<String>) map.get("participants");
+		if(participants != null)
+		{
+			event.setParticipants(participants);
+		}
+		List<String> games = (List<String>) map.get("games");
+		if(games != null)
+		{
+			event.setGames(games);
+		}
+		
+		return event;
 	}
 }
