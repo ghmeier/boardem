@@ -1,8 +1,11 @@
 package boardem.server.resource;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,6 +20,9 @@ import boardem.server.logic.GetEventLogic;
 import boardem.server.logic.GetEventsLogic;
 import boardem.server.logic.JoinEventLogic;
 import boardem.server.logic.LeaveEventLogic;
+import boardem.server.logic.UpdateEventLogic;
+
+import com.google.common.base.Optional;
 
 
 @Path("/event")
@@ -72,5 +78,18 @@ public class EventResource
 	public Response getEvent(@PathParam("eid") String eventId)
 	{
 		return Response.ok(GetEventLogic.getEvent(eventId)).header("Access-Control-Allow-Origin", "*").build();
+	}
+	
+	/**
+	 * Updates information about the event
+	 */
+	@PUT
+	@Path("{eid}")
+	public Response updateEvent(@PathParam("eid") String eventId, @QueryParam("name") String name,
+			@QueryParam("lat") Double lat, @QueryParam("lng") Double lng,
+			@QueryParam("date") String date, @QueryParam("owner") String owner,
+			@QueryParam("games") List<String> games)
+	{
+		return Response.ok(UpdateEventLogic.updateEvent(eventId, name, lat, lng, date, owner, games)).header("Access-Control-Allow-Origin", "*").build();
 	}
 }
