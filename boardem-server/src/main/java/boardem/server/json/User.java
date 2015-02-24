@@ -18,6 +18,9 @@ public class User
 	private String picture_url;
 	private List<String> eventIds;
 	
+	//Gamification stuff
+	private int eventsCreated;
+	
 	public User()
 	{
 		eventIds = new ArrayList<String>();
@@ -90,6 +93,23 @@ public class User
 	{
 		return eventIds;
 	}
+
+	@JsonProperty("events_created")
+	public void setEventsCreated(int num)
+	{
+		eventsCreated = num;
+	}
+	
+	@JsonProperty("events_created")
+	public int getEventsCreated()
+	{
+		return eventsCreated;
+	}
+	
+	public void incrementEventsCreated()
+	{
+		++eventsCreated;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public static User getUserFromSnapshot(DataSnapshot snap)
@@ -100,6 +120,10 @@ public class User
 		user.setFacebookId((String) map.get("facebook_id"));
 		user.setDisplayName((String) map.get("display_name"));
 		user.setPictureUrl((String) map.get("picture_url"));
+		
+		//Just in case the value is not present in the database
+		Integer tmp = (Integer) map.get("events_created");
+		user.setEventsCreated(tmp == null ? 0 : tmp);
 		
 		List<String> eventList = (List<String>) map.get("events");
 		if(eventList != null)

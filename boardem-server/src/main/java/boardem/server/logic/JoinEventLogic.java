@@ -91,9 +91,11 @@ public class JoinEventLogic
 						DataSnapshot userSnapshot = FirebaseHelper.readData(userRef);
 						User user = User.getUserFromSnapshot(userSnapshot);
 						user.getEvents().add(toUpdate.getId());
+						user.incrementEventsCreated();
 						
-						Map<String, List<String>> userData = new HashMap<String, List<String>>();
+						Map<String, Object> userData = new HashMap<String, Object>();
 						userData.put("events", user.getEvents());
+						userData.put("events_created", user.getEventsCreated());
 						
 						FirebaseHelper.writeData(joinEventRef, data);
 						FirebaseHelper.writeData(userRef, userData);
