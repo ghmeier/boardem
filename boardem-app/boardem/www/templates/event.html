@@ -3,7 +3,7 @@
     <div class="list">
     	<div class="card">
     		<div class="item item-divider">
-    			Owner
+    			{{event.name}}
     		</div>
     		<div class="item item-avatar">
 		         <img src="{{owner.picture_url}}"/>
@@ -12,9 +12,15 @@
         	</div>
         </div>
         <div class="list" >
-    		<div class="item">{{event.date}}</div>
-    		<div class="item">Event Id: {{event.event_id}}</div>
-    		<div class="item">Location: {{event.lat}},{{event.lng}}</div>
+    		<div class="item">{{date.days}} days {{date.hours}} hours away</div>
+    		<!-- <div class="item">Event Id: {{event.event_id}}</div> -->
+    		<!-- <div class="item">Location: {{event.lat}},{{event.lng}}</div> -->
+            <div class="item item-button-right">
+                Distance: {{event.distance}}km     
+                <a class="button button-positive" href="geo:{{event.lat}},{{event.lng}}">
+                   Open In Maps
+                </a>
+            </div>
     		<div class="item item-divider">Games</div>
     		<div class="item" ng-repeat="id in event.games track by $index">{{id}}</div>
     	</div>

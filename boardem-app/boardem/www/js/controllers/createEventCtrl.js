@@ -37,6 +37,7 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 				loc.lng = pos.coords.longitude;
 				loc.owner = $rootScope.user_id;
 				loc.games = $scope.data.games.split(',');
+				loc.name = $scope.data.name;
 				loc.date = year+"-"+month+"-"+day+" "+time+":00:00";
 
 				CreateEventService.createEvent($rootScope.SERVER_LOCATION,loc).success(function(response){
@@ -121,7 +122,7 @@ appCtrl.service('CreateEventService', ['$http', function ($http) {
 		};
 
 		this.getMonthInt = function(){
-			return month;
+			return month+1;
 		}
 		
 		this.getYear = function () {
