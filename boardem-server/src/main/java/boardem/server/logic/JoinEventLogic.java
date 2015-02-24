@@ -74,6 +74,11 @@ public class JoinEventLogic
 					{
 						response = ResponseList.RESPONSE_USER_IN_EVENT;
 					}
+					//Check if the user is the owner of the event
+					else if(toUpdate.getOwner().equals(userId))
+					{
+						response = ResponseList.RESPONSE_USER_OWNS_EVENT;
+					}
 					else
 					{
 						//Write the data to Firebase
@@ -87,7 +92,7 @@ public class JoinEventLogic
 						User user = User.getUserFromSnapshot(userSnapshot);
 						user.getEvents().add(toUpdate.getId());
 						
-						Map<String, List<String>> userData = new HashMap<String, List<String>>();
+						Map<String, Object> userData = new HashMap<String, Object>();
 						userData.put("events", user.getEvents());
 						
 						FirebaseHelper.writeData(joinEventRef, data);

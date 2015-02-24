@@ -14,4 +14,5 @@ public class ResponseList
 	public static final BoardemResponse RESPONSE_USER_IN_EVENT = new BoardemResponse(5, "User is already in the event");
 	public static final BoardemResponse RESPONSE_USER_NOT_IN_EVENT = new BoardemResponse(6, "User is not in the event");
 	public static final BoardemResponse RESPONSE_FB_ID_USED = new BoardemResponse(7, "Facebook ID is already in use");
+	public static final BoardemResponse RESPONSE_USER_OWNS_EVENT = new BoardemResponse(8, "User is the owner of this event");
 }
