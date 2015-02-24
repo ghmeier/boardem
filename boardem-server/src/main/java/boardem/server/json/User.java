@@ -122,8 +122,8 @@ public class User
 		user.setPictureUrl((String) map.get("picture_url"));
 		
 		//Just in case the value is not present in the database
-		Integer tmp = (Integer) map.get("events_created");
-		user.setEventsCreated(tmp == null ? 0 : tmp);
+		Long tmp = (Long) map.get("events_created");
+		user.setEventsCreated((int) (tmp == null ? 0 : tmp));
 		
 		List<String> eventList = (List<String>) map.get("events");
 		if(eventList != null)
