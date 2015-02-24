@@ -1,9 +1,23 @@
 <ion-view view-title="Event">
   <ion-content>
-    <h1>{{event.owner}}</h1>
-    <h1>{{event.date}}</h1>
-    <h1>{{event.event_id}}</h1>
-    <h1>{{event.lat}},{{event.lng}}</h1>
-    <h1>{{event.games}}</h1>
+    <div class="list">
+    	<div class="card">
+    		<div class="item item-divider">
+    			Owner
+    		</div>
+    		<div class="item item-avatar">
+		         <img src="{{owner.picture_url}}"/>
+		        <h2>{{owner.display_name}}</h2>
+		        <p>@{{owner.username}}</p>
+        	</div>
+        </div>
+        <div class="list" >
+    		<div class="item">{{event.date}}</div>
+    		<div class="item">Event Id: {{event.event_id}}</div>
+    		<div class="item">Location: {{event.lat}},{{event.lng}}</div>
+    		<div class="item item-divider">Games</div>
+    		<div class="item" ng-repeat="id in event.games track by $index">{{id}}</div>
+    	</div>
+    </div>
   </ion-content>
 </ion-view>

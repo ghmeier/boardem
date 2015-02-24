@@ -1,14 +1,11 @@
-appCtrl.controller('profileCtrl',function($rootScope,$window,$ionicPopup,$http, $scope, $state){
-	$scope.username = "";
-	$scope.display_name = "";
-	$scope.picture_url = "";
-	$http.get($rootScope.SERVER_LOCATION + "users/"+$window.localStorage['id']).
-	    success(function(data, status, headers, config) {
+appCtrl.controller('profileCtrl',function($rootScope,$window,$ionicPopup,$http, $scope, $state,UserService){
+	$scope.user={};
+	$scope.url = $rootScope.SERVER_LOCATION + "users/"+$window.localStorage['id'];
+	UserService.getUser($scope.url).
+	    success(function(data) {
 	        if (data.code === 0){
 	        	console.log(data.extra);
-	        	$scope.username = data.extra.username;
-	        	$scope.display_name = data.extra.display_name;
-	        	$scope.picture_url = data.extra.picture_url;
+	        	$scope.user = data.extra;
 	      }else {
 	        $ionicPopup.alert({
 	          title:"Login Error",
@@ -16,7 +13,7 @@ appCtrl.controller('profileCtrl',function($rootScope,$window,$ionicPopup,$http, 
 	        });
 	      }
 	    }).
-	    error(function(data, status, headers, config) {
+	    error(function(data) {
 	      $ionicPopup.alert({
 	            title: "Login Error",
 	            template: "Unable to Communicate with server."
@@ -24,3 +21,11 @@ appCtrl.controller('profileCtrl',function($rootScope,$window,$ionicPopup,$http, 
 	    });
 
 });
+
+appCtrl.service("UserService",['$http',function($http){
+
+
+	this.getUser = function(url){
+		return $http.get(url);
+	}
+}]);

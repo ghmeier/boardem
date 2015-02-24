@@ -1,5 +1,4 @@
-appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, RestService, SearchCriteria) {
-	
+appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, RestService, SearchCriteria) {	
   
 	$scope.day = SearchCriteria.getDay();
 	$scope.month = SearchCriteria.getMonth();
