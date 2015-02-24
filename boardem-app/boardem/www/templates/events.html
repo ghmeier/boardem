@@ -1,4 +1,4 @@
-<ion-view view-title="Events">
+<ion-view view-title="Events" ng-init="loadEvents()">
   <ion-content>
     <div class="list ">
 
@@ -10,8 +10,13 @@
 				<p>{{event.time.days}} days {{event.time.hours}} hours</p>
 				<p>Games: {{event.games.join(", ")}}</p>
 	      	</ion-item>
-	      	<ion-item class="item tabs tabs-secondary tabs-icon-left">
-				<div class="tab-item balanced" on-tap="join(event.event_id)"><i class="icon ion-checkmark-circled"></i>&nbsp;Join</div>
+	      	<ion-item class="item tabs tabs-secondary tabs-icon-left" >
+				<div class="tab-item balanced" on-tap="join(event.event_id)" ng-show="event.canJoin && !event.isOwner">
+					<i class="icon ion-checkmark-circled"></i>&nbsp;Join!
+				</div>
+				<div class="tab-item assertive" on-tap="leave(event)" ng-show="!event.canJoin && !event.isOwner">
+                    <i class="icon ion-close-circled"></i>&nbsp;Leave
+                </div>
 	      	</ion-item>
 
 	    </div>

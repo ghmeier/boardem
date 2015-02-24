@@ -1,6 +1,6 @@
 var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 
-.controller('MenuCtrl', function($rootScope, $scope, $ionicHistory, SearchCriteria, RestService) {
+.controller('MenuCtrl', function($rootScope, $scope, $ionicHistory, $window, SearchCriteria, RestService) {
 
 	$scope.day = SearchCriteria.getDay();
 	$scope.month = SearchCriteria.getMonth();
@@ -8,7 +8,7 @@ var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 	$scope.locationSearch = SearchCriteria.getLocationSearch();
 	
 	$ionicHistory.clearHistory();
-	
+
 	//Actions
 	$scope.changeDate = function(direction){
 			SearchCriteria.changeDateSearch(direction);

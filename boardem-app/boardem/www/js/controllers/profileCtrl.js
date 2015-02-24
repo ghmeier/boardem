@@ -1,10 +1,9 @@
-appCtrl.controller('profileCtrl',function($rootScope,$window,$ionicPopup,$http, $scope, $state,UserService){
+appCtrl.controller('profileCtrl',function($rootScope,$ionicPopup,$http, $scope, $state,UserService){
 	$scope.user={};
 
-	UserService.getUser($rootScope.SERVER_LOCATION,$window.localStorage['id']).
+	UserService.getUser($rootScope.SERVER_LOCATION,$rootScope.user_id).
 	    success(function(data) {
 	        if (data.code === 0){
-	        	console.log(data.extra);
 	        	$scope.user = data.extra;
 	      }else {
 	        $ionicPopup.alert({
