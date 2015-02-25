@@ -15,7 +15,6 @@ appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $ionicPopup
 
 						$scope.events.push(res.extra);
 						var num = $scope.events.length-1;
-
 						$scope.events[num].time = EventService.getTimeDifference(res.extra.date);
 						$scope.events[num].canJoin = EventService.isParticipant($rootScope.user_id,$scope.events[num]);
 						$scope.events[num].isOwner = EventService.isOwner($rootScope.user_id,$scope.events[num]);

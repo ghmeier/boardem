@@ -104,10 +104,10 @@ appCtrl.service('CreateEventService', ['$http', function ($http) {
 		this.changeEventTime = function(direction){
 			if (direction == 1 || direction === '1'){
 				time++;
-				time % 25;
+				if (time>24)time = 1;
 			}else{
 				time --;
-				if (time<0)time = 24
+				if (time<1)time = 24;
 			}
 		}
 		
