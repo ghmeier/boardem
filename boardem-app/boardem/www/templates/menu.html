@@ -44,16 +44,30 @@
       <h1 class="title">Search</h1>
     </ion-header-bar>
     <ion-content>
-			<h5>Location Distance: {{locationSearch}}</h5>
-			<br>
-			<div>
-			<h5>
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" ng-click="changeDate('2')"></button>
-			{{month}} {{day}} {{year}}
-			<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" ng-click="changeDate('1')"></button>
-			</h5>
+			<div class="card">
+			<div class="item item-divider">
+					Distance:
 			</div>
-			<br>
+			<div class="item row">
+					<div class="button-bar">
+						<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeLocationSearch('0')"></button>
+						<span style="margin-top:10px;">{{locationSearch}} km(s)</span>
+						<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeLocationSearch('1')"></button>
+					</div>
+			</div>
+			</div>
+			<div class="card">
+			<div class="item item-divider">
+					Event Day
+			</div>
+			<div class="item row">
+					<div class="button-bar">
+						<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeDate('2')"></button>
+						<span style="margin-top:10px;">{{month}} {{day}} {{year}}</span>
+						<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeDate('1')"></button>
+					</div>
+			</div>
+			</div>
       <!--<ion-list>
         <ion-item nav-clear menu-close href="#/app/search">
           Search

@@ -17,6 +17,11 @@ var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 			$scope.year = SearchCriteria.getYear();
 			//$rootScope.events = RestService.getEvents(($scope.month + " " + $scope.day + " " + $scope.year));
 	}
+	
+	$scope.changeLocationSearch = function(direction){
+			SearchCriteria.changeDistance(direction);
+			$scope.locationSearch = SearchCriteria.getLocationSearch();
+	}
 
 });
 
@@ -33,9 +38,10 @@ appCtrl.service('SearchCriteria', function () {
 		var monthString = monthsArray[dateObject.getMonth()];
 		var dayString = daysArray[dateObject.getDay()];
 	
-		var locationSearch = "1";
+		var locationSearch = 5;
 		var gameType = "all";
 		
+		/*Date based search features*/
 		this.changeDateSearch = function (direction) {
 					
 				var newDateObject = new Date(year, month, day);
@@ -72,10 +78,25 @@ appCtrl.service('SearchCriteria', function () {
 		this.getYear = function () {
 				return year;
 		};
+		
+		/*Location based search features*/
+		this.changeDistance = function(direction){
+				if(direction == 1 || direction == "1") {
+					if(locationSearch<10)locationSearch++;
+					else if(locationSearch<30)locationSearch = locationSearch+5;
+					else if(locationSearch < 50) locationSearch = locationSearch+10;
+				}else{
+					if(locationSearch>30)locationSearch = locationSearch-10;
+					else if(locationSearch>10)locationSearch = locationSearch-5;
+					else if(locationSearch > 1) locationSearch--;
+				}
+		}
+		
 		this.getLocationSearch = function () {
 				
 				return locationSearch;
 		};
+		
 		
 });
 
