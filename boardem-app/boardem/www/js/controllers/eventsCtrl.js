@@ -5,7 +5,7 @@ appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $ionicPopup
 	$scope.year = SearchCriteria.getYear();
 	
 	$scope.loadEvents = function(){
-		$scope.events = EventService.loadEvents();
+		$rootScope.events = EventService.loadEvents();
 	};
 
 /*$ionicPlatform.ready(function(){
@@ -17,6 +17,7 @@ appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $ionicPopup
 	$scope.join = function(event_id){
 		EventService.joinEvent($rootScope.SERVER_LOCATION,event_id,$rootScope.user_id).success(function(res){
 			if (res.code == 0){
+				$scope.loadEvents();
 				$state.go("app.single",{eventId:event_id},{reload:true});
 			}else {
 				$ionicPopup.alert({
@@ -37,8 +38,8 @@ appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $ionicPopup
 			if (res.code == 0){
 				safeApply($scope,$rootScope,function(){
 					event.canJoin = true;
-				})
-				$scope.loadEvents();
+					$scope.loadEvents();
+				});				
 			}else {
 				$ionicPopup.alert({
 					title: "Failed to leave.",

@@ -42,6 +42,7 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
           template: "You joined the event!"
         }); 
         $scope.loadEvent();
+        $rootScope.events = EventService.loadEvents();
       }else {
         $ionicPopup.alert({
           title: "Failed to join.",
@@ -67,6 +68,7 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
           event.canJoin = true;
         })
         $scope.loadEvent();
+        $rootScope.events = EventService.loadEvents();
       }else {
         $ionicPopup.alert({
           title: "Failed to leave.",
