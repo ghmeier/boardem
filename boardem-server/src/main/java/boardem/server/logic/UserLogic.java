@@ -2,6 +2,7 @@ package boardem.server.logic;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -19,6 +20,8 @@ public class UserLogic {
 		
 		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
 		Firebase userRef = rootRef.child("users");
+
+		ArrayList<String> userIds = new ArrayList<String>();
 		
 		DataSnapshot userData = FirebaseHelper.readData(userRef);
 		
@@ -26,10 +29,16 @@ public class UserLogic {
 			return ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
 		}
 
-		//Map<String, Object> newPost = (Map<String, Object>) userData.getValue();
+		Map<String, HashMap> newPost = (Map<String, HashMap>) userData.getValue();
+
+		if (newPost!= null) {
+			Map<String, Object> usersMap = FirebaseHelper.convertToObjectMap(newPost, Object.class);
+			userIds.addAll(usersMap.keySet());
+		}
+
 
 		response = new BoardemResponse();
-		response.setExtra(userData.getValue());
+		response.setExtra(userIds);
 		return response;
 		
 	}
