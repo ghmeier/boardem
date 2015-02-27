@@ -37,7 +37,7 @@ public class UserLogic {
 		}
 
 
-		response = new BoardemResponse();
+		response = ResponseList.RESPONSE_SUCCESS;
 		response.setExtra(userIds);
 		return response;
 		
