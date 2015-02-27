@@ -16,29 +16,42 @@ public class UserLogic {
 
 	public static BoardemResponse getAllUsers()
 	{
+
+		//Set up new BordemResponse to be returned
 		BoardemResponse response = null;
 		
+		//Reference the rood Firebase and its child "users"
 		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
 		Firebase userRef = rootRef.child("users");
 
+		//Create an ArrayList to store the userIds in once we find them
 		ArrayList<String> userIds = new ArrayList<String>();
 		
+		//Read the data from the "users" table
 		DataSnapshot userData = FirebaseHelper.readData(userRef);
 		
+		//If no users exist in the database, return a response
 		if (userData == null){
 			return ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
-		}
+		} else {
 
-		Map<String, HashMap> newPost = (Map<String, HashMap>) userData.getValue();
+			//Create a new map to store the data from user so we can filter out the usernames later
+			Map<String, HashMap> newPost = (Map<String, HashMap>) userData.getValue();
 
-		if (newPost!= null) {
+			//Filter out usernames into a new map
 			Map<String, Object> usersMap = FirebaseHelper.convertToObjectMap(newPost, Object.class);
+
+			//Add all keys (which in this case are usernames) to the userIds ArrayList
 			userIds.addAll(usersMap.keySet());
 		}
 
-
+		//Return a successful response
 		response = ResponseList.RESPONSE_SUCCESS;
+
+		//Return the list of usernames
 		response.setExtra(userIds);
+
+		//Return the response
 		return response;
 		
 	}
