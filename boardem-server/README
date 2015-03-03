@@ -51,3 +51,12 @@ Date format = "yyy-MM-dd HH:mm:ss"
 -For leaving events
 	*eid is the event id
 	*user_id is the ID of the user leaving - Query param
+	
+/search
+-For searching through events
+-Returns a BoardemResponse with the extra field containing a list of matching events
+-Search parameters
+	-user_lat - Latitude of the user
+	-user_lng - Longitude of the user 
+	//Everything after this is an optional parameter
+	-dist - Max distance an event can be from the user

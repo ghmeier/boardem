@@ -22,8 +22,6 @@ import boardem.server.logic.JoinEventLogic;
 import boardem.server.logic.LeaveEventLogic;
 import boardem.server.logic.UpdateEventLogic;
 
-import com.google.common.base.Optional;
-
 
 @Path("/event")
 @Consumes(MediaType.APPLICATION_JSON)
