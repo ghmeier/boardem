@@ -94,6 +94,26 @@ public class SearchLogic
 					}
 				}
 				
+				//Check the distance
+				if(dist.isPresent())
+				{
+					final double maxDist = dist.get();
+					
+					double eventLat = event.getLatitude();
+					double eventLng = event.getLongitude();
+					
+					//Calculate the distance between the event and the user
+					double dLat = Math.abs(eventLat - userLat);
+					double dLng = Math.abs(eventLng - userLng);
+					double sqrDLat = dLat * dLat;
+					double sqrDLng = dLng * dLng;
+					
+					if(Math.sqrt(sqrDLat + sqrDLng) > maxDist)
+					{
+						continue;
+					}
+				}
+				
 				eventIds.add(eventId);
 			}
 		}
