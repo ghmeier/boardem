@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.User;
 import boardem.server.logic.UserLogic;
+import boardem.server.logic.UserContactsLogic;
 
 
 
@@ -48,9 +49,9 @@ public class UsersResource
 	 */
 	@GET
 	@Path("{uid}/contacts")
-	public Response listContacts(User user)
+	public Response listContacts(@PathParam("uid") String userId)
 	{
-		return null;
+		return Response.ok(UserContactsLogic.getUserContacts(userId)).build();
 	}
 
 	/**
