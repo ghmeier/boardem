@@ -2,7 +2,7 @@ This document gives information about the endpoints in the dropwizard server.
 
 curl -H "Content-Type: application/json" -X POST -d data http://localhost:8080/endpoint
 
-Date format = "yyy-MM-dd HH:mm:ss"
+Date format = "yyyy-MM-dd HH:mm:ss"
 
 /signup
 -Pass in user information
@@ -54,9 +54,11 @@ Date format = "yyy-MM-dd HH:mm:ss"
 	
 /search
 -For searching through events
--Returns a BoardemResponse with the extra field containing a list of matching events
+-Returns a BoardemResponse with the extra field containing a list of the IDs of matching events
 -Search parameters
 	-user_lat - Latitude of the user
-	-user_lng - Longitude of the user 
+	-user_lng - Longitude of the user
+	-user_id - User's ID 
 	//Everything after this is an optional parameter
 	-dist - Max distance an event can be from the user
+	-date - Date the event occurs on - Should be specified as yyyy-MM-dd

@@ -15,6 +15,8 @@ import com.firebase.client.DataSnapshot;
  */
 public class Event
 {
+	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	
 	private String id;
 	private String name;
 	private double lat;
@@ -85,7 +87,7 @@ public class Event
 		Date d = null;
 		try
 		{
-			d = new SimpleDateFormat("yy-MM-dd HH:mm:ss").parse(date);
+			d = new SimpleDateFormat(DATE_FORMAT).parse(date);
 		}
 		catch (ParseException e)
 		{
@@ -98,7 +100,12 @@ public class Event
 	@JsonProperty("date")
 	public String getDate()
 	{
-		return new SimpleDateFormat("yy-MM-dd HH:mm:ss").format(this.date);
+		return new SimpleDateFormat(DATE_FORMAT).format(date);
+	}
+	
+	public Date getDateObject()
+	{
+		return date;
 	}
 	
 	@JsonProperty("owner")

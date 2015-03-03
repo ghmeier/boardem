@@ -40,11 +40,15 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		final SignInResource signIn = new SignInResource();
 		final EventResource event = new EventResource();
 		final UsersResource users = new UsersResource();
+		final SearchResource search = new SearchResource();
+		
 		configureCors(env);
+		
 		env.jersey().register(signUp);
 		env.jersey().register(signIn);
 		env.jersey().register(event);
 		env.jersey().register(users);
+		env.jersey().register(search);
 	}
 	
 	  private void configureCors(Environment environment) {

@@ -22,8 +22,8 @@ public class SearchResource
 	 */
 	@GET
 	public Response searchEvents(@QueryParam("user_lat") double userLat, @QueryParam("user_lng") double userLng,
-			@QueryParam("dist") Optional<Double> dist)
+			@QueryParam("user_id") String userId, @QueryParam("dist") Optional<Double> dist, @QueryParam("date") Optional<String> dateString)
 	{
-		return Response.ok(SearchLogic.searchEvents(userLat, userLng, dist)).header("Access-Control-Allow-Origin", "*").build();
+		return Response.ok(SearchLogic.searchEvents(userLat, userLng, userId, dist, dateString)).header("Access-Control-Allow-Origin", "*").build();
 	}
 }
