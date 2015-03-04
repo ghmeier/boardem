@@ -12,8 +12,6 @@ import boardem.server.json.ResponseList;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
-import com.google.common.base.Optional;
-
 /**
  * Logic for updating an event's attributes
  */

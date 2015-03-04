@@ -1,18 +1,15 @@
 package boardem.server.resource;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import boardem.server.json.BoardemResponse;
 import boardem.server.json.User;
-import boardem.server.logic.UserLogic;
 import boardem.server.logic.UserContactsLogic;
+import boardem.server.logic.UserLogic;
 
 
 

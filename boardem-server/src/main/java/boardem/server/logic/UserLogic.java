@@ -36,6 +36,7 @@ public class UserLogic {
 		} else {
 
 			//Create a new map to store the data from user so we can filter out the usernames later
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			Map<String, HashMap> newPost = (Map<String, HashMap>) userData.getValue();
 
 			//Filter out usernames into a new map
@@ -66,6 +67,7 @@ public class UserLogic {
 		
 		DataSnapshot idData = FirebaseHelper.readData(idRef);
 		
+		@SuppressWarnings("unchecked")
 		Map<String,String> username = (Map<String,String>)idData.getValue();
 		if (username == null){
 			return ResponseList.RESPONSE_USER_DOES_NOT_EXIST;

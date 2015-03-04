@@ -29,6 +29,7 @@ public class UserContactsLogic {
 			return ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
 		}
 
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		Map<String, HashMap> contactIdMap = (Map<String, HashMap>) contactData.getValue();
 
 		if (contactIdMap != null) {
