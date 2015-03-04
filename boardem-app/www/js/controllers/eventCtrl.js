@@ -1,4 +1,4 @@
-appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $state, $ionicPopup, EventService,UserService) {
+appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $state, UtilService, EventService,UserService) {
 
   $scope.loadEvent = function(){
     $scope.event = {};
@@ -37,49 +37,31 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
   $scope.join = function(event_id){
       EventService.joinEvent($rootScope.SERVER_LOCATION,event_id,$rootScope.user_id).success(function(res){
       if (res.code == 0){
-        $ionicPopup.alert({
-          title: "Success!",
-          template: "You joined the event!"
-        }); 
+        UtilService.popup("Joined","You joined the event!");
         $scope.loadEvent();
         $rootScope.events = EventService.loadEvents();
       }else {
-        $ionicPopup.alert({
-          title: "Failed to join.",
-          template: "Error: "+res.message
-        });       
+        UtilService.popup("Failed to join.","Error: "+res.message);     
       }
     }).error(function(error){
-      $ionicPopup.alert({
-        title: "Failed to join.",
-        template: "Error: "+error
-      });
+      UtilService.popup("Failed to join.","Error: "+error);
     });
   };
 
   $scope.leave = function(event){
       EventService.leaveEvent($rootScope.SERVER_LOCATION,event.event_id,$rootScope.user_id).success(function(res){
       if (res.code == 0){
-        $ionicPopup.alert({
-          title: "Success!",
-          template: "You left the event!"
-        }); 
+        UtilService.popup("Success!","You left the event!");
         safeApply($scope,$rootScope,function(){
           event.canJoin = true;
         })
         $scope.loadEvent();
         $rootScope.events = EventService.loadEvents();
       }else {
-        $ionicPopup.alert({
-          title: "Failed to leave.",
-          template: "Error: "+res.message
-        });       
+        UtilService.popup("Failed to leave.","Error: "+res.message);
       }
     }).error(function(error){
-      $ionicPopup.alert({
-        title: "Failed to leave.",
-        template: "Error: "+error
-      });
+      UtilService.popup("Failed to leave.","Error: "+error);
     });
   };
 });

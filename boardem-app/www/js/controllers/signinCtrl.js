@@ -1,4 +1,4 @@
-appCtrl.controller("signinCtrl",function($window,$rootScope,$ionicPopup, $scope,$state,$http,$firebase,$firebaseAuth){
+appCtrl.controller("signinCtrl",function($window,$rootScope,$scope,$state,$http,$firebase,$firebaseAuth){
 
 	$scope.toEvents = function(){
 		$state.transitionTo("app.events");
@@ -23,17 +23,11 @@ appCtrl.controller("signinCtrl",function($window,$rootScope,$ionicPopup, $scope,
 	          $window.localStorage.setItem('id', id);
 	          callback();
 	      }else {
-	        $ionicPopup.alert({
-	          title:"Login Error",
-	          template:data.message,
-	        });
+	      	UtilService.popup("Login Error",data.message);
 	      }
 	    }).
 	    error(function(data, status, headers, config) {
-	      $ionicPopup.alert({
-	            title: "Login Error",
-	            template: "Unable to Communicate with server."
-	          });
+	    	UtilService.popup("Login Error","Unable to communicate with server.");
 	    });
 	};
 
@@ -44,10 +38,7 @@ appCtrl.controller("signinCtrl",function($window,$rootScope,$ionicPopup, $scope,
 		authRef.$authWithOAuthPopup("facebook").then(function(authData){
 			callback(authData,username);
 		}).catch(function(error){
-			$ionicPopup.alert({
-          		title: "Login Error",
-          		template: error
-        	});
+			UtilService.popup("Login Error",error);
 	  	});
 	}
 
