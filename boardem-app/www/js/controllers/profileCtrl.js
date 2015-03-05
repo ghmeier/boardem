@@ -1,4 +1,4 @@
-appCtrl.controller('profileCtrl',function($rootScope,$ionicPopup,$http, $scope, $state,UserService){
+appCtrl.controller('profileCtrl',function($rootScope,$http, $scope, $state,UtilService, UserService){
 	$scope.user={};
 
 	UserService.getUser($rootScope.SERVER_LOCATION,$rootScope.user_id).
@@ -6,17 +6,11 @@ appCtrl.controller('profileCtrl',function($rootScope,$ionicPopup,$http, $scope, 
 	        if (data.code === 0){
 	        	$scope.user = data.extra;
 	      }else {
-	        $ionicPopup.alert({
-	          title:"Login Error",
-	          template:data.message,
-	        });
+	      	UtilService.popup("Login Error",data.message);
 	      }
 	    }).
 	    error(function(data) {
-	      $ionicPopup.alert({
-	            title: "Login Error",
-	            template: "Unable to Communicate with server."
-	          });
+	    	UtilService.popup("Login Error","Unable to Communicate with server.");
 	    });
 
 });

@@ -85,7 +85,8 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
     url: "/browse",
     views: {
       'menuContent': {
-        templateUrl: "templates/browse.html"
+        templateUrl: "templates/browse.html",
+        controller:"BrowseCtrl"
       }
     }
   })
@@ -117,10 +118,17 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
       }
     }
   })
+  .state("app.contacts",{
+    url: "/contacts",
+    view: {
+      'menuContent':{
+        templateUrl:"templates/contacts.html",
+        controller:'ContactsCtrl'
+      }
+    }
+  })
   $ionicConfigProvider.views.maxCache(5);
   $ionicConfigProvider.tabs.position('bottom');
-  $httpProvider.defaults.headers.common["Access-Control-Allow-Origin"] = "http://localhost:8100";
 
-  // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/auth');
 });

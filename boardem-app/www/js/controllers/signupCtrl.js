@@ -1,4 +1,4 @@
-appCtrl.controller("signupCtrl",function($window,$scope,$rootScope,$http,$state,$ionicPopup,$firebaseAuth){
+appCtrl.controller("signupCtrl",function($window,$scope,$rootScope,$http,$state,$firebaseAuth,UtilService){
 	$scope.data = {username : ''};
 
 	$scope.toEvents = function(){
@@ -7,10 +7,7 @@ appCtrl.controller("signupCtrl",function($window,$scope,$rootScope,$http,$state,
 
 	$scope.toFacebook = function(){
 		if ($scope.data.username===""){
-			$ionicPopup.alert({
-          		title: "Login Error",
-          		template: "We'll need a username."
-        	});
+			UtilService.popup("Login Error","We'll need a username.");
 		}else{
 			var response = $scope.facebookLogin($scope.data.username,$scope.fbCallback);
 		}
@@ -28,17 +25,11 @@ appCtrl.controller("signupCtrl",function($window,$scope,$rootScope,$http,$state,
 			  		$window.localStorage.setItem('id', id);
 			  		$scope.toEvents();
 				}else {
-					$ionicPopup.alert({
-		          		title: "Login Error",
-		          		template: data.message,
-		        	});					
+					UtilService.popup("Login Error",data.message);				
 				}
 			}).
 			error(function(data, status, headers, config) {
-				$ionicPopup.alert({
-	          		title: "Login Error",
-	          		template: "Unable to Communicate with server."
-	        	});
+				UtilService.popup("Login Error","Unable to Communicate with server.");
 			});
 	}
 
@@ -49,10 +40,7 @@ appCtrl.controller("signupCtrl",function($window,$scope,$rootScope,$http,$state,
 		authRef.$authWithOAuthPopup("facebook").then(function(authData){
 			callback(authData,username);
 		}).catch(function(error){
-			$ionicPopup.alert({
-          		title: "Login Error",
-          		template: error
-        	});
+			UtilService.popup("Login Error",error);
 	  	});
 	}
 });

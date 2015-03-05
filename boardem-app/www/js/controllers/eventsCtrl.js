@@ -1,4 +1,4 @@
-appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $ionicPopup, $state, $ionicPlatform, RestService, SearchCriteria,EventService,UserService) {	
+appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $state, $ionicPlatform, UtilService, RestService, SearchCriteria,EventService,UserService) {	
   
 	$scope.day = SearchCriteria.getDay();
 	$scope.month = SearchCriteria.getMonth();
@@ -8,28 +8,17 @@ appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $ionicPopup
 		$rootScope.events = EventService.loadEvents();
 	};
 
-/*$ionicPlatform.ready(function(){
-		$scope.loadEvents();
-	});
-*/
-	//$scope.loadEvents();
-
 	$scope.join = function(event_id){
 		EventService.joinEvent($rootScope.SERVER_LOCATION,event_id,$rootScope.user_id).success(function(res){
 			if (res.code == 0){
+				UtilService.popup("Joined","Joined the event");
 				$scope.loadEvents();
 				$state.go("app.single",{eventId:event_id},{reload:true});
 			}else {
-				$ionicPopup.alert({
-					title: "Failed to join.",
-					template: "Error: "+res.message
-				});				
+				UtilService.popup("Failed to join.","Error "+res.message);	
 			}
 		}).error(function(error){
-			$ionicPopup.alert({
-				title: "Failed to join.",
-				template: "Error: "+error
-			});
+			UtilService.popup("Failed to join.","Error: "+error);
 		});
 	};
 
@@ -41,16 +30,10 @@ appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $ionicPopup
 					$scope.loadEvents();
 				});				
 			}else {
-				$ionicPopup.alert({
-					title: "Failed to leave.",
-					template: "Error: "+res.message
-				});				
+				UtilService.popup("Failed to leave.","Error: "+res.message);		
 			}
 		}).error(function(error){
-			$ionicPopup.alert({
-				title: "Failed to leave.",
-				template: "Error: "+error
-			});
+			UtilService.popup("Failed to leave.","Error: "+error);
 		});
 	};
   
