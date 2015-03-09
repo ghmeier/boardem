@@ -1,0 +1,44 @@
+<ion-view view-title="Event" ng-init="loadEvent()">
+  <ion-content>
+    <div class="list">
+    	<div class="card">
+    		<div class="item item-divider">
+    			{{event.name}}
+    		</div>
+    		<div class="item item-avatar">
+		         <img src="{{owner.picture_url}}"/>
+		        <h2>{{owner.display_name}}</h2>
+		        <p>@{{owner.username}}</p>
+        	</div>
+        
+            <div class="list" >
+        		<div class="item">{{date.days}} days {{date.hours}} hours away</div>
+                <div class="item item-button-right">
+                    Distance: {{event.distance}}km     
+                    <a class="button button-positive" href="geo:{{event.lat}},{{event.lng}}">
+                       Open In Maps
+                    </a>
+                </div>
+        		<div class="item item-divider">Games</div>
+        		<div class="item" ng-repeat="id in event.games track by $index">{{id}}</div>
+                <div class="item" ng-show="!event.games.length">No games.</div>
+                <div class="item item-divider">Who's Going</div>
+                <div class="item item-avatar" ng-repeat="user in event.participant_profile">
+                    <img src="{{user.picture_url}}"/>
+                    <h2>{{user.display_name}}</h2>
+                    <p>@{{user.username}}</p>
+                </div>
+                <div class="item" ng-show="!event.participants.length">No participants, yet.</div>
+                <ion-item class="item tabs tabs-secondary tabs-icon-left" >
+                    <div class="tab-item balanced" on-tap="join(event.event_id)" ng-show="event.canJoin && !event.isOwner">
+                        <i class="icon ion-checkmark-circled"></i>&nbsp;Join
+                    </div>
+                    <div class="tab-item assertive" on-tap="leave(event)" ng-show="!event.canJoin && !event.isOwner">
+                        <i class="icon ion-close-circled"></i>&nbsp;Leave
+                    </div>
+                </ion-item>
+        	</div>
+        </div>
+    </div>
+  </ion-content>
+</ion-view>
