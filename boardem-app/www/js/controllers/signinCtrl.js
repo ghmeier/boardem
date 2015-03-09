@@ -1,4 +1,4 @@
-appCtrl.controller("signinCtrl",function($window,$rootScope,$scope,$state,$http,$firebase,$firebaseAuth){
+appCtrl.controller("signinCtrl",function($window,$rootScope,$scope,$state,$http,$firebase,$firebaseAuth,UtilService){
 
 	$scope.toEvents = function(){
 		$state.transitionTo("app.events");

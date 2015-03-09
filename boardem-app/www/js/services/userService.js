@@ -7,4 +7,9 @@ appCtrl.service("UserService",['$http',function($http){
 	this.getUser = function(base_url,userid){
 		return $http.get(base_url+endpoint+userid);
 	}
+	this.getUsers = function(base_url){
+		return $http.get(base_url+endpoint).success(function(res){
+			return res.extra;
+		});
+	}
 }]);

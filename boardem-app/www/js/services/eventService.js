@@ -1,7 +1,7 @@
 /*-----------------------------------------------------
 								EVENT SERVICE
 -----------------------------------------------------*/
-appCtrl.service('EventService', ['$rootScope','$http','RestService','UserService', function ($rootScope,$http,RestService,UserService) {
+appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService','UserService', function ($ionicPopup,$rootScope,$http,RestService,UserService) {
 	
         var endpoint = 'event/';
 				
