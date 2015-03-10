@@ -42,13 +42,32 @@ public class UsersResource
 	
 	/**
 	 * Returns list of friends that the user has
-	 * @return THe user's friends
+	 * @return The user's friends
 	 */
 	@GET
 	@Path("{uid}/contacts")
-	public Response listContacts(@PathParam("uid") String userId)
+	public Response getContacts(@PathParam("uid") String userId)
 	{
 		return Response.ok(UserContactsLogic.getUserContacts(userId)).build();
+	}
+
+	/**
+	 * Adds a user ID to list of friends that the user has
+	 * @return Boardem response (success or no)
+	 */
+
+	@POST
+	@Path("{uid}/contacts/add")
+	public Response addContact(@PathParam("uid") String userId)
+	{
+		return Response.ok(UserContactsLogic.addUserContacts(userId)).build();
+	}
+
+	@DELETE
+	@Path("{uid}/contacts/remove")
+	public Response removeContact(@PathParam("uid") String userId)
+	{
+		return Response.ok(UserContactsLogic.removeUserContact(userId)).build();
 	}
 
 	/**
