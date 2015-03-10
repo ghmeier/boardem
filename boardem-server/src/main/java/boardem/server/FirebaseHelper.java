@@ -11,6 +11,8 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 
 /**
  * Contains static methods for writing/reading data from Firebase
@@ -134,5 +136,36 @@ public class FirebaseHelper
 		}
 		
 		return map;
+	}
+	
+	/**
+	 * Writes location data using the GeoFire library
+	 * @param geofire Location to write to
+	 * @param loc Location to write
+	 * @param tag Tag to use to identify location
+	 */
+	public static void writeLocation(GeoFire geofire, GeoLocation loc, String tag)
+	{
+		final CountDownLatch writeLatch = new CountDownLatch(1);
+		
+		geofire.setLocation(tag, loc, new GeoFire.CompletionListener()
+		{
+			@Override
+			public void onComplete(String arg0, FirebaseError arg1)
+			{
+				//Notify the write completed
+				writeLatch.countDown();
+			}
+		});
+		
+		//Wait for the write to complete
+		try
+		{
+			writeLatch.await();
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

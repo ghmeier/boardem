@@ -22,7 +22,7 @@ public class UserLogic {
 		
 		//Reference the rood Firebase and its child "users"
 		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
-		Firebase userRef = rootRef.child("users");
+		Firebase userRef = rootRef.child("facebook_id");
 
 		//Create an ArrayList to store the userIds in once we find them
 		ArrayList<String> userIds = new ArrayList<String>();

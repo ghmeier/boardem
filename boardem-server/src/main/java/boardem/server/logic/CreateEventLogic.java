@@ -13,6 +13,8 @@ import boardem.server.json.User;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 
 public class CreateEventLogic
 {
@@ -23,6 +25,9 @@ public class CreateEventLogic
 		
 		Firebase rootRef = new Firebase("https://boardem.firebaseio.com");
 		Firebase eventsRef = rootRef.child("events");
+		
+		GeoFire geoFire = new GeoFire(rootRef.child("geofire"));
+		FirebaseHelper.writeLocation(geoFire, new GeoLocation(event.getLatitude(), event.getLongitude()), event.getId());
 		
 		DataSnapshot eventData = FirebaseHelper.readData(eventsRef);
 		

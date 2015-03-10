@@ -1,8 +1,11 @@
 package boardem.server.resource;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -42,13 +45,32 @@ public class UsersResource
 	
 	/**
 	 * Returns list of friends that the user has
-	 * @return THe user's friends
+	 * @return The user's friends
 	 */
 	@GET
 	@Path("{uid}/contacts")
-	public Response listContacts(@PathParam("uid") String userId)
+	public Response getContacts(@PathParam("uid") String userId)
 	{
 		return Response.ok(UserContactsLogic.getUserContacts(userId)).build();
+	}
+
+	/**
+	 * Adds a user ID to list of friends that the user has
+	 * @return Boardem response (success or no)
+	 */
+
+	@POST
+	@Path("{uid}/contacts/add")
+	public Response addContact(@PathParam("uid") String userId, @QueryParam("fid") String friendId)
+	{
+		return Response.ok(UserContactsLogic.addUserContact(userId, friendId)).build();
+	}
+
+	@DELETE
+	@Path("{uid}/contacts/remove")
+	public Response removeContact(@PathParam("uid") String userId, @QueryParam("fid") String friendId)
+	{
+		return Response.ok(UserContactsLogic.removeUserContact(userId, friendId)).build();
 	}
 
 	/**
