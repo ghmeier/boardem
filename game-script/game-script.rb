@@ -1,37 +1,31 @@
 #!/usr/bin/ruby
-load 'gifasent-util.rb'
+require 'gifasent-util.rb'
 
 require 'uri'
 require 'rubygems'
 require 'json'
 require 'firebase'
 
-base_uri = 'https://boardem.firebaseio.com/'
-firebase = Firebase::Client.new(base_uri)
+base_uri = 'https://boardem.firebaseio.com/games/'
 
-$i = 1
+$i = 101
 $num = 120120
-number_entries = 5000
-begin
-	if number_entries < 5000
-		uri = URI("http://bgg-json.azurewebsites.net/thing/"+ $i)
+
+while $i < 500 do
+		uri = URI("http://bgg-json.azurewebsites.net/thing/#{$i}")
 		response = getResponse(uri, '')
-
-		game_id = response['gameId']
 		game_name = response['name']
-		game_description = response['description']
-		game_image = response['thumbnail']
-		game_players = response['minPlayers'] + " - " + response['maxPlayers']
-		game_playingtime = response['playingTime']
-		game_rating = response['averageRating']
-
-		if game_rating > 7 
-			firebase_response = firebase.push(game_name, { :id => game_id})
-			puts firebase_response.success?
-			number_entries += 1
+		if (!game_name.nil?)
+			game_name.gsub!(/[^0-9A-Za-z]/, '')
+			game_uri = URI(base_uri+game_name+".json")
+			game_data = JSON.dump(response)
+			putResponse(game_uri,game_data)
+			print "#{$i} "
+		else
+			sleep 10
 		end
-	end
 	$i+=1
+	sleep 1
 end
-
+puts $i
 puts "Script Finished"

@@ -7,14 +7,16 @@ appCtrl.service("UserService",['$http',function($http){
 	this.getUser = function(base_url,userid){
 		return $http.get(base_url+endpoint+userid);
 	}
+
 	this.getUsers = function(base_url){
 		return $http.get(base_url+endpoint);
 	}
+
 	this.getUserDetail = function(base_url,skipId){
 		var self = this;
 		var userDetails = [];
 		this.getUsers(base_url).success(function(res){
-			var users = ["10200279883396495","1085567091470446","932855856734246"];
+			var users = res.extra;
 			
 			for (id in users){
 				if (users[id] != skipId){
@@ -25,5 +27,9 @@ appCtrl.service("UserService",['$http',function($http){
 			}
 		});
 		return userDetails;
+	}
+
+	this.addContact(base_url,user1,user2){
+		
 	}
 }]);
