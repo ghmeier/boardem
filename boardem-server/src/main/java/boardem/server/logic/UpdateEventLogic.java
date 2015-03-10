@@ -11,6 +11,8 @@ import boardem.server.json.ResponseList;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 
 /**
  * Logic for updating an event's attributes
@@ -71,6 +73,11 @@ public class UpdateEventLogic
 			data.put("games", event.getGames());
 			
 			FirebaseHelper.writeData(ref, data);
+			GeoFire geofire = new GeoFire(new Firebase("https://boardem.firebaseio.com/geofire"));
+			
+			//Write the updated location data
+			GeoLocation loc = new GeoLocation(event.getLatitude(), event.getLongitude());
+			FirebaseHelper.writeLocation(geofire, loc, eventId);
 			
 			response = ResponseList.RESPONSE_SUCCESS;
 		}
