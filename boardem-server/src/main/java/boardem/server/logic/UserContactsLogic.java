@@ -46,4 +46,18 @@ public class UserContactsLogic {
 		
 	}
 
+	public static BoardemResponse addUserContact(String user_id, String friend_id)
+	{
+		BoardemResponse response = null;
+
+		return response;
+	}
+
+	public static BoardemResponse removeUserContact(String user_id, String friend_id)
+	{
+		BoardemResponse response = null;
+		
+		return response;
+	}
+
 }
