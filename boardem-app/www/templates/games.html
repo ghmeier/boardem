@@ -1,0 +1,17 @@
+<ion-view view-title="Games">
+  <ion-content>
+    	<div class="list card" ng-repeat="game in games" on-tap="toGame('{{game.id}}')">
+    		<div class="item item-avatar" >
+		        <img src="{{game.image}}" style="border-radius:5%"/>
+		        <h2>{{game.name}}</h2>
+		        <p>{{game.minPlayers}}-{{game.maxPlayers}} players</p>
+		        <p>~{{game.playingTime}} minute play time</p>
+		        <p>
+				    {{game.averageRating.toFixed(1)}}/10
+			  </p>
+        	</div>
+        </div>
+        </div>
+
+  </ion-content>
+</ion-view>

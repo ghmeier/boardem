@@ -8,10 +8,10 @@ require 'firebase'
 
 base_uri = 'https://boardem.firebaseio.com/games/'
 
-$i = 101
+$i = 864
 $num = 120120
 
-while $i < 500 do
+while $i < 1000 do
 		uri = URI("http://bgg-json.azurewebsites.net/thing/#{$i}")
 		response = getResponse(uri, '')
 		game_name = response['name']

@@ -29,7 +29,9 @@ appCtrl.service("UserService",['$http',function($http){
 		return userDetails;
 	}
 
-	this.addContact(base_url,user1,user2){
-		
+	this.addContact = function(base_url,user1,user2){
+		var self =this;
+
+		$http.post(base_url+"/"+user1 +"/contacts")
 	}
 }]);

@@ -109,6 +109,24 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
       }
     }
   })
+  .state('app.games', {
+    url: "/games",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/games.html",
+        controller: 'GamesCtrl'
+      }
+    }
+  })
+  .state('app.game', {
+    url: "/game/:gameId",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/game.html",
+        controller: 'GameCtrl'
+      }
+    }
+  }) 
 	.state('app.create', {
     url: "/event/create",
     views: {
@@ -126,7 +144,7 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
         controller:'ContactsCtrl'
       }
     }
-  })
+  });
   $ionicConfigProvider.views.maxCache(5);
   $ionicConfigProvider.tabs.position('bottom');
 

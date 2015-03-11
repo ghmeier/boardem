@@ -1,0 +1,16 @@
+<ion-view view-title="{{game.name}}">
+  <ion-content>
+    	<div class="list card" >
+ 
+    		<div class="item item-text-wrap item-thumbnail-left" on-tap="toGame('{{game.id}}')">
+    			<img src="{{game.image}}" style="border-radius:5%"/>	        
+		        <h2>{{game.name}}</h2>
+		        <p>{{game.minPlayers}}-{{game.maxPlayers}} players</p>
+		        <p>~{{game.playingTime}} minute play time</p>
+		        <p>{{game.averageRating.toFixed(1)}}/10</p>
+		        <p class="text-wrap">{{game.description}}</p>
+        	</div>
+        </div>
+
+  </ion-content>
+</ion-view>
