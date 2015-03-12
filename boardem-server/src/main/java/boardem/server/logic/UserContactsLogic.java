@@ -1,16 +1,16 @@
 package boardem.server.logic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
-
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
 
 import boardem.server.BoardemApplication;
 import boardem.server.FirebaseHelper;
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.ResponseList;
+
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
 
 public class UserContactsLogic {
 
@@ -60,7 +60,7 @@ public class UserContactsLogic {
 			return ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
 		}
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
+		@SuppressWarnings({ "unchecked" })
 		Map<String, String> contactIdMap = (Map<String, String>) contactData.getValue();
 
 		if (contactIdMap.containsKey(friend_id)) {

@@ -3,11 +3,14 @@ package boardem.server.logic;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import boardem.server.FirebaseHelper;
 import boardem.server.json.BoardemResponse;
@@ -16,6 +19,11 @@ import boardem.server.json.ResponseList;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
 import com.google.common.base.Optional;
 
 /**
@@ -54,9 +62,22 @@ public class SearchLogic
 		if(dataMap != null)
 		{
 			eventsMap = FirebaseHelper.convertToObjectMap(dataMap, Event.class);
+			
+			//Stores the list of ids that match the search criteria
+			Collection<String> ids = null;
+
+			//Filter by distance, if the distance was specified
+			if(dist.isPresent())
+			{
+				ids = filterByDistance(dist.get(), userLat, userLng);
+			}
+			else
+			{
+				ids = eventsMap.keySet();
+			}
 
 			//Search through the events
-			Iterator<String> iterator = eventsMap.keySet().iterator();
+			Iterator<String> iterator = ids.iterator();
 			while(iterator.hasNext())
 			{
 				String eventId = iterator.next();
@@ -65,7 +86,7 @@ public class SearchLogic
 				//Filter events that the user owns
 				if(event.getOwner().equals(userId))
 				{
-					continue;
+					iterator.remove();
 				}
 
 				//Check the date of the event
@@ -80,44 +101,94 @@ public class SearchLogic
 					catch (ParseException e)
 					{
 						e.printStackTrace();
-						continue;
+						iterator.remove();
 					}
 
-					//System.out.printf("%s, %s, %s\n", eventId, dateString.get(), event.getDate());
-					
 					if(eventDate.getYear() != event.getDateObject().getYear() ||
 							eventDate.getMonth() != event.getDateObject().getMonth() ||
 							eventDate.getDate() != event.getDateObject().getDate())
 					{
-						continue;
+						iterator.remove();
 					}
 				}
-				
-				//Check the distance
-				if(dist.isPresent())
-				{
-					final double maxDist = dist.get();
-					
-					double eventLat = event.getLatitude();
-					double eventLng = event.getLongitude();
-					
-					//Calculate the distance between the event and the user
-					double dLat = Math.abs(eventLat - userLat);
-					double dLng = Math.abs(eventLng - userLng);
-					double sqrDLat = dLat * dLat;
-					double sqrDLng = dLng * dLng;
-					
-					if(Math.sqrt(sqrDLat + sqrDLng) > maxDist)
-					{
-						continue;
-					}
-				}
-				
+
 				eventIds.add(eventId);
 			}
 		}
 
+		//Add the list of matching events to the response
 		response.setExtra(eventIds);
+
 		return response;
+	}
+	
+	/**
+	 * Gets a list of IDs for events that are within the specified distance of the specified location
+	 * @param d Max distance
+	 * @param lat Latitude to search from
+	 * @param lng Longitude to search from
+	 */
+	private static LinkedList<String> filterByDistance(double d, double lat, double lng)
+	{
+		final LinkedList<String> list = new LinkedList<String>();
+		
+		GeoFire geofire = new GeoFire(new Firebase("https://boardem.firebaseio.com/geofire"));
+		
+		//Perform a query centered at (lat, lng) of radius d (in km)
+		GeoQuery query = geofire.queryAtLocation(new GeoLocation(lat, lng), d);
+		
+		final CountDownLatch latch = new CountDownLatch(1);
+		
+		query.addGeoQueryEventListener(new GeoQueryEventListener()
+		{
+
+			@Override
+			public void onGeoQueryError(FirebaseError arg0)
+			{
+				//Do nothing
+			}
+
+			@Override
+			public void onGeoQueryReady()
+			{
+				//Notify that the results have been retrieved
+				latch.countDown();
+			}
+
+			@Override
+			public void onKeyEntered(String arg0, GeoLocation arg1)
+			{
+				//Add the ID to the id list
+				list.add(arg0);
+			}
+
+			@Override
+			public void onKeyExited(String arg0)
+			{
+				//Not needed
+			}
+
+			@Override
+			public void onKeyMoved(String arg0, GeoLocation arg1)
+			{
+				//Not needed
+			}
+			
+		});
+		
+		//Wait for the results to return
+		try
+		{
+			latch.await();
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		//Don't listen for any more events for this query
+		query.removeAllListeners();
+		
+		return list;
 	}
 }
