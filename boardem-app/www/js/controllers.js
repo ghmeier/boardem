@@ -1,6 +1,6 @@
 var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 
-.controller('MenuCtrl', function($rootScope, $scope, $ionicHistory, $window, SearchCriteria, RestService,CreateEventService,EventService) {
+.controller('MenuCtrl', function($rootScope, $scope, $ionicHistory,$ionicSideMenuDelegate, $window, SearchCriteria, RestService,CreateEventService,EventService) {
 
 	$scope.day = SearchCriteria.getDay();
 	$scope.month = SearchCriteria.getMonth();
@@ -29,6 +29,7 @@ var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 				$scope.events = [];
 				var event_ids = res.extra;
 				EventService.getEventDetails(event_ids,$scope.events);
+				$ionicSideMenuDelegate.toggleRight();
 			})
 		});
 	}

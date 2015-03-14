@@ -63,9 +63,8 @@ public class UserLogic {
 		
 		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
 		Firebase userRef = rootRef.child("users");
-		Firebase idRef = rootRef.child("facebook_id").child(uId);
 		
-		DataSnapshot idData = FirebaseHelper.readData(idRef);
+		DataSnapshot idData = getNameFromId(uId);
 		
 		@SuppressWarnings("unchecked")
 		Map<String,String> username = (Map<String,String>)idData.getValue();
@@ -79,6 +78,12 @@ public class UserLogic {
 		response.setExtra(userData.getValue());
 		return response;
 		
+	}
+	
+	public static DataSnapshot getNameFromId(String uId){
+		Firebase ref = new Firebase(BoardemApplication.FIREBASE_URL).child("facebook_id").child(uId);
+		
+		return FirebaseHelper.readData(ref);
 	}
 
 }

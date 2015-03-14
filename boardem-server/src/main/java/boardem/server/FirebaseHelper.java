@@ -28,8 +28,33 @@ public class FirebaseHelper
 	public static <T, G> void writeData(Firebase ref, Map<T, G> data)
 	{
 		final CountDownLatch writeLatch = new CountDownLatch(1);
-		
+
 		ref.updateChildren((Map<String, Object>) data, new Firebase.CompletionListener()
+		{
+			@Override
+			public void onComplete(FirebaseError error, Firebase fb)
+			{
+				//Notify that the write completed
+				writeLatch.countDown();
+			}
+		});
+		
+		//Wait for the write to complete
+		try
+		{
+			writeLatch.await();
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public static <T, G> void removeData(Firebase ref)
+	{
+		final CountDownLatch writeLatch = new CountDownLatch(1);
+
+		ref.removeValue(new Firebase.CompletionListener()
 		{
 			@Override
 			public void onComplete(FirebaseError error, Firebase fb)

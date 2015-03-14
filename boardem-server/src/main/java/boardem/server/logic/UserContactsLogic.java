@@ -51,32 +51,63 @@ public class UserContactsLogic {
 		BoardemResponse response = null;
 
 		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
-		Firebase contactsRef = rootRef.child("users").child(user_id).child("contacts");
+		
+		DataSnapshot friendName = UserLogic.getNameFromId(friend_id);
+		@SuppressWarnings("unchecked")
+		Map<String,String> fName = (Map<String,String>)friendName.getValue();
+		
+		if (fName == null || fName.get("username") == null){
+			return ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
+		}
+		
+		DataSnapshot userName = UserLogic.getNameFromId(user_id);
+		@SuppressWarnings("unchecked")
+		Map<String,String> name = (Map<String,String>)userName.getValue();
+		
+		if (name == null || name.get("username") == null){
+			return ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
+		}
+		
+		Firebase contactsRef = rootRef.child("users").child(name.get("username")).child("contacts");
 
 		DataSnapshot contactData = FirebaseHelper.readData(contactsRef);
 
-		if (contactData == null) {
-			//Probably not the right response, probably something like NO_DATA instead
-			return ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
-		}
-
 		@SuppressWarnings({ "unchecked" })
-		Map<String, String> contactIdMap = (Map<String, String>) contactData.getValue();
+		Map<String, Object> contactIdMap = (Map<String, Object>) contactData.getValue();
 
-		if (contactIdMap.containsKey(friend_id)) {
-			//Definately wrong response, because the friend_id for sure exists
-			return ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
+		if (contactIdMap != null && contactIdMap.containsKey(friend_id)) {
+			//Definitely wrong response, because the friend_id for sure exists
+			return ResponseList.RESPONSE_USER_IN_CONTACTS;
 		}
 
 		//Add friend_id to user
-
+		Map<String,String> friend = new HashMap<String,String>();
+		friend.put(friend_id, fName.get("username"));
+		FirebaseHelper.writeData(contactsRef, friend);
+		
+		response = new BoardemResponse(200,"Successfully added contact.");
+		response.setExtra(friend);
 		return response;
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	public static BoardemResponse removeUserContact(String user_id, String friend_id)
 	{
 		BoardemResponse response = null;
-
+		
+		DataSnapshot usernameRaw = UserLogic.getNameFromId(user_id);	
+		Map<String,String> username = (Map<String,String>)usernameRaw.getValue();
+		
+		if (username == null || username.get("username") == null){
+			return ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
+		}
+		
+		String name = username.get("username");
+		Firebase ref = new Firebase(BoardemApplication.FIREBASE_URL).child("users").child(name).child("contacts").child(friend_id);
+		
+		FirebaseHelper.removeData(ref);		
+		
+		response = new BoardemResponse(200,"Successfully removed user.");
 		return response;
 	}
 

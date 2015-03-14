@@ -62,3 +62,22 @@ Date format = "yyyy-MM-dd HH:mm:ss"
 	//Everything after this is an optional parameter
 	-dist - Max distance an event can be from the user
 	-date - Date the event occurs on - Should be specified as yyyy-MM-dd
+
+/users
+-Returns a list of all user facebook id's
+
+/users/{uid}
+-returns the full profile of a user
+
+/users/{uid}/contacts - GET
+-returns and array of the user's contacts as facebook id's
+
+/users/{uid}/contacts - POST
+-Adds a facebook id to a users contacts
+-Params
+	-fid - the friend's facebook id
+
+/users/{uid}/contacts - DELETE
+-Removes a user from their contact list
+-Params
+	-fid - the friend's facebook id

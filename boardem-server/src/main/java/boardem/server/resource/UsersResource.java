@@ -60,14 +60,14 @@ public class UsersResource
 	 */
 
 	@POST
-	@Path("{uid}/contacts/add")
+	@Path("{uid}/contacts")
 	public Response addContact(@PathParam("uid") String userId, @QueryParam("fid") String friendId)
 	{
 		return Response.ok(UserContactsLogic.addUserContact(userId, friendId)).build();
 	}
 
 	@DELETE
-	@Path("{uid}/contacts/remove")
+	@Path("{uid}/contacts")
 	public Response removeContact(@PathParam("uid") String userId, @QueryParam("fid") String friendId)
 	{
 		return Response.ok(UserContactsLogic.removeUserContact(userId, friendId)).build();
