@@ -87,6 +87,7 @@ public class SearchLogic
 				if(event.getOwner().equals(userId))
 				{
 					iterator.remove();
+					continue;
 				}
 
 				//Check the date of the event
@@ -102,6 +103,7 @@ public class SearchLogic
 					{
 						e.printStackTrace();
 						iterator.remove();
+						continue;
 					}
 
 					if(eventDate.getYear() != event.getDateObject().getYear() ||
@@ -109,6 +111,7 @@ public class SearchLogic
 							eventDate.getDate() != event.getDateObject().getDate())
 					{
 						iterator.remove();
+						continue;
 					}
 				}
 
