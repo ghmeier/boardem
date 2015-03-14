@@ -37,10 +37,10 @@ appCtrl.service('SearchCriteria', function () {
 		};
 		
 		this.getSearchDate = function () {
-				var monthStr = month;
+				var monthStr = month+1;
 				var dayStr = day;
-				if (month < 10){
-					monthStr = "0"+month;
+				if (month+1 < 10){
+					monthStr = "0"+monthStr;
 				}
 				if (day < 10){
 					dayStr = "0"+day;
@@ -67,7 +67,7 @@ appCtrl.service('SearchCriteria', function () {
 				if(direction == 1 || direction == "1") {
 					if(locationSearch<10)locationSearch++;
 					else if(locationSearch<30)locationSearch = locationSearch+5;
-					else if(locationSearch < 50) locationSearch = locationSearch+10;
+					else if(locationSearch < 150) locationSearch = locationSearch+10;
 				}else{
 					if(locationSearch>30)locationSearch = locationSearch-10;
 					else if(locationSearch>10)locationSearch = locationSearch-5;

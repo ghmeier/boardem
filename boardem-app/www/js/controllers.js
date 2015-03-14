@@ -1,6 +1,6 @@
 var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 
-.controller('MenuCtrl', function($rootScope, $scope, $ionicHistory, $window, SearchCriteria, RestService,CreateEventService) {
+.controller('MenuCtrl', function($rootScope, $scope, $ionicHistory, $window, SearchCriteria, RestService,CreateEventService,EventService) {
 
 	$scope.day = SearchCriteria.getDay();
 	$scope.month = SearchCriteria.getMonth();
@@ -26,7 +26,9 @@ var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 	$scope.searchEvents = function(){
 		CreateEventService.getLocation(function(pos){
 			RestService.getSearch($rootScope.SERVER_LOCATION,pos.coords.latitude.toFixed(2),pos.coords.longitude.toFixed(2),$rootScope.user_id,SearchCriteria.getSearchDate(),$scope.locationSearch).success(function(res){
-				console.log(res.extra);
+				$scope.events = [];
+				var event_ids = res.extra;
+				EventService.getEventDetails(event_ids,$scope.events);
 			})
 		});
 	}

@@ -19,7 +19,7 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
         }
 
         this.getTimeDifference = function(date){
-          var cur = "20"+date.replace(/-/g,"/");
+          var cur = date.replace(/-/g,"/");
 
           var millis1 = Date.parse(cur);
           var millis2 = Date.now();
@@ -77,20 +77,7 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
 					var self = this;
 					RestService.getEvents($rootScope.SERVER_LOCATION).success(function(res){
 						var event_ids = res.extra;
-						for (id in event_ids){
-							var id_string = event_ids[id];
-							self.getEvent($rootScope.SERVER_LOCATION,event_ids[id]).success(function(res){
-									events.push(res.extra);
-									var num = events.length-1;
-									events[num].time = self.getTimeDifference(res.extra.date);
-									events[num].canJoin = self.isParticipant($rootScope.user_id,events[num]);
-									events[num].isOwner = self.isOwner($rootScope.user_id,events[num]);
-
-									UserService.getUser($rootScope.SERVER_LOCATION,events[num].owner).success(function(response){
-										events[num].owner_profile = response.extra;
-									});
-							});
-						}
+            self.getEventDetails(event_ids,events);
 					}).error(function(error){
 						$ionicPopup.alert({
 							title: "Failed to Retrieve events.",
@@ -99,4 +86,22 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
 					});
 					return events;
 				};
+
+        this.getEventDetails = function(event_ids,events){
+          var self = this;
+            for (id in event_ids){
+              var id_string = event_ids[id];
+              self.getEvent($rootScope.SERVER_LOCATION,event_ids[id]).success(function(res){
+                  events.push(res.extra);
+                  var num = events.length-1;
+                  events[num].time = self.getTimeDifference(res.extra.date);
+                  events[num].canJoin = self.isParticipant($rootScope.user_id,events[num]);
+                  events[num].isOwner = self.isOwner($rootScope.user_id,events[num]);
+
+                  UserService.getUser($rootScope.SERVER_LOCATION,events[num].owner).success(function(response){
+                    events[num].owner_profile = response.extra;
+                  });
+              });
+            }
+        }
 	}]);
