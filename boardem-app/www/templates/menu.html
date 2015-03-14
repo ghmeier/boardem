@@ -51,29 +51,32 @@
     </ion-header-bar>
     <ion-content>
 			<div class="card">
-			<div class="item item-divider">
-					Distance:
-			</div>
-			<div class="item row">
-					<div class="button-bar">
-						<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeLocationSearch('0')"></button>
-						<span style="margin-top:10px;">{{locationSearch}} km(s)</span>
-						<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeLocationSearch('1')"></button>
-					</div>
-			</div>
+  			<div class="item item-divider">
+  					Distance from here:
+  			</div>
+  			<div class="item row">
+  					<div class="button-bar">
+  						<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeLocationSearch('0')"></button>
+  						<span style="margin-top:10px;">{{locationSearch}} km(s)</span>
+  						<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeLocationSearch('1')"></button>
+  					</div>
+  			</div>
 			</div>
 			<div class="card">
-			<div class="item item-divider">
-					Event Day:
+  			<div class="item item-divider">
+  					Held on:
+  			</div>
+  			<div class="item row">
+  					<div class="button-bar">
+  						<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeDate('2')"></button>
+  						<span style="margin-top:10px;">{{month}} {{day}} {{year}}</span>
+  						<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeDate('1')"></button>
+  					</div>
+  			</div>
 			</div>
-			<div class="item row">
-					<div class="button-bar">
-						<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-left" on-tap="changeDate('2')"></button>
-						<span style="margin-top:10px;">{{month}} {{day}} {{year}}</span>
-						<button style="color:#4ea1a3;" class="button button-clear icon ion-chevron-right" on-tap="changeDate('1')"></button>
-					</div>
-			</div>
-			</div>
+      <div class="item">
+      <button class="button button-outline button-block button-calm" on-tap="searchEvents()">Apply</button>
+      </div>
       <!--<ion-list>
         <ion-item nav-clear menu-close href="#/app/search">
           Search

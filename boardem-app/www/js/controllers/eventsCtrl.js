@@ -6,7 +6,6 @@ appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $state, $io
 	
 	$scope.loadEvents = function(){
 		$rootScope.events = EventService.loadEvents();
-		console.log($rootScope.events);
 	};
 
 	$scope.join = function(event_id){

@@ -37,8 +37,15 @@ appCtrl.service('SearchCriteria', function () {
 		};
 		
 		this.getSearchDate = function () {
-					
-				var datestring = day + " " + monthString + " " + year;
+				var monthStr = month;
+				var dayStr = day;
+				if (month < 10){
+					monthStr = "0"+month;
+				}
+				if (day < 10){
+					dayStr = "0"+day;
+				}
+				var datestring = year + "-" + monthStr + "-" + dayStr;
 				return datestring;
 		};
 		
@@ -50,7 +57,7 @@ appCtrl.service('SearchCriteria', function () {
 		this.getMonth = function () {
 				return monthString;
 		};
-		
+
 		this.getYear = function () {
 				return year;
 		};
