@@ -86,4 +86,15 @@ public class UserLogic {
 		return FirebaseHelper.readData(ref);
 	}
 
+	public static String getStringNameFromId (String uid) {
+		Firebase ref = new Firebase("https://boardem.firebaseio.com").child("facebook_id").child(uid);
+
+		DataSnapshot name = FirebaseHelper.readData(ref);
+
+		@SuppressWarnings("unchecked")
+		Map<String, String> nameTable = (Map<String, String>) name.getValue();
+
+		return nameTable.get("username");
+	}
+
 }

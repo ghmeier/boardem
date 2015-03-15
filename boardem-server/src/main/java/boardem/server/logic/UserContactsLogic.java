@@ -19,7 +19,7 @@ public class UserContactsLogic {
 		BoardemResponse response = null;
 		
 		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
-		Firebase contactsRef = rootRef.child("users").child(uid);
+		Firebase contactsRef = rootRef.child("users").child(UserLogic.getStringNameFromId(uid)).child("contacts");
 
 		ArrayList<String> contactIds = new ArrayList<String>();
 		
@@ -37,11 +37,10 @@ public class UserContactsLogic {
 			contactIds.addAll(realContactIdMap.keySet());
 		}
 
-
 		response = ResponseList.RESPONSE_SUCCESS;
 
-		//change once everything works
-		response.setExtra(null);
+		//Everything works now!
+		response.setExtra(contactIds);
 		return response;
 		
 	}

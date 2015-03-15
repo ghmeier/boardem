@@ -19,7 +19,7 @@ public class UserBadgesLogic {
 		BoardemResponse response = null;
 		
 		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
-		Firebase badgesRef = rootRef.child("users").child(uid).child("badges");
+		Firebase badgesRef = rootRef.child("users").child(UserLogic.getStringNameFromId(uid)).child("badges");
 
 		ArrayList<String> badgeIds = new ArrayList<String>();
 		
@@ -41,7 +41,7 @@ public class UserBadgesLogic {
 		response = ResponseList.RESPONSE_SUCCESS;
 
 		//change once everything works
-		response.setExtra(null);
+		response.setExtra(badgeIds);
 		return response;
 		
 	}
