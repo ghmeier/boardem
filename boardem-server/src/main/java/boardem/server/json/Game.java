@@ -1,9 +1,12 @@
 package boardem.server.json;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.firebase.client.DataSnapshot;
 
 /**
  * JSON representation of a game
@@ -11,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Game
 {
 	private double averageRating;
-	private double bggRating;
+	private double bggRating; //Board game geek rating
 	private String description;
 	public List<String> designers;
 	private long gameId;
@@ -27,6 +30,14 @@ public class Game
 	private long rank;
 	private String thumbnail;
 	private long yearPublished;
+	
+	public Game()
+	{
+		designers = new ArrayList<String>();
+		mechanics = new ArrayList<String>();
+		publishers = new ArrayList<String>();
+		playerPollResults = new ArrayList<Map<String, Object>>();
+	}
 	
 	@JsonProperty("averageRating")
 	public double getAverageRating()
@@ -230,5 +241,57 @@ public class Game
 	public void setYearPublished(long yearPublished)
 	{
 		this.yearPublished = yearPublished;
+	}
+	
+	@SuppressWarnings("unchecked")
+	/**
+	 * Generates a game object from a snapshot of data from Firebase
+	 * @param snap Snapshot from Firebase
+	 * @return Game
+	 */
+	public static Game getGameFromSnapshot(DataSnapshot snap)
+	{
+		Game game = new Game();
+		HashMap<String, Object> map = (HashMap<String, Object>) snap.getValue();
+		
+		game.setAverageRating((double) map.get("averageRating"));
+		game.setBggRating((double) map.get("bggRating"));
+		game.setDescription((String) map.get("description"));
+		game.setGameId((long) map.get("gameId"));
+		game.setImage((String) map.get("image"));
+		game.setExpansion((boolean) map.get("isExpansion"));
+		game.setMaxPlayers((long) map.get("maxPlayers"));
+		game.setMinPlayers((long) map.get("minPlayers"));
+		game.setName((String) map.get("name"));
+		game.setPlayingTime((long) map.get("playingTime"));
+		game.setRank((long) map.get("rank"));
+		game.setThumbnail((String) map.get("thumbnail"));
+		game.setYearPublished((long) map.get("yearPublished"));
+				
+		List<String> designersList = (List<String>) map.get("designers");
+		if(designersList != null)
+		{
+			game.setDesigners(designersList);
+		}
+		
+		List<String> mechanicsList = (List<String>) map.get("mechanics");
+		if(mechanicsList != null)
+		{
+			game.setMechanics(mechanicsList);
+		}
+
+		List<String> publishersList = (List<String>) map.get("publishers");
+		if(publishersList != null)
+		{
+			game.setPublishers(publishersList);
+		}
+		
+		List<Map<String, Object>> pprList = (List<Map<String, Object>>) map.get("playerPollResults");
+		if(pprList != null)
+		{
+			game.setPlayerPollResults(pprList);
+		}
+		
+		return game;
 	}
 }
