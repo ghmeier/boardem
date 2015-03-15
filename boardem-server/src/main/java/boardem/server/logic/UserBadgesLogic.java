@@ -17,7 +17,31 @@ public class UserBadgesLogic {
 	public static BoardemResponse getUserBadges(String uid)
 	{
 		BoardemResponse response = null;
+		
+		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
+		Firebase badgesRef = rootRef.child("users").child(uid).child("badges");
 
+		ArrayList<String> badgeIds = new ArrayList<String>();
+		
+		DataSnapshot badgesData = FirebaseHelper.readData(badgesRef);
+		
+		if (badgesData == null) {
+			return ResponseList.RESPONSE_NO_BADGES;
+		}
+
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		Map<String, HashMap> badgeIdMap = (Map<String, HashMap>) badgesData.getValue();
+
+		if (badgeIdMap != null) {
+			Map<String, Object> realBadgeIdMap = FirebaseHelper.convertToObjectMap(badgeIdMap, Object.class);
+			badgeIds.addAll(realBadgeIdMap.keySet());
+		}
+
+
+		response = ResponseList.RESPONSE_SUCCESS;
+
+		//change once everything works
+		response.setExtra(null);
 		return response;
 		
 	}
