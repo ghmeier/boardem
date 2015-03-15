@@ -1,8 +1,5 @@
 package boardem.server.logic;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import boardem.server.FirebaseHelper;
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.Event;
@@ -16,37 +13,27 @@ import com.firebase.client.Firebase;
  */
 public class GetEventLogic
 {
+	/**
+	 * Gets information about an event
+	 * @param eventId ID of event to get information about
+	 * @return BoardemResponse containing event information, if the event exists
+	 */
 	public static BoardemResponse getEvent(String eventId)
 	{
 		BoardemResponse response = null;
 		
-		Firebase rootRef = new Firebase("https://boardem.firebaseio.com");
-		Firebase eventRef = rootRef.child("events");
+		Firebase fb = new Firebase("https://boardem.firebaseio.com/events/" + eventId);
+		DataSnapshot snap = FirebaseHelper.readData(fb);
 		
-		DataSnapshot snapshot = FirebaseHelper.readData(eventRef);
-
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		Map<String, HashMap> dataMap = (Map<String, HashMap>) snapshot.getValue();
-		
-		if(dataMap == null)
+		if(snap == null || snap.getValue() == null)
 		{
-			//No events
 			response = ResponseList.RESPONSE_EVENT_DOES_NOT_EXIST;
 		}
 		else
 		{
-			Map<String, Event> eventMap = (Map<String, Event>) FirebaseHelper.convertToObjectMap(dataMap, Event.class);
-			
-			//Check if the event exists
-			if(!eventMap.containsKey(eventId))
-			{
-				response = ResponseList.RESPONSE_EVENT_DOES_NOT_EXIST;
-			}
-			else
-			{
-				response = ResponseList.RESPONSE_SUCCESS.clone();
-				response.setExtra(eventMap.get(eventId));
-			}
+			Event event = Event.getEventFromSnapshot(snap);
+			response = ResponseList.RESPONSE_SUCCESS.clone();
+			response.setExtra(event);
 		}
 		
 		return response;
