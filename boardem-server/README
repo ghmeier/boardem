@@ -81,3 +81,16 @@ Date format = "yyyy-MM-dd HH:mm:ss"
 -Removes a user from their contact list
 -Params
 	-fid - the friend's facebook id
+
+/users/{uid}/badges - GET
+-returns all of the badges that a specific user has
+
+/users/{uid}/badges - POST
+-adds a badge to the specified user
+
+	@param bid - Badge ID to add to user
+
+/users/{uid}/badges - DELETE
+-removes a badge from specified user
+
+	@param bid - Badge ID to add to user
