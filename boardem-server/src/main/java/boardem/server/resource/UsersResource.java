@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import boardem.server.json.User;
 import boardem.server.logic.UserContactsLogic;
 import boardem.server.logic.UserLogic;
+import boardem.server.logic.UserBadgesLogic;
 
 
 
@@ -34,6 +35,7 @@ public class UsersResource
 	
 	/**
 	 * gets details for user with uid
+	 * @param uid The Facebook ID of the user
 	 * @return user information
 	 */
 	@GET
@@ -45,6 +47,7 @@ public class UsersResource
 	
 	/**
 	 * Returns list of friends that the user has
+	 * @param uid The Facebook ID of the user
 	 * @return The user's friends
 	 */
 	@GET
@@ -56,6 +59,8 @@ public class UsersResource
 
 	/**
 	 * Adds a user ID to list of friends that the user has
+	 * @param uid The Facebook ID of the user
+	 * @param fid The Facebook ID of the contact
 	 * @return Boardem response (success or no)
 	 */
 
@@ -66,6 +71,13 @@ public class UsersResource
 		return Response.ok(UserContactsLogic.addUserContact(userId, friendId)).build();
 	}
 
+	/**
+	 * Removes a user ID from the list of friends that the user has
+	 * @param uid The Facebook ID of the user
+	 * @param fid The Facebook ID of the contact
+	 * @return Boardem response (success or no)
+	 */
+
 	@DELETE
 	@Path("{uid}/contacts")
 	public Response removeContact(@PathParam("uid") String userId, @QueryParam("fid") String friendId)
@@ -75,14 +87,47 @@ public class UsersResource
 
 	/**
 	 * Returns a list of all badges for the given user
+	 * @param uid The Facebook ID of the user
 	 * @return The user's badges
 	 */
+
 	@GET
 	@Path("{uid}/badges")
-	public Response listBadges(User user)
+	public Response listBadges(@PathParam("uid") String userId)
 	{
-		return null;
+		return Response.ok(UserBadgesLogic.getUserBadges(userId)).build();
 	}
+
+	/**
+	 * Adds a badge to a user
+	 * @param uid The Facebook ID of the user
+	 * @param bid The ID of the badge to add
+	 * @return Boardem response (200 for success)
+	 */
+
+	@POST
+	@Path("{uid}/badges")
+	public Response addBadge(@PathParam("uid") String userId, @QueryParam("bid") String badgeId)
+	{
+		return Response.ok(UserBadgesLogic.addUserBadge(userId, badgeId)).build();
+	}
+
+	/**
+	 * Removes a badge from a user
+	 * @param uid The Facebook ID of the user
+	 * @param bid The ID of the badge to remove
+	 * @return Boardem response (200 for success)
+	 */
+
+	//Maybe necessary? Can't think of a use for it, but might be nice to have
+
+	@DELETE
+	@Path("{uid}/badges")
+	public Response removeBadge(@PathParam("uid") String userId, @QueryParam("bid") String badgeId)
+	{
+		return Response.ok(UserBadgesLogic.removeUserBadge(userId, badgeId)).build();
+	}
+
 
 	/**
 	 * Returns the attributes of a certain user
