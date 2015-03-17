@@ -14,6 +14,11 @@ import com.firebase.client.Firebase;
 
 public class UserBadgesLogic {
 
+	/**
+	* Gets all of the badges that a user has
+	* @param uid User ID to get a list of all the badges from
+	* @return All badges (by badge ID numbers) that the user has
+ 	*/
 	public static BoardemResponse getUserBadges(String uid)
 	{
 		BoardemResponse response = null;
@@ -52,6 +57,13 @@ public class UserBadgesLogic {
 		return response;
 		
 	}
+
+	/**
+	* Adds a badge (specified by an ID) to a user
+	* @param user_id The Facebook ID of the user to add the badge to
+	* @param badge_id The ID of the badge to add to the user
+	* @return RESPONSE_SUCCESS if completed without errors
+	*/
 
 	public static BoardemResponse addUserBadge(String user_id, String badge_id)
 	{
@@ -98,6 +110,14 @@ public class UserBadgesLogic {
 		return ResponseList.RESPONSE_SUCCESS;
 	}
 	
+	/**
+	* Removes a badge (specified by an ID) from a user if it exists
+	* @param user_id The Facebook ID of the user to remove the badge from
+	* @param badge_id The ID of the badge to remove from the user
+	* @return RESPONSE_BADGE_DOES_NOT_EXIST if the user does not have that badge, RESPONSE_SUCCESS if the user did have that badge
+	*/
+
+
 	@SuppressWarnings("unchecked")
 	// ^^^ Necessary anymore? I'm not using Eclipse
 	public static BoardemResponse removeUserBadge(String user_id, String badge_id)
