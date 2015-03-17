@@ -70,6 +70,7 @@ public class UserBadgesLogic {
 			initialVal.put(badge_id, "0");
 
 			FirebaseHelper.writeData(badgesRef, initialVal);
+
 		} else {
 
 
@@ -89,10 +90,29 @@ public class UserBadgesLogic {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static BoardemResponse removeUserBadge(String user_id, String friend_id)
+	public static BoardemResponse removeUserBadge(String user_id, String badge_id)
 	{
 		BoardemResponse response = null;
+
+		String username = UserLogic.getStringNameFromId(user_id);
+
+		Firebase badgesRef = new Firebase(BoardemApplication.FIREBASE_URL).child("users").child(username).child("badges").child(badge_id);
+
+		DataSnapshot badgesData = FirebaseHelper.readData(badgesRef);
+
+		@SuppressWarnings({"rawtypes", "unchecked"})
+		String badgesExists = (String) badgesData.getValue();
+
+		if (badgesExists == null) {
+
+			return ResponseList.RESPONSE_BADGE_DOES_NOT_EXIST;
+
+		} 
+
+		FirebaseHelper.removeData(badgesRef);
 	
+		response = ResponseList.RESPONSE_SUCCESS;
+
 		return response;
 	}
 
