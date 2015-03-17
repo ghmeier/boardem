@@ -46,9 +46,44 @@ public class UserBadgesLogic {
 		
 	}
 
-	public static BoardemResponse addUserBadge(String user_id, String friend_id)
+	public static BoardemResponse addUserBadge(String user_id, String badge_id)
 	{
 		BoardemResponse response = null;
+
+		String username = UserLogic.getStringNameFromId(user_id);
+
+		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
+		Firebase badgesRef = rootRef.child("users").child(username).child("badges");
+
+		DataSnapshot badgesData = FirebaseHelper.readData(badgesRef);
+
+		@SuppressWarnings({"rawtypes", "unchecked"})
+		Map<String,Object> badgesMap = (Map<String,Object>) badgesData.getValue();
+
+		if (badgesMap == null) {
+			//Firebase initialRef = rootRef.child("users").child(username);
+
+			//badgesData = FirebaseHelper.readData(initialRef);
+
+			Map<String,String> initialVal = new HashMap<String,String>();
+
+			initialVal.put(badge_id, "0");
+
+			FirebaseHelper.writeData(badgesRef, initialVal);
+		} else {
+
+
+			Map<String,String> contactMap = new HashMap<String,String>();
+
+			int size = badgesMap.size();
+
+			contactMap.put(badge_id, Integer.toString(size));
+
+			FirebaseHelper.writeData(badgesRef, contactMap);
+
+		}
+
+		response = ResponseList.RESPONSE_SUCCESS;
 
 		return response;
 	}
