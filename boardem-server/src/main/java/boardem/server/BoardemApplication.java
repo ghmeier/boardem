@@ -41,6 +41,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		final EventResource event = new EventResource();
 		final UsersResource users = new UsersResource();
 		final SearchResource search = new SearchResource();
+		final GameResource game = new GameResource();
 		
 		configureCors(env);
 		
@@ -49,6 +50,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		env.jersey().register(event);
 		env.jersey().register(users);
 		env.jersey().register(search);
+		env.jersey().register(game);
 	}
 	
 	  private void configureCors(Environment environment) {

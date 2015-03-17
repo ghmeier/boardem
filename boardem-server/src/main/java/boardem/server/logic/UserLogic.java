@@ -86,14 +86,23 @@ public class UserLogic {
 		return FirebaseHelper.readData(ref);
 	}
 
+	/**
+	* Gets the username of a user from a facebook id
+	* @param uid Facebook ID of user
+	* @return Username of user
+	*/
 	public static String getStringNameFromId (String uid) {
+		//Create new firebase that points to the child
 		Firebase ref = new Firebase("https://boardem.firebaseio.com").child("facebook_id").child(uid);
 
+		//Convert the "username" table to a DataSnapshot
 		DataSnapshot name = FirebaseHelper.readData(ref);
 
 		@SuppressWarnings("unchecked")
+		//Convert name into a HashMap
 		Map<String, String> nameTable = (Map<String, String>) name.getValue();
 
+		//Find and return the username of a user as a string
 		return nameTable.get("username");
 	}
 

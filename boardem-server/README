@@ -94,3 +94,6 @@ Date format = "yyyy-MM-dd HH:mm:ss"
 -removes a badge from specified user
 
 	@param bid - Badge ID to add to user
+	
+/game/{gid} - GET
+-Returns information about a game

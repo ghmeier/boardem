@@ -17,5 +17,6 @@ public class ResponseList
 	public static final BoardemResponse RESPONSE_USER_OWNS_EVENT = new BoardemResponse(8, "User is the owner of this event");
 	public static final BoardemResponse RESPONSE_USER_IN_CONTACTS = new BoardemResponse(9,"User is already in contacts.");
 	public static final BoardemResponse RESPONSE_NO_BADGES = new BoardemResponse(10,"User has no badges.");
-	public static final BoardemResponse RESPONSE_BADGE_DOES_NOT_EXIST = new BoardemResponse(11,"User does not have this badge.");
+	public static final BoardemResponse RESPONSE_GAME_DOESNT_EXIST = new BoardemResponse(11, "Game does not exist");
+	public static final BoardemResponse RESPONSE_BADGE_DOES_NOT_EXIST = new BoardemResponse(12,"User does not have this badge.");
 }
