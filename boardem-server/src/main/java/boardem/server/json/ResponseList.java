@@ -19,4 +19,6 @@ public class ResponseList
 	public static final BoardemResponse RESPONSE_NO_BADGES = new BoardemResponse(10,"User has no badges.");
 	public static final BoardemResponse RESPONSE_GAME_DOESNT_EXIST = new BoardemResponse(11, "Game does not exist");
 	public static final BoardemResponse RESPONSE_BADGE_DOES_NOT_EXIST = new BoardemResponse(12,"User does not have this badge.");
+	public static final BoardemResponse RESPONSE_NO_ATTRIBUTES = new BoardemResponse(13,"User has no attributes.");
+	public static final BoardemResponse RESPONSE_ATTRIBUTE_DOES_NOT_EXIST = new BoardemResponse(14,"User does not have this attribute.");
 }

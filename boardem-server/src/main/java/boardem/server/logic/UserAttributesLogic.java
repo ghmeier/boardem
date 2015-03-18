@@ -12,7 +12,7 @@ import boardem.server.json.ResponseList;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
-public class UserattributesLogic {
+public class UserAttributesLogic {
 
 	/**
 	* Gets all of the attributes that a user has
@@ -118,7 +118,7 @@ public class UserattributesLogic {
 	*/
 
 
-	public static BoardemResponse removeUserAttribute(String user_id, String attribute_id)
+	public static BoardemResponse deleteUserAttribute(String user_id, String attribute_id)
 	{
 		//Point attributesRef to the attribute_id of user "user_id"
 		Firebase attributesRef = new Firebase(BoardemApplication.FIREBASE_URL).child("users").child(UserLogic.getStringNameFromId(user_id)).child("attributes").child(attribute_id);
@@ -139,7 +139,7 @@ public class UserattributesLogic {
 
 		//If the attribute_id does exist in the user, remove it
 		FirebaseHelper.removeData(attributesRef);
-		
+
 		return ResponseList.RESPONSE_SUCCESS;
 	}
 

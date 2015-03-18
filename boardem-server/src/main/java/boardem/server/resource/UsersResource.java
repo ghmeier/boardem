@@ -14,7 +14,7 @@ import boardem.server.json.User;
 import boardem.server.logic.UserContactsLogic;
 import boardem.server.logic.UserLogic;
 import boardem.server.logic.UserBadgesLogic;
-
+import boardem.server.logic.UserAttributesLogic;
 
 
 @Path("/users")
@@ -137,7 +137,7 @@ public class UsersResource
 	@Path("{uid}/attributes")
 	public Response getAttributes(@PathParam("uid") String userId)
 	{
-		return Response.ok(UserAttributesLogic.listUserAttributes(userId)).build();
+		return Response.ok(UserAttributesLogic.getUserAttributes(userId)).build();
 	}
 
 	/**
