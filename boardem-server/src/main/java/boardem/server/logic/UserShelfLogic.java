@@ -25,7 +25,7 @@ public class UserShelfIDsLogic {
 
 		//Point shelfIDsRef to the "shelfIDs" table of the user
 		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
-		Firebase shelfIDsRef = rootRef.child("users").child(UserLogic.getStringNameFromId(user_id)).child("shelfIDs");
+		Firebase shelfIDsRef = rootRef.child("users").child(UserLogic.getStringNameFromId(user_id)).child("shelf");
 
 		//Create ArrayList used in line 42
 		ArrayList<String> shelfIDs = new ArrayList<String>();
@@ -66,6 +66,46 @@ public class UserShelfIDsLogic {
 
 	public static BoardemResponse addUserShelfID(String user_id, String shelf_id)
 	{
+		//Put username getting in front so we don't have to potentially do it twice
+		String username = UserLogic.getStringNameFromId(user_id);
+
+		//Point shelfIDsRef to the "shelfIDs" table of username "user_id"
+		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
+		Firebase shelfIDsRef = rootRef.child("users").child(username).child("shelf");
+
+		//Convert shelfIDsRef to a DataSnapshot
+		DataSnapshot shelfIDsData = FirebaseHelper.readData(shelfIDsRef);
+
+		@SuppressWarnings({"rawtypes", "unchecked"})
+		//Convert shelfIDsData to a HashMap
+		Map<String,Object> shelfIDsMap = (Map<String,Object>) shelfIDsData.getValue();
+
+		//If the user doesn't have any shelfIDs
+		if (shelfIDsMap == null) {
+
+			Map<String,String> initialVal = new HashMap<String,String>();
+
+			//Add the first value
+			initialVal.put(shelf_id, "0");
+
+			//Write it to the Firebase in the "shelfIDs" table
+			FirebaseHelper.writeData(shelfIDsRef, initialVal);
+
+		} else {
+
+
+			Map<String,String> contactMap = new HashMap<String,String>();
+
+			//To count the number of shelfIDs the user has already
+			int size = shelfIDsMap.size();
+
+			contactMap.put(shelf_id, Integer.toString(size));
+
+			//Write the HashMap to Firebase under the "shelfIDs" table
+			FirebaseHelper.writeData(shelfIDsRef, contactMap);
+
+		}
+
 		return ResponseList.RESPONSE_SUCCESS;
 	}
 	
