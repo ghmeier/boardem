@@ -119,6 +119,26 @@ public class UserShelfIDsLogic {
 
 	public static BoardemResponse removeUsershelfID(String user_id, String shelf_id)
 	{
+		//Point shelfIDsRef to the shelf_id of user "user_id"
+		Firebase shelfIDsRef = new Firebase(BoardemApplication.FIREBASE_URL).child("users").child(UserLogic.getStringNameFromId(user_id)).child("shelf").child(shelf_id);
+
+		//Convert to DataSnapshot
+		DataSnapshot shelfIDsData = FirebaseHelper.readData(shelfIDsRef);
+
+		@SuppressWarnings({"rawtypes", "unchecked"})
+		//Convert to string (will only have one value, so no HashMap this time)
+		String shelfIDsExists = (String) shelfIDsData.getValue();
+
+		//If shelfIDsExists = null, no shelfID with the given shelfID_id exists in that user's list of shelfIDs
+		if (shelfIDsExists == null) {
+
+			return ResponseList.RESPONSE_SHELFID_DOES_NOT_EXIST;
+
+		} 
+
+		//If the shelfID_id does exist in the user, remove it
+		FirebaseHelper.removeData(shelfIDsRef);
+		
 		return ResponseList.RESPONSE_SUCCESS;
 	}
 
