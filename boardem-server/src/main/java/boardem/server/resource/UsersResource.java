@@ -172,10 +172,37 @@ public class UsersResource
 	 */
 	@GET
 	@Path("{uid}/shelf")
-	public Response listShelf(User user)
+	public Response listShelf(@PathParam("uid") String userId)
 	{
-		return null;
+		return Response.ok(UserShelfLogic.getUserShelf(userId)).build();
 	}
+
+	/**
+	 * Adds a shelfItem ID to a user
+	 * @param uid Facebook ID of user
+	 * @param sid ID of shelfItem
+	 * @return Boardem response (ok or no)
+	 */
+	@POST
+	@Path("{uid}/shelfItems")
+	public Response addShelfItem(@PathParam("uid") String userId, @QueryParam("sid") String shelfItemId)
+	{
+		return Response.ok(UserShelfLogic.addUserShelfItem(userId, shelfItemId)).build();
+	}
+
+	/**
+	 * Deletes an shelfItem ID from a user
+	 * @param uid Facebook ID of user
+	 * @param sid ID of shelfItem
+	 * @return Boardem response (ok or no)
+	 */
+	@DELETE
+	@Path("{uid}/shelfItems")
+	public Response deleteShelfItem(@PathParam("uid") String userId, @QueryParam("sid") String shelfItemId)
+	{
+		return Response.ok(UserShelfLogic.deleteUserShelfItem(userId, shelfItemId)).build();
+	}
+
 
 	/**
 	 * Lists all items in a user's roster
