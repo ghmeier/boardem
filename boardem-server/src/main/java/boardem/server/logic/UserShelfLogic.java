@@ -91,6 +91,11 @@ public class UserShelfLogic {
 			//Write it to the Firebase in the "shelfIDs" table
 			FirebaseHelper.writeData(shelfIDsRef, initialVal);
 
+		//If the user already has this shelfID
+		} else if (shelfIDsMap.containsKey(shelf_id)) {
+
+			return ResponseList.RESPONSE_USER_HAS_SHELF_ID;
+
 		} else {
 
 

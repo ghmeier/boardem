@@ -92,6 +92,11 @@ public class UserAttributesLogic {
 			//Write it to the Firebase in the "attributes" table
 			FirebaseHelper.writeData(attributesRef, initialVal);
 
+		//If the user already has this attribute
+		} else if (attributesMap.containsKey(attribute_id)) {
+
+			return ResponseList.RESPONSE_USER_HAS_ATTRIBUTE;
+
 		} else {
 
 

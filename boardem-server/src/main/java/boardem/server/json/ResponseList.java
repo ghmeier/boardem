@@ -24,4 +24,6 @@ public class ResponseList
 	public static final BoardemResponse RESPONSE_NO_SHELFIDS = new BoardemResponse(15,"User has no ithems in their shelf.");
 	public static final BoardemResponse RESPONSE_SHELFID_DOES_NOT_EXIST = new BoardemResponse(16,"User does not have this shelfID.");
 	public static final BoardemResponse RESPONSE_USER_HAS_BADGE = new BoardemResponse(17,"User already has this badge.");	
+	public static final BoardemResponse RESPONSE_USER_HAS_SHELF_ID = new BoardemResponse(18,"User already has this shelf id.");
+	public static final BoardemResponse RESPONSE_USER_HAS_ATTRIBUTE = new BoardemResponse(19,"User already has this attribute.");	
 }
