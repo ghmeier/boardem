@@ -120,6 +120,26 @@ public class UserattributesLogic {
 
 	public static BoardemResponse removeUserAttribute(String user_id, String attribute_id)
 	{
+		//Point attributesRef to the attribute_id of user "user_id"
+		Firebase attributesRef = new Firebase(BoardemApplication.FIREBASE_URL).child("users").child(UserLogic.getStringNameFromId(user_id)).child("attributes").child(attribute_id);
+
+		//Convert to DataSnapshot
+		DataSnapshot attributesData = FirebaseHelper.readData(attributesRef);
+
+		@SuppressWarnings({"rawtypes", "unchecked"})
+		//Convert to string (will only have one value, so no HashMap this time)
+		String attributesExists = (String) attributesData.getValue();
+
+		//If attributesExists = null, no attribute with the given attribute_id exists in that user's list of attributes
+		if (attributesExists == null) {
+
+			return ResponseList.RESPONSE_ATTRIBUTE_DOES_NOT_EXIST;
+
+		} 
+
+		//If the attribute_id does exist in the user, remove it
+		FirebaseHelper.removeData(attributesRef);
+		
 		return ResponseList.RESPONSE_SUCCESS;
 	}
 
