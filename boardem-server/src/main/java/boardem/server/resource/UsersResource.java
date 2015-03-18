@@ -15,6 +15,7 @@ import boardem.server.logic.UserContactsLogic;
 import boardem.server.logic.UserLogic;
 import boardem.server.logic.UserBadgesLogic;
 import boardem.server.logic.UserAttributesLogic;
+import boardem.server.logic.UserShelfLogic;
 
 
 @Path("/users")
