@@ -67,6 +67,46 @@ public class UserattributesLogic {
 
 	public static BoardemResponse addUserAttribute(String user_id, String attribute_id)
 	{
+		//Put username getting in front so we don't have to potentially do it twice
+		String username = UserLogic.getStringNameFromId(user_id);
+
+		//Point attributesRef to the "attributes" table of username "user_id"
+		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
+		Firebase attributesRef = rootRef.child("users").child(username).child("attributes");
+
+		//Convert attributesRef to a DataSnapshot
+		DataSnapshot attributesData = FirebaseHelper.readData(attributesRef);
+
+		@SuppressWarnings({"rawtypes", "unchecked"})
+		//Convert attributesData to a HashMap
+		Map<String,Object> attributesMap = (Map<String,Object>) attributesData.getValue();
+
+		//If the user doesn't have any attributes
+		if (attributesMap == null) {
+
+			Map<String,String> initialVal = new HashMap<String,String>();
+
+			//Add the first value
+			initialVal.put(attribute_id, "0");
+
+			//Write it to the Firebase in the "attributes" table
+			FirebaseHelper.writeData(attributesRef, initialVal);
+
+		} else {
+
+
+			Map<String,String> contactMap = new HashMap<String,String>();
+
+			//To count the number of attributes the user has already
+			int size = attributesMap.size();
+
+			contactMap.put(attribute_id, Integer.toString(size));
+
+			//Write the HashMap to Firebase under the "attributes" table
+			FirebaseHelper.writeData(attributesRef, contactMap);
+
+		}
+
 		return ResponseList.RESPONSE_SUCCESS;
 	}
 	
