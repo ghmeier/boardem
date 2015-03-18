@@ -12,14 +12,14 @@ import boardem.server.json.ResponseList;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
-public class UserShelfIDsLogic {
+public class UserShelfLogic {
 
 	/**
 	* Gets all of the shelfIDs that a user has
 	* @param uid User ID to get a list of all the shelfIDs from
 	* @return All shelfIDs (by shelfID ID numbers) that the user has
  	*/
-	public static BoardemResponse getUserShelfIDs(String user_id)
+	public static BoardemResponse getUserShelf(String user_id)
 	{
 		BoardemResponse response = null;
 
@@ -117,7 +117,7 @@ public class UserShelfIDsLogic {
 	*/
 
 
-	public static BoardemResponse removeUsershelfID(String user_id, String shelf_id)
+	public static BoardemResponse removeUserShelfID(String user_id, String shelf_id)
 	{
 		//Point shelfIDsRef to the shelf_id of user "user_id"
 		Firebase shelfIDsRef = new Firebase(BoardemApplication.FIREBASE_URL).child("users").child(UserLogic.getStringNameFromId(user_id)).child("shelf").child(shelf_id);
@@ -138,7 +138,7 @@ public class UserShelfIDsLogic {
 
 		//If the shelfID_id does exist in the user, remove it
 		FirebaseHelper.removeData(shelfIDsRef);
-		
+
 		return ResponseList.RESPONSE_SUCCESS;
 	}
 

@@ -173,7 +173,7 @@ public class UsersResource
 	 */
 	@GET
 	@Path("{uid}/shelf")
-	public Response listShelf(@PathParam("uid") String userId)
+	public Response getShelf(@PathParam("uid") String userId)
 	{
 		return Response.ok(UserShelfLogic.getUserShelf(userId)).build();
 	}
@@ -185,10 +185,10 @@ public class UsersResource
 	 * @return Boardem response (ok or no)
 	 */
 	@POST
-	@Path("{uid}/shelfItems")
+	@Path("{uid}/shelf")
 	public Response addShelfItem(@PathParam("uid") String userId, @QueryParam("sid") String shelfItemId)
 	{
-		return Response.ok(UserShelfLogic.addUserShelfItem(userId, shelfItemId)).build();
+		return Response.ok(UserShelfLogic.addUserShelfID(userId, shelfItemId)).build();
 	}
 
 	/**
@@ -198,10 +198,10 @@ public class UsersResource
 	 * @return Boardem response (ok or no)
 	 */
 	@DELETE
-	@Path("{uid}/shelfItems")
+	@Path("{uid}/shelf")
 	public Response deleteShelfItem(@PathParam("uid") String userId, @QueryParam("sid") String shelfItemId)
 	{
-		return Response.ok(UserShelfLogic.deleteUserShelfItem(userId, shelfItemId)).build();
+		return Response.ok(UserShelfLogic.removeUserShelfID(userId, shelfItemId)).build();
 	}
 
 

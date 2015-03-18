@@ -21,4 +21,6 @@ public class ResponseList
 	public static final BoardemResponse RESPONSE_BADGE_DOES_NOT_EXIST = new BoardemResponse(12,"User does not have this badge.");
 	public static final BoardemResponse RESPONSE_NO_ATTRIBUTES = new BoardemResponse(13,"User has no attributes.");
 	public static final BoardemResponse RESPONSE_ATTRIBUTE_DOES_NOT_EXIST = new BoardemResponse(14,"User does not have this attribute.");
+	public static final BoardemResponse RESPONSE_NO_SHELFIDS = new BoardemResponse(15,"User has no ithems in their shelf.");
+	public static final BoardemResponse RESPONSE_SHELFID_DOES_NOT_EXIST = new BoardemResponse(16,"User does not have this shelfID.");
 }
