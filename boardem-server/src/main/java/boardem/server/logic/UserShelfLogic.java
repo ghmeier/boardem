@@ -22,6 +22,37 @@ public class UserShelfIDsLogic {
 	public static BoardemResponse getUserShelfIDs(String user_id)
 	{
 		BoardemResponse response = null;
+
+		//Point shelfIDsRef to the "shelfIDs" table of the user
+		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
+		Firebase shelfIDsRef = rootRef.child("users").child(UserLogic.getStringNameFromId(user_id)).child("shelfIDs");
+
+		//Create ArrayList used in line 42
+		ArrayList<String> shelfIDs = new ArrayList<String>();
+		
+		//Convert shelfIDsRef into a DataSnapshot
+		DataSnapshot shelfIDsData = FirebaseHelper.readData(shelfIDsRef);
+
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		//Convert shelfIDMap into a HashMap
+		Map<String, HashMap> shelfIDMap = (Map<String, HashMap>) shelfIDsData.getValue();
+
+		//Check if user has any shelfIDs
+		if (shelfIDMap == null) {
+
+			return ResponseList.RESPONSE_NO_SHELFIDS;
+		//If they do have shelfIDs...
+		} else {
+			//Create a new HashMap with the data inside it
+			Map<String, Object> realshelfIDMap = FirebaseHelper.convertToObjectMap(shelfIDMap, Object.class);
+			shelfIDs.addAll(realshelfIDMap.keySet());
+		}
+
+		//Return success
+		response = ResponseList.RESPONSE_SUCCESS;
+
+		//Add shelfID IDs to the response
+		response.setExtra(shelfIDs);
 		
 		return response;
 	}
