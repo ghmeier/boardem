@@ -135,9 +135,35 @@ public class UsersResource
 	 */
 	@GET
 	@Path("{uid}/attributes")
-	public Response listAttributes(User user)
+	public Response getAttributes(@PathParam("uid") String userId)
 	{
-		return null;
+		return Response.ok(UserAttributesLogic.listUserAttributes(userId)).build();
+	}
+
+	/**
+	 * Adds an attribute ID to a user
+	 * @param uid Facebook ID of user
+	 * @param aid ID of attribute
+	 * @return Boardem response (ok or no)
+	 */
+	@POST
+	@Path("{uid}/attributes")
+	public Response addAttribute(@PathParam("uid") String userId, @QueryParam("aid") String attributeId)
+	{
+		return Response.ok(UserAttributesLogic.addUserAttribute(userId, attributeId)).build();
+	}
+
+	/**
+	 * Deletes an attribute ID from a user
+	 * @param uid Facebook ID of user
+	 * @param aid ID of attribute
+	 * @return Boardem response (ok or no)
+	 */
+	@DELETE
+	@Path("{uid}/attributes")
+	public Response deleteAttribute(@PathParam("uid") String userId, @QueryParam("aid") String attributeId)
+	{
+		return Response.ok(UserAttributesLogic.deleteUserAttribute(userId, attributeId)).build();
 	}
 
 	/**
