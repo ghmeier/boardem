@@ -92,6 +92,11 @@ public class UserBadgesLogic {
 			//Write it to the Firebase in the "badges" table
 			FirebaseHelper.writeData(badgesRef, initialVal);
 
+		//If the user already has this badge
+		} else if (badgesMap.containsKey(badge_id)) {
+
+			return ResponseList.RESPONSE_USER_HAS_BADGE;
+
 		} else {
 
 
