@@ -66,6 +66,51 @@ public class UserRosterLogic {
 
 	public static BoardemResponse addUserRosterItem(String user_id, String event_id)
 	{
+		//Put username getting in front so we don't have to potentially do it twice
+		String username = UserLogic.getStringNameFromId(user_id);
+
+		//Point rostersRef to the "roster" table of username "user_id"
+		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
+		Firebase rostersRef = rootRef.child("users").child(username).child("roster");
+
+		//Convert rostersRef to a DataSnapshot
+		DataSnapshot rostersData = FirebaseHelper.readData(rostersRef);
+
+		@SuppressWarnings({"rawtypes", "unchecked"})
+		//Convert rostersData to a HashMap
+		Map<String,Object> rostersMap = (Map<String,Object>) rostersData.getValue();
+
+		//If the user doesn't have any events
+		if (rostersMap == null) {
+
+			Map<String,String> initialVal = new HashMap<String,String>();
+
+			//Add the first value
+			initialVal.put(event_id, "0");
+
+			//Write it to the Firebase in the "roster" table
+			FirebaseHelper.writeData(rostersRef, initialVal);
+
+		//If the user already has this event
+		} else if (rostersMap.containsKey(event_id)) {
+
+			return ResponseList.RESPONSE_USER_HAS_roster;
+
+		} else {
+
+
+			Map<String,String> contactMap = new HashMap<String,String>();
+
+			//To count the number of events the user has already
+			int size = rostersMap.size();
+
+			contactMap.put(event_id, Integer.toString(size));
+
+			//Write the HashMap to Firebase under the "roster" table
+			FirebaseHelper.writeData(rostersRef, contactMap);
+
+		}
+
 		return ResponseList.RESPONSE_SUCCESS;
 	}
 	
