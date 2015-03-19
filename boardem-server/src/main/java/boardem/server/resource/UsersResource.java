@@ -211,9 +211,35 @@ public class UsersResource
 	 */
 	@GET
 	@Path("{uid}/roster")
-	public Response listRoster(User user)
+	public Response listRoster(@PathParam("uid") String userId)
 	{
-		return null;
+		return Response.ok(UserRosterLogic.getUserRoster(userId)).build();
+	}
+
+	/**
+	 * Adds an event ID to a user
+	 * @param uid Facebook ID of user
+	 * @param eid ID of event
+	 * @return Boardem response (ok or no)
+	 */
+	@POST
+	@Path("{uid}/roster")
+	public Response addRosterItem(@PathParam("uid") String userId, @QueryParam("eid") String eventId)
+	{
+		return Response.ok(UserRosterLogic.addUserRoster(userId, eventId)).build();
+	}
+
+	/**
+	 * Deletes an event ID from a user
+	 * @param uid Facebook ID of user
+	 * @param eid ID of event
+	 * @return Boardem response (ok or no)
+	 */
+	@DELETE
+	@Path("{uid}/roster")
+	public Response deleteRosterItem(@PathParam("uid") String userId, @QueryParam("eid") String eventId)
+	{
+		return Response.ok(UserRosterLogic.removeUserRoster(userId, eventId)).build();
 	}
 
 	/**
