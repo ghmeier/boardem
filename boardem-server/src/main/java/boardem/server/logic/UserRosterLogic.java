@@ -23,6 +23,37 @@ public class UserRosterLogic {
 	{
 		BoardemResponse response = null;
 
+		//Point rostersRef to the "roster" table of the user
+		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
+		Firebase rostersRef = rootRef.child("users").child(UserLogic.getStringNameFromId(user_id)).child("roster");
+
+		//Create ArrayList used in line 42
+		ArrayList<String> rosterIds = new ArrayList<String>();
+		
+		//Convert rostersRef into a DataSnapshot
+		DataSnapshot rostersData = FirebaseHelper.readData(rostersRef);
+
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		//Convert rosterIdMap into a HashMap
+		Map<String, HashMap> rosterIdMap = (Map<String, HashMap>) rostersData.getValue();
+
+		//Check if user has any events
+		if (rosterIdMap == null) {
+
+			return ResponseList.RESPONSE_NO_ROSTERS;
+		//If they do have events...
+		} else {
+			//Create a new HashMap with the data inside it
+			Map<String, Object> realrosterIdMap = FirebaseHelper.convertToObjectMap(rosterIdMap, Object.class);
+			rosterIds.addAll(realrosterIdMap.keySet());
+		}
+
+		//Return success
+		response = ResponseList.RESPONSE_SUCCESS;
+
+		//Add event IDs to the response
+		response.setExtra(rosterIds);
+
 		return response;
 	}
 
