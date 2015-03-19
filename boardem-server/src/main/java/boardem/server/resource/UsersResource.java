@@ -16,6 +16,8 @@ import boardem.server.logic.UserLogic;
 import boardem.server.logic.UserBadgesLogic;
 import boardem.server.logic.UserAttributesLogic;
 import boardem.server.logic.UserShelfLogic;
+import boardem.server.logic.UserRosterLogic;
+
 
 
 @Path("/users")
@@ -226,7 +228,7 @@ public class UsersResource
 	@Path("{uid}/roster")
 	public Response addRosterItem(@PathParam("uid") String userId, @QueryParam("eid") String eventId)
 	{
-		return Response.ok(UserRosterLogic.addUserRoster(userId, eventId)).build();
+		return Response.ok(UserRosterLogic.addUserRosterItem(userId, eventId)).build();
 	}
 
 	/**
@@ -239,7 +241,7 @@ public class UsersResource
 	@Path("{uid}/roster")
 	public Response deleteRosterItem(@PathParam("uid") String userId, @QueryParam("eid") String eventId)
 	{
-		return Response.ok(UserRosterLogic.removeUserRoster(userId, eventId)).build();
+		return Response.ok(UserRosterLogic.removeUserRosterItem(userId, eventId)).build();
 	}
 
 	/**

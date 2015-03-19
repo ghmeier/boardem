@@ -26,4 +26,5 @@ public class ResponseList
 	public static final BoardemResponse RESPONSE_USER_HAS_BADGE = new BoardemResponse(17,"User already has this badge.");	
 	public static final BoardemResponse RESPONSE_USER_HAS_SHELF_ID = new BoardemResponse(18,"User already has this shelf id.");
 	public static final BoardemResponse RESPONSE_USER_HAS_ATTRIBUTE = new BoardemResponse(19,"User already has this attribute.");	
+	public static final BoardemResponse RESPONSE_NO_EVENTS = new BoardemResponse(20,"User has no events.");	
 }

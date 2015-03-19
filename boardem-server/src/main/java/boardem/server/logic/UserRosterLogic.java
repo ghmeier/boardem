@@ -40,7 +40,7 @@ public class UserRosterLogic {
 		//Check if user has any events
 		if (rosterIdMap == null) {
 
-			return ResponseList.RESPONSE_NO_ROSTERS;
+			return ResponseList.RESPONSE_NO_EVENTS;
 		//If they do have events...
 		} else {
 			//Create a new HashMap with the data inside it
@@ -122,7 +122,7 @@ public class UserRosterLogic {
 	*/
 
 
-	public static BoardemResponse deleteUserRosterItem(String user_id, String event_id)
+	public static BoardemResponse removeUserRosterItem(String user_id, String event_id)
 	{
 
 		//Point rostersRef to the event_id of user "user_id"
