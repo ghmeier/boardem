@@ -80,6 +80,16 @@ public class UserRosterLogic {
 		//Convert rostersData to a HashMap
 		Map<String,Object> rostersMap = (Map<String,Object>) rostersData.getValue();
 
+
+		//Setup a new Firebase to reference games
+		Firebase eventRef = rootRef.child("events").child(event_id);
+		DataSnapshot eventData = FirebaseHelper.readData(eventRef);
+
+		//If this is null, then the shelf_id does not point to a valid game
+		@SuppressWarnings({"rawtypes", "unchecked"})
+		Map<String, Object> eventMap = (Map<String,Object>) eventData.getValue();
+
+
 		//If the user doesn't have any events
 		if (rostersMap == null) {
 
@@ -95,6 +105,10 @@ public class UserRosterLogic {
 		} else if (rostersMap.containsKey(event_id)) {
 
 			return ResponseList.RESPONSE_USER_IN_EVENT;
+
+		} else if (eventMap == null) {
+
+			return ResponseList.RESPONSE_GAME_DOESNT_EXIST;
 
 		} else {
 
