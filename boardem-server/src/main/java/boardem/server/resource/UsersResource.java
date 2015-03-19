@@ -17,7 +17,7 @@ import boardem.server.logic.UserBadgesLogic;
 import boardem.server.logic.UserAttributesLogic;
 import boardem.server.logic.UserShelfLogic;
 import boardem.server.logic.UserRosterLogic;
-
+import boardem.server.logic.UserMessagesLogic;
 
 
 @Path("/users")
@@ -245,13 +245,41 @@ public class UsersResource
 	}
 
 	/**
-	 * Lists messages to user from other users
-	 * @return The user's messages
+	 * Lists message IDs from a user
+	 * @return Boardem response with extra of Hashmap of messageIDs (keys) and message texts
 	 */
 	 @GET
 	 @Path("{uid}/message")
-	 public Response listMessages(User user)
+	 public Response listMessages(@PathParam("uid") String userId)
 	 {
-	 	return null;
+	 	return Response.ok(UserMessagesLogic.listUserMessages(userId)).build();
 	 }
+
+	/**
+	 * Adds a message to a user
+	 * @param uid Facebook ID of user
+	 * @param to Facebook ID of person to send to
+	 * @param text Body of the message
+	 * @return Boardem response (ok or no)
+	 */
+	@POST
+	@Path("{uid}/message")
+	public Response addRosterItem(@PathParam("uid") String userId, @QueryParam("to") String recipientId, @QueryParam("text") String text)
+	{
+		return Response.ok(UserMessagesLogic.messageUser(userId, recipientId, text)).build();
+	}
+
+	/**
+	 * Deletes a message from a user
+	 * @param uid Facebook ID of user
+	 * @param mid ID of message
+	 * @return Boardem response (ok or no)
+	 */
+	@DELETE
+	@Path("{uid}/message")
+	public Response removeMessage(@PathParam("uid") String userId, @QueryParam("mid") String messageId)
+	{
+		return Response.ok(UserMessagesLogic.deleteMessage(userId, messageId)).build();
+	}	 
+
 }
