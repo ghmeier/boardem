@@ -80,16 +80,15 @@ public class UserShelfLogic {
 		//Convert shelfIDsData to a HashMap
 		Map<String,Object> shelfIDsMap = (Map<String,Object>) shelfIDsData.getValue();
 
-
-		Firebase gameRef = rootRef.child("games");
-
+		//Setup a new Firebase to reference games
+		Firebase gameRef = rootRef.child("games").child(shelf_id);
 		DataSnapshot gameData = FirebaseHelper.readData(gameRef);
 
+		//If this is null, then the shelf_id does not point to a valid game
 		@SuppressWarnings({"rawtypes", "unchecked"})
-		Map<String, Object> gameMap = (Map<String, Object>) gameData.getValue();
+		Map<String, Object> gameMap = (Map<String,Object>) gameData.getValue();
 
-
-		//If the user doesn't have any shelfIDs
+		//If the user doesn't have any games in their shelf
 		if (shelfIDsMap == null) {
 
 			Map<String,String> initialVal = new HashMap<String,String>();
@@ -97,16 +96,16 @@ public class UserShelfLogic {
 			//Add the first value
 			initialVal.put(shelf_id, "0");
 
-			//Write it to the Firebase in the "shelfIDs" table
+			//Write it to the Firebase in the "shelf" table
 			FirebaseHelper.writeData(shelfIDsRef, initialVal);
 
-		//If the user already has this shelfID
+		//If the user already has this gameID in their shelf
 		} else if (shelfIDsMap.containsKey(shelf_id)) {
 
 			return ResponseList.RESPONSE_USER_HAS_SHELF_ID;
 
 		//If shelf ID doesn't exist as a game name
-		} else if (!gameMap.containsKey(shelf_id)) {
+		} else if (gameMap == null) {
 
 			return ResponseList.RESPONSE_GAME_DOESNT_EXIST;
 
