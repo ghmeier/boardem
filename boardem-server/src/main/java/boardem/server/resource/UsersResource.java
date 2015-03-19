@@ -250,8 +250,34 @@ public class UsersResource
 	 */
 	 @GET
 	 @Path("{uid}/message")
-	 public Response listMessages(User user)
+	 public Response listMessages(@PathParam("uid"))
 	 {
-	 	return null;
+	 	return Response.ok(UserMessageLogic.getUserMessages(userId)).build();
 	 }
+
+	/**
+	 * Adds an message to a user
+	 * @param uid Facebook ID of user
+	 * @param mid ID of message
+	 * @return Boardem response (ok or no)
+	 */
+	@POST
+	@Path("{uid}/message")
+	public Response addRosterItem(@PathParam("uid") String userId, @QueryParam("mid") String messageId)
+	{
+		return Response.ok(UserMessageLogic.addUserMessage(userId, messageId)).build();
+	}
+
+	/**
+	 * Deletes an message from a user
+	 * @param uid Facebook ID of user
+	 * @param mid ID of message
+	 * @return Boardem response (ok or no)
+	 */
+	@DELETE
+	@Path("{uid}/roster")
+	public Response deleteRosterItem(@PathParam("uid") String userId, @QueryParam("mid") String messageId)
+	{
+		return Response.ok(UserMessageLogic.deleteUserMessage(userId, messageId)).build();
+	}
 }
