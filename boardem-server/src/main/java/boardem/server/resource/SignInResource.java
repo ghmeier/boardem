@@ -24,7 +24,7 @@ public class SignInResource {
 		
 		//check if user exists, return success if exists, otherwise error
 		
-		return Response.ok(SignInLogic.signIn(facebookId)).header("Access-Control-Allow-Origin","*").build();
+		return Response.ok(SignInLogic.signIn(facebookId)).build();
 	}
 
 }

@@ -23,6 +23,6 @@ public class GameResource
 	@Path("{gid}")
 	public Response getGame(@PathParam("gid") String gameId)
 	{
-		return Response.ok(GetGameLogic.getGame(gameId)).header("Access-Control-Allow-Origin","*").build();
+		return Response.ok(GetGameLogic.getGame(gameId)).build();
 	}
 }

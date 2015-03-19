@@ -15,7 +15,6 @@ var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 			$scope.day = SearchCriteria.getDay();
 			$scope.month = SearchCriteria.getMonth();
 			$scope.year = SearchCriteria.getYear();
-			//$rootScope.events = RestService.getEvents(($scope.month + " " + $scope.day + " " + $scope.year));
 	}
 	
 	$scope.changeLocationSearch = function(direction){

@@ -3,6 +3,7 @@ package boardem.server;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
 import javax.servlet.FilterRegistration.Dynamic;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
@@ -35,6 +36,17 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 	@Override
 	public void run(BoardemConfiguration config, Environment env)
 	{
+		
+    	final FilterRegistration.Dynamic cors = env.servlets().addFilter("CORS", CrossOriginFilter.class);
+
+    	// Configure CORS parameters
+    	cors.setInitParameter("allowedOrigins", "*");
+        cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
+   	    cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+
+  	    // Add URL mapping
+   	    cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+    	    
 		//Register resources and health checks here
 		final SignUpResource signUp = new SignUpResource();
 		final SignInResource signIn = new SignInResource();
@@ -43,7 +55,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		final SearchResource search = new SearchResource();
 		final GameResource game = new GameResource();
 		
-		configureCors(env);
+		//configureCors(env);
 		
 		env.jersey().register(signUp);
 		env.jersey().register(signIn);
@@ -53,7 +65,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		env.jersey().register(game);
 	}
 	
-	  private void configureCors(Environment environment) {
+/*	  private void configureCors(Environment environment) {
 		    Dynamic filter = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
 		    filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 		    filter.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,PUT,POST,DELETE,OPTIONS");
@@ -61,5 +73,5 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		    filter.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*");
 		    filter.setInitParameter("allowedHeaders", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
 		    filter.setInitParameter("allowCredentials", "true");
-	}
+	}*/
 }

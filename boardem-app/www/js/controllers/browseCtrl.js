@@ -7,5 +7,11 @@ appCtrl.controller('BrowseCtrl',function($rootScope,$window,$ionicPopup,$http, $
 		window.location.href= "#/app/profile/"+profile_id;
 	}
 
+	$scope.addFriend = function(friend_id){
+		UserService.addFriend($rootScope.SERVER_LOCATION,$rootScope.user_id,friend_id).success(function(res){
+			console.log(res);
+		});
+	}
+
 	$scope.getUsers();
 });

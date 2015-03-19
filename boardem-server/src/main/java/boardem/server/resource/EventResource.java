@@ -36,7 +36,7 @@ public class EventResource
 	{
 		BoardemResponse response = CreateEventLogic.createEvent(event).clone();
 		response.setExtra(event.getId());
-		return Response.ok(response).header("Access-Control-Allow-Origin","*").build();
+		return Response.ok(response).build();
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class EventResource
 	@GET
 	public Response getEvents()
 	{
-		return Response.ok(GetEventsLogic.getEvents()).header("Access-Control-Allow-Origin", "*").build();
+		return Response.ok(GetEventsLogic.getEvents()).build();
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class EventResource
 	@Path("{eid}/join")
 	public Response joinEvent(@PathParam("eid") String eventId, @QueryParam("user_id") String userId)
 	{
-		return Response.ok(JoinEventLogic.joinEvent(eventId, userId)).header("Access-Control-Allow-Origin","*").build();
+		return Response.ok(JoinEventLogic.joinEvent(eventId, userId)).build();
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class EventResource
 	@Path("{eid}/leave")
 	public Response leaveEvent(@PathParam("eid") String eventId, @QueryParam("user_id") String userId)
 	{
-		return Response.ok(LeaveEventLogic.leaveEvent(eventId, userId)).header("Access-Control-Allow-Origin", "*").build();
+		return Response.ok(LeaveEventLogic.leaveEvent(eventId, userId)).build();
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class EventResource
 	@Path("{eid}")
 	public Response getEvent(@PathParam("eid") String eventId)
 	{
-		return Response.ok(GetEventLogic.getEvent(eventId)).header("Access-Control-Allow-Origin", "*").build();
+		return Response.ok(GetEventLogic.getEvent(eventId)).build();
 	}
 	
 	/**
@@ -88,6 +88,6 @@ public class EventResource
 			@QueryParam("date") String date, @QueryParam("owner") String owner,
 			@QueryParam("games") List<String> games)
 	{
-		return Response.ok(UpdateEventLogic.updateEvent(eventId, name, lat, lng, date, owner, games)).header("Access-Control-Allow-Origin", "*").build();
+		return Response.ok(UpdateEventLogic.updateEvent(eventId, name, lat, lng, date, owner, games)).build();
 	}
 }
