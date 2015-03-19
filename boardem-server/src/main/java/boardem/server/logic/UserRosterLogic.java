@@ -94,7 +94,7 @@ public class UserRosterLogic {
 		//If the user already has this event
 		} else if (rostersMap.containsKey(event_id)) {
 
-			return ResponseList.RESPONSE_USER_HAS_roster;
+			return ResponseList.RESPONSE_USER_IN_EVENT;
 
 		} else {
 
@@ -124,6 +124,27 @@ public class UserRosterLogic {
 
 	public static BoardemResponse deleteUserRosterItem(String user_id, String event_id)
 	{
+
+		//Point rostersRef to the event_id of user "user_id"
+		Firebase rostersRef = new Firebase(BoardemApplication.FIREBASE_URL).child("users").child(UserLogic.getStringNameFromId(user_id)).child("roster").child(event_id);
+
+		//Convert to DataSnapshot
+		DataSnapshot rostersData = FirebaseHelper.readData(rostersRef);
+
+		@SuppressWarnings({"rawtypes", "unchecked"})
+		//Convert to string (will only have one value, so no HashMap this time)
+		String rostersExists = (String) rostersData.getValue();
+
+		//If rostersExists = null, no roster with the given event_id exists in that user's list of rosters
+		if (rostersExists == null) {
+
+			return ResponseList.RESPONSE_EVENT_DOES_NOT_EXIST;
+
+		} 
+
+		//If the event_id does exist in the user, remove it
+		FirebaseHelper.removeData(rostersRef);
+
 		return ResponseList.RESPONSE_SUCCESS;
 	}
 
