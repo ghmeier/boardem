@@ -1,16 +1,23 @@
 package boardem.server;
 
+import io.dropwizard.Application;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
-import javax.servlet.FilterRegistration.Dynamic;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 
-import io.dropwizard.Application;
-import io.dropwizard.setup.*;
-import boardem.server.resource.*;
+import boardem.server.resource.CacheGamesResource;
+import boardem.server.resource.EventResource;
+import boardem.server.resource.GameResource;
+import boardem.server.resource.SearchResource;
+import boardem.server.resource.SignInResource;
+import boardem.server.resource.SignUpResource;
+import boardem.server.resource.UsersResource;
 
 public class BoardemApplication extends Application<BoardemConfiguration>
 {
@@ -54,6 +61,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		final UsersResource users = new UsersResource();
 		final SearchResource search = new SearchResource();
 		final GameResource game = new GameResource();
+		CacheGamesResource cacheGames = new CacheGamesResource();
 		
 		//configureCors(env);
 		
@@ -63,6 +71,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		env.jersey().register(users);
 		env.jersey().register(search);
 		env.jersey().register(game);
+		env.jersey().register(cacheGames);
 	}
 	
 /*	  private void configureCors(Environment environment) {
