@@ -110,3 +110,6 @@ Date format = "yyyy-MM-dd HH:mm:ss"
 
 /game/{gid} - GET
 -Returns information about a game
+
+/cache-games - POST
+-Caches game information in games.dat as a HashMap<String, Game>
