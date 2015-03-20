@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -151,6 +152,10 @@ public class FirebaseHelper
 			{
 				String json = mapper.writeValueAsString(data.get(key));
 				t = mapper.readValue(json, type);
+			}
+			catch(UnrecognizedPropertyException e)
+			{
+				//No need to clutter output with this, it just happens when things are in firebase that we don't care about
 			}
 			catch(IOException e)
 			{
