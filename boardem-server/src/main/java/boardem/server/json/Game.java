@@ -1,5 +1,6 @@
 package boardem.server.json;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +12,13 @@ import com.firebase.client.DataSnapshot;
 /**
  * JSON representation of a game
  */
-public class Game
+public class Game implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3949764303488503986L;
+	
 	private double averageRating;
 	private double bggRating; //Board game geek rating
 	private String description;

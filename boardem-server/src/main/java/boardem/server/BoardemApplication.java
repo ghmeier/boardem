@@ -1,16 +1,22 @@
 package boardem.server;
 
+import io.dropwizard.Application;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
-import javax.servlet.FilterRegistration.Dynamic;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 
-import io.dropwizard.Application;
-import io.dropwizard.setup.*;
-import boardem.server.resource.*;
+import boardem.server.resource.EventResource;
+import boardem.server.resource.GameResource;
+import boardem.server.resource.SearchResource;
+import boardem.server.resource.SignInResource;
+import boardem.server.resource.SignUpResource;
+import boardem.server.resource.UsersResource;
 
 public class BoardemApplication extends Application<BoardemConfiguration>
 {
@@ -46,7 +52,10 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 
   	    // Add URL mapping
    	    cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
-    	    
+
+   	    //Load the game cache
+   	    GameCache.load();
+   	    
 		//Register resources and health checks here
 		final SignUpResource signUp = new SignUpResource();
 		final SignInResource signIn = new SignInResource();
