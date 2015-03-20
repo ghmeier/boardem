@@ -11,7 +11,6 @@ import javax.servlet.FilterRegistration;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 
-import boardem.server.resource.CacheGamesResource;
 import boardem.server.resource.EventResource;
 import boardem.server.resource.GameResource;
 import boardem.server.resource.SearchResource;
@@ -53,7 +52,10 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 
   	    // Add URL mapping
    	    cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
-    	    
+
+   	    //Load the game cache
+   	    GameCache.load();
+   	    
 		//Register resources and health checks here
 		final SignUpResource signUp = new SignUpResource();
 		final SignInResource signIn = new SignInResource();
@@ -61,7 +63,6 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		final UsersResource users = new UsersResource();
 		final SearchResource search = new SearchResource();
 		final GameResource game = new GameResource();
-		CacheGamesResource cacheGames = new CacheGamesResource();
 		
 		//configureCors(env);
 		
@@ -71,7 +72,6 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		env.jersey().register(users);
 		env.jersey().register(search);
 		env.jersey().register(game);
-		env.jersey().register(cacheGames);
 	}
 	
 /*	  private void configureCors(Environment environment) {
