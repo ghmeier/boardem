@@ -1,7 +1,5 @@
 *.jar
 *.class
-jake-experiments/dropwizard/target/**
-jake-experiments/firebase/target/**
 
 *.DS_Store
 boardem-server/target/**
@@ -11,4 +9,4 @@ boardem-server/.classpath
 boardem-server/.project
 boardem-server/.settings/**
 boardem-server/output.txt
-ben-experiments/firebase-dropwizard/target/**
+boardem-server/games.dat
