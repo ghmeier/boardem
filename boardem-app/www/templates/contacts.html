@@ -1,4 +1,4 @@
-<ion-view view-title="Browse">
+<ion-view view-title="Contacts" ng-init="getUsers()">
   <ion-content>
     	<div class="list card" ng-repeat="user in users">
     		<div class="item item-avatar" on-tap="toProfile({{user.facebook_id}})">
@@ -7,12 +7,10 @@
 		        <p>@{{user.username}}</p>
         	</div>
         	<ion-item class="item tabs tabs-secondary tabs-icon-left" >
-				<div class="tab-item balanced" on-tap="addFriend({{user.facebook_id}})" ng-hide="{{user.friend}}" >
-					<i class="icon ion-checkmark-circled"></i>&nbsp;Friend!
-				</div>
 				<div class="tab-item assertive" on-tap="removeFriend({{user.facebook_id}})" ng-show="{{user.friend}}">
 					<i class="icon ion-close-circled"></i>&nbsp;Unfriend!
 				</div>
+
 	      	</ion-item>
         </div>
 
