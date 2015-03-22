@@ -12,7 +12,7 @@ import com.firebase.client.DataSnapshot;
 /**
  * JSON representation of a game
  */
-public class Game implements Serializable
+public class Game implements Serializable, Comparable<Game>
 {
 	/**
 	 * 
@@ -299,5 +299,14 @@ public class Game implements Serializable
 		}
 		
 		return game;
+	}
+
+	/**
+	 * @return this.name.compareTo(other.name)
+	 */
+	@Override
+	public int compareTo(Game other)
+	{
+		return name.compareTo(other.name);
 	}
 }
