@@ -108,11 +108,11 @@ Date format = "yyyy-MM-dd HH:mm:ss"
 
 	@param aid - Attribute ID to add to user
 
-/game - GET
+/games - GET
 -Gets a list of games 10 at a time
 -Returns null if there are no more pages
 -Query parameters
 	-page_number - Page number
 
-/game/{gid} - GET
+/games/{gid} - GET
 -Returns information about a game

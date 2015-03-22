@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import boardem.server.logic.GetGameLogic;
 import boardem.server.logic.GetGamesLogic;
 
-@Path("/game")
+@Path("/games")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class GameResource
