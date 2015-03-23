@@ -42,9 +42,9 @@ appCtrl.service("UserService",['$http',function($http){
 		this.getUsers(base_url).success(function(res){
 			var users = res.extra;
 			self.getContacts(base_url,skipId).success(function(con){
-				var contacts = con.extra;
+				var contacts = con.extra; 
 				self.parseUsers(base_url,users,userDetails,skipId,contacts);
-			});
+			});			
 
 		});
 		return userDetails;
