@@ -17,6 +17,7 @@ import boardem.server.json.BoardemResponse;
 import boardem.server.json.Comment;
 import boardem.server.json.Event;
 import boardem.server.logic.CreateEventLogic;
+import boardem.server.logic.GetCommentsLogic;
 import boardem.server.logic.GetEventLogic;
 import boardem.server.logic.GetEventsLogic;
 import boardem.server.logic.JoinEventLogic;
@@ -101,5 +102,15 @@ public class EventResource
 	public Response leaveComment(@PathParam("eid") String eventId, Comment comment)
 	{
 		return Response.ok(LeaveCommentLogic.leaveComment(eventId, comment)).build();
+	}
+	
+	/**
+	 * Gets the comments of an event
+	 */
+	@GET
+	@Path("{eid}/comments")
+	public Response getComments(@PathParam("eid") String eventId)
+	{
+		return Response.ok(GetCommentsLogic.getComments(eventId)).build();
 	}
 }
