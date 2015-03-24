@@ -25,12 +25,14 @@ public class Event
 	private String ownerId;
 	private List<String> participantIds;
 	private List<String> gameIds;
+	private List<Comment> comments;
 	
 	public Event()
 	{
 		//Make sure the objects exist in case they don't in Firebase
 		participantIds = new ArrayList<String>();
 		gameIds = new ArrayList<String>();
+		comments = new ArrayList<Comment>();
 	}
 	
 	@JsonProperty("event_id")
@@ -144,6 +146,18 @@ public class Event
 		return gameIds;
 	}
 	
+	@JsonProperty("comments")
+	public void setComments(List<Comment> comments)
+	{
+		this.comments = comments;
+	}
+	
+	@JsonProperty("comments")
+	public List<Comment> getComments()
+	{
+		return comments;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static Event getEventFromSnapshot(DataSnapshot snap)
 	{
@@ -167,6 +181,12 @@ public class Event
 		if(games != null)
 		{
 			event.setGames(games);
+		}
+		
+		List<Comment> comments = (List<Comment>) map.get("comments");
+		if(comments != null)
+		{
+			event.setComments(comments);
 		}
 		
 		return event;

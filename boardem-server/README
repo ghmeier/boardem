@@ -52,6 +52,16 @@ Date format = "yyyy-MM-dd HH:mm:ss"
 	*eid is the event id
 	*user_id is the ID of the user leaving - Query param
 	
+	
+/event/{eid}/comment - POST
+-Leaving comments on an event
+-Query parameters
+	*user_id - ID of the user leaving a comment
+	*comment - Comment that is being posted
+
+/event/{eid}/comments - GET
+-Gets the list of comments of an event
+	
 /search
 -For searching through events
 -Returns a BoardemResponse with the extra field containing a list of the IDs of matching events
