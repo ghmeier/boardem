@@ -25,11 +25,9 @@ appCtrl.service("GameService",['$http',function($http){
 	  "yearPublished" : 1995
 	}
 
-	this.getGames = function(base_url){
+	this.getGames = function(base_url, page_num){
 		
-		games = $http.get(base_url+"/games");
-		console.log(games);
-		return games;
+		return $http.get(base_url+"/games?page_number="+page_num);;
 	}
 
 	this.getSingleGame = function(base_url,name){
@@ -39,11 +37,15 @@ appCtrl.service("GameService",['$http',function($http){
 	}
 
 	this.getAllGames = function(base_url){
-		var games = this.getGames(base_url);
-		var gamesDetail = [];
-		for (id in games){
-			gamesDetail.push(this.getSingleGame(base_url,games[id]));
-		}
-		return gamesDetail;
+		/*var count = 0;
+		while (count!=-1 || count!=10){
+			var temp = this.getGames(base_url, count);
+		
+			games = temp;
+			//gamesDetail.push(this.getSingleGame(base_url,games[id]));
+			count++;
+			
+		}*/
+		return this.getGames(base_url, 0);
 	}
 }]);
