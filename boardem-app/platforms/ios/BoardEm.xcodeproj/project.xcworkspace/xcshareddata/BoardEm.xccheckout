@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>AE486D33-42FB-40D2-85DF-374F465B1D96</string>
+	<key>IDESourceControlProjectName</key>
+	<string>BoardEm</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>E3D7698E1F7F5DD0F8D4A6A01EA43FD520CFBD8B</key>
+		<string>git.linux.iastate.edu:yunfei/team-16.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>boardem-app/platforms/ios/BoardEm.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>E3D7698E1F7F5DD0F8D4A6A01EA43FD520CFBD8B</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>git.linux.iastate.edu:yunfei/team-16.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E3D7698E1F7F5DD0F8D4A6A01EA43FD520CFBD8B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E3D7698E1F7F5DD0F8D4A6A01EA43FD520CFBD8B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>team-16</string>
+		</dict>
+	</array>
+</dict>
+</plist>

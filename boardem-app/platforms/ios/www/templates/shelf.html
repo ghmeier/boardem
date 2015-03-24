@@ -1,0 +1,34 @@
+<ion-view view-title="Shelf">
+		<ion-content>
+			<ion-item class="item-input-inset" style="background-color:grey;">
+				<label class="item-input-wrapper">
+					<input type="text" placeholder="Search Games"> </input>
+				</label>
+				<button class="button button-clear"  on-tap="switchView(0)" ng-show="fullView" >
+					<i class="icon ion-ios-list"></i>
+        </button>
+				<button class="button button-clear" on-tap="switchView(1)" ng-show="!fullView">
+					<i class="icon ion-android-list"></i>
+        </button>
+			</ion-item>
+			</div>
+    	<div class="list card" ng-repeat="game in games" ng-show="fullView">
+    		<div class="item item-avatar" on-tap="toGame('{{game.name}}')">
+		        <img src="{{game.image}}" style="border-radius:5%"/>
+		        <h2>{{game.name}}</h2>
+		        <p>{{game.minPlayers}}-{{game.maxPlayers}} players</p>
+		        <p>~{{game.playingTime}} minute play time</p>
+		        <p>
+				    {{game.averageRating.toFixed(1)}}/10
+			  </p>
+        	</div>
+        </div>
+			</div>
+			<div class="list card" ng-repeat="game in games" ng-show="!fullView">
+    		<div class="item item-avatar" on-tap="toGame('{{game.name}}')">
+		        <h2 style="padding-top:5px;padding-bottomn:5px;">{{game.name}}</h2>
+        </div>
+			</div>
+
+  </ion-content>
+</ion-view>
