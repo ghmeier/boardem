@@ -10,11 +10,13 @@
 		        <h2>{{owner.display_name}}</h2>
 		        <p>@{{owner.username}}</p>
         	</div>
-        
+
             <div class="list" >
         		<div class="item">{{date.days}} days {{date.hours}} hours away</div>
+                <div class="item item-divider">Location</div>
                 <div class="item item-button-right">
-                    Distance: {{event.distance}}km     
+                    <h2>{{location[0].formatted_address}}</h2>
+                    <p>Distance: {{event.distance}}km</p>
                     <a class="button button-positive" href="geo:{{event.lat}},{{event.lng}}">
                        Open In Maps
                     </a>

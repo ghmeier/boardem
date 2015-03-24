@@ -2,6 +2,7 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
 
   $scope.loadEvent = function(){
     $scope.event = {};
+    $scope.location = [];
 
     EventService.getEvent($rootScope.SERVER_LOCATION,$stateParams.eventId).success(function(res){
     	$scope.event = res.extra;
@@ -10,10 +11,14 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
       $scope.event.canJoin = EventService.isParticipant($rootScope.user_id,$scope.event);
       $scope.event.isOwner = EventService.isOwner($rootScope.user_id,$scope.event);
 
+
+
       navigator.geolocation.getCurrentPosition(function(pos){
+        EventService.getLocationFromCoords($scope.event.lat,$scope.event.lng,$scope.location);
         safeApply($scope,$rootScope,function(){
-          $scope.event.distance = EventService.getDistanceInKM($scope.event.lat,$scope.event.lng,pos.coords.latitude,pos.coords.longitude); 
-        });     
+          $scope.event.distance = EventService.getDistanceInKM($scope.event.lat,$scope.event.lng,pos.coords.latitude,pos.coords.longitude);
+
+        });
       },function(error){
         //nothing
       });
@@ -29,7 +34,7 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
           safeApply($scope,$rootScope,function(){
             $scope.event.participant_profile.push(data.extra);
           });
-        });      
+        });
       }
     });
   };
@@ -41,7 +46,7 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
         $scope.loadEvent();
         $rootScope.events = EventService.loadEvents();
       }else {
-        UtilService.popup("Failed to join.","Error: "+res.message);     
+        UtilService.popup("Failed to join.","Error: "+res.message);
       }
     }).error(function(error){
       UtilService.popup("Failed to join.","Error: "+error);
