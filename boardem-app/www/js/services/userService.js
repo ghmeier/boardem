@@ -1,7 +1,7 @@
 /*-----------------------------------------------------
 								USER SERVICE
 -----------------------------------------------------*/
-appCtrl.service("UserService",['$http',function($http){
+appCtrl.service("UserService",['$http','GameService',function($http,GameService){
 
 	var endpoint = "users/"
 	this.getUser = function(base_url,userid){
@@ -16,10 +16,18 @@ appCtrl.service("UserService",['$http',function($http){
 		var url = base_url+endpoint+userId+"/contacts";
 		return $http.get(url);
 	}
-	
-	this.getShelf = function(base_url,userId){
+
+	this.getShelf = function(base_url,userId,shelf){
 		var url = base_url+endpoint+userId+"/shelf";
-		return $http.get(url);
+		return $http.get(url).success(function(res){
+			var shelfRaw = res.extra;
+			for (id in shelfRaw){
+				GameService.getSingleGame(base_url,shelfRaw[id]).success(function(game){
+					game.extra.image = (game.extra.image).substr(2);
+					shelf.push(game.extra);
+				})
+			}
+		});
 	}
 
 	this.parseUsers = function(base_url,users,userDetails,skipId,contact_ids){
@@ -74,17 +82,17 @@ appCtrl.service("UserService",['$http',function($http){
 		var self =this;
 		return $http.delete(base_url+endpoint+user1 +"/contacts?fid="+user2);
 	}
-	
+
 	this.getUserShelf = function(base_url, userid){
-				
+
 		return $http.get(base_url+userid+"/shelf");
-					
+
 	}
-	
+
 	this.addToUserShelf = function(base_url, userid, game){
-				
+
 		return $http.get(base_url+userid+"/shelf?game"+game);
-					
+
 	}
-				
+
 }]);

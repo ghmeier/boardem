@@ -1,34 +1,40 @@
-<ion-view view-title="Games">
+<ion-view view-title="Games" ng-init="initShelf()">
 		<ion-content>
 			<ion-item class="item-input-inset" style="background-color:grey;">
 				<label class="item-input-wrapper">
 					<input type="text" placeholder="Search Games"> </input>
 				</label>
-				<button class="button button-clear"  on-tap="switchView(0)" ng-show="fullView" >
+				<button class="button button-clear button-dark"  on-tap="switchView(0)" ng-show="fullView" >
 					<i class="icon ion-ios-list"></i>
-        </button>
-				<button class="button button-clear" on-tap="switchView(1)" ng-show="!fullView">
+                </button>
+				<button class="button button-clear button-dark" on-tap="switchView(1)" ng-show="!fullView">
 					<i class="icon ion-android-list"></i>
-        </button>
+                </button>
 			</ion-item>
-			</div>
-    	<div class="list card" ng-repeat="game in games" ng-show="fullView">
-    		<div class="item item-avatar" on-tap="toGame('{{game.name}}')">
-		        <img src="{{game.image}}" style="border-radius:5%"/>
-		        <h2>{{game.name}}</h2>
-		        <p>{{game.minPlayers}}-{{game.maxPlayers}} players</p>
-		        <p>~{{game.playingTime}} minute play time</p>
-		        <p>
-				    {{game.averageRating.toFixed(1)}}/10
-			  </p>
-        	</div>
-        </div>
-			</div>
+        	<div class="list card" ng-repeat="game in games" ng-show="fullView">
+        		<div class="item item-avatar" on-tap="toGame('{{game.name}}')">
+    		        <img src="http://{{game.image}}" style="border-radius:5%"/>
+    		        <h2>{{game.name}}</h2>
+    		        <p>{{game.minPlayers}}-{{game.maxPlayers}} players</p>
+    		        <p>~{{game.playingTime}} minute play time</p>
+    		        <p>
+    				    {{game.averageRating.toFixed(1)}}/10
+    			     </p>
+            	</div>
+                <ion-item class="item tabs tabs-secondary tabs-icon-left" >
+                    <div class="tab-item balanced" on-tap="add(game)" ng-hide="game.shelved">
+                        <i class="icon ion-checkmark-circled"></i>&nbsp;Add To Shelf!
+                    </div>
+                    <div class="tab-item assertive" on-tap="add(game)" ng-show="game.shelved">
+                        <i class="icon ion-close-circled"></i>&nbsp;Remove from Shelf!
+                    </div>
+                </ion-item>
+            </div>
 			<div class="list card" ng-repeat="game in games" ng-show="!fullView">
-    		<div class="item item-avatar" on-tap="toGame('{{game.name}}')">
-		        <h2 style="padding-top:5px;padding-bottomn:5px;">{{game.name}}</h2>
-        </div>
+        		<div class="item" on-tap="toGame('{{game.name}}')">
+    		        <h2 style="padding-top:5px;padding-bottomn:5px;">{{game.name}}</h2>
+                </div>
 			</div>
-
+            <ion-infinite-scroll on-infinite="getGames()" distance="1%"></ion-infinite-scroll>
   </ion-content>
 </ion-view>
