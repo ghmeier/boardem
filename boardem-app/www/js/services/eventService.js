@@ -70,7 +70,6 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
         this.getLocationFromCoords = function(lat,lng,location){
           var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+"&key=AIzaSyBinl1su9ywT5WVhBNmKugvdQHziIlCDyY";
           $http.get(url).success(function(res){
-            console.log(res);
             location.push(res.results[0]);
           });
 
