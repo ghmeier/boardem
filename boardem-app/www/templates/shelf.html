@@ -1,26 +1,34 @@
 <ion-view view-title="Shelf">
-  <ion-content>
-    <!--<div class="list ">
+		<ion-content>
+			<ion-item class="item-input-inset" style="background-color:grey;">
+				<label class="item-input-wrapper">
+					<input type="text" placeholder="Search Games"> </input>
+				</label>
+				<button class="button button-clear"  on-tap="switchView(0)" ng-show="fullView" >
+					<i class="icon ion-ios-list"></i>
+        </button>
+				<button class="button button-clear" on-tap="switchView(1)" ng-show="!fullView">
+					<i class="icon ion-android-list"></i>
+        </button>
+			</ion-item>
+			</div>
+    	<div class="list card" ng-repeat="game in games" ng-show="fullView">
+    		<div class="item item-avatar" on-tap="toGame('{{game.name}}')">
+		        <img src="{{game.image}}" style="border-radius:5%"/>
+		        <h2>{{game.name}}</h2>
+		        <p>{{game.minPlayers}}-{{game.maxPlayers}} players</p>
+		        <p>~{{game.playingTime}} minute play time</p>
+		        <p>
+				    {{game.averageRating.toFixed(1)}}/10
+			  </p>
+        	</div>
+        </div>
+			</div>
+			<div class="list card" ng-repeat="game in games" ng-show="!fullView">
+    		<div class="item item-avatar" on-tap="toGame('{{game.name}}')">
+		        <h2 style="padding-top:5px;padding-bottomn:5px;">{{game.name}}</h2>
+        </div>
+			</div>
 
-	    <div class="card" ng-repeat="game in games">
-
-
-					<ion-item class="item item-thumbnail-left" href="#/app/events/{{event.event_id}}">
-		      	<img src="{{event.owner_profile.picture_url}}"/>
-		        <h2>{{event.name}}</h2>
-						<p style="color:grey;">({{event.time.days}} days {{event.time.hours}} hours)</p>
-						<p>Games: {{event.games.join(", ")}}</p>
-	      	</ion-item>
-	      	<ion-item class="item tabs tabs-secondary tabs-icon-left" >
-						<div class="tab-item balanced" on-tap="join(event.event_id)" ng-show="event.canJoin && !event.isOwner">
-								<i class="icon ion-checkmark-circled"></i>&nbsp;Join!
-						</div>
-						<div class="tab-item assertive" on-tap="leave(event)" ng-show="!event.canJoin && !event.isOwner">
-								<i class="icon ion-close-circled"></i>&nbsp;Leave
-						</div>
-	      	</ion-item>
-	    </div>
-    </div>
-		-->
   </ion-content>
 </ion-view>

@@ -2,11 +2,11 @@
 								EVENT SERVICE
 -----------------------------------------------------*/
 appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService','UserService', function ($ionicPopup,$rootScope,$http,RestService,UserService) {
-	
+
         var endpoint = 'event/';
-				
+
 				//Any other http request will be used as a service function
-        this.getEvent = function (base_url,eventId,callback) {
+        this.getEvent = function (base_url,eventId) {
 			     return $http.get(base_url+endpoint+eventId);
         };
 
@@ -15,7 +15,7 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
         };
 
         this.leaveEvent = function(base_url,event_id,user_id){
-           return $http.post(base_url+endpoint+event_id+"/leave?"+"user_id="+user_id);         
+           return $http.post(base_url+endpoint+event_id+"/leave?"+"user_id="+user_id);
         }
 
         this.getTimeDifference = function(date){
@@ -67,11 +67,19 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
           return (d/1000).toFixed(2);
         };
 
+        this.getLocationFromCoords = function(lat,lng,location){
+          var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+"&key=AIzaSyBinl1su9ywT5WVhBNmKugvdQHziIlCDyY";
+          $http.get(url).success(function(res){
+            location.push(res.results[0]);
+          });
+
+        }
+
         this.toRad = function(val){
             /** Converts numeric degrees to radians */
             return val * Math.PI / 180;
         };
-				
+
 				this.loadEvents = function(){
 					var events = [];
 					var self = this;
@@ -103,5 +111,27 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
                   });
               });
             }
+        }
+
+        this.getRoster = function(base_url,userId){
+          var url = base_url+"users/"+userId+"/roster";
+          return $http.get(url);
+        }
+
+        this.getRosterDetail = function(base_url,userId,rosterDetails){
+          var self = this;
+          this.getRoster(base_url,userId).success(function(res){
+            var roster = res.extra;
+
+            if (roster === "none"){
+              return;
+            }
+            for (id in roster){
+              self.getEvent(base_url,roster[id]).success(function(response){
+                var eventfDetail = response.extra;
+                rosterDetails.push(eventDetail);
+              })
+            }
+          });
         }
 	}]);

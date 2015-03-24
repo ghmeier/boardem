@@ -16,6 +16,11 @@ appCtrl.service("UserService",['$http',function($http){
 		var url = base_url+endpoint+userId+"/contacts";
 		return $http.get(url);
 	}
+	
+	this.getShelf = function(base_url,userId){
+		var url = base_url+endpoint+userId+"/shelf";
+		return $http.get(url);
+	}
 
 	this.parseUsers = function(base_url,users,userDetails,skipId,contact_ids){
 		for (id in users){
@@ -42,9 +47,9 @@ appCtrl.service("UserService",['$http',function($http){
 		this.getUsers(base_url).success(function(res){
 			var users = res.extra;
 			self.getContacts(base_url,skipId).success(function(con){
-				var contacts = con.extra; 
+				var contacts = con.extra;
 				self.parseUsers(base_url,users,userDetails,skipId,contacts);
-			});			
+			});
 
 		});
 		return userDetails;

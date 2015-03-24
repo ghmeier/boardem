@@ -140,6 +140,9 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
       'menuContent': {
         templateUrl: "templates/roster.html",
         controller: 'rosterCtrl'
+			}
+    }
+  })
 	.state('app.shelf', {
     url: "/shelf",
     views: {

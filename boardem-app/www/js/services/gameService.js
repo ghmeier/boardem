@@ -27,25 +27,16 @@ appCtrl.service("GameService",['$http',function($http){
 
 	this.getGames = function(base_url, page_num){
 		
-		return $http.get(base_url+"/games?page_number="+page_num);;
+		return $http.get(base_url+"games?page_number="+page_num);
 	}
 
 	this.getSingleGame = function(base_url,name){
-		//game.image = game.image.substr(2,game.image.length);
-		game.id = name;
-		return game;
+			return $http.get(base_url+"games/"+name);;
 	}
 
 	this.getAllGames = function(base_url){
-		/*var count = 0;
-		while (count!=-1 || count!=10){
-			var temp = this.getGames(base_url, count);
+		var all_games = this.getGames(base_url, 0);
 		
-			games = temp;
-			//gamesDetail.push(this.getSingleGame(base_url,games[id]));
-			count++;
-			
-		}*/
-		return this.getGames(base_url, 0);
+		return all_games;
 	}
 }]);

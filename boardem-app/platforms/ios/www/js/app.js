@@ -17,7 +17,7 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
       StatusBar.styleDefault();
     }
   });
-	
+
 	$rootScope.events = [];
 })
 
@@ -132,6 +132,15 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
         templateUrl: "templates/create-event.html",
         controller: 'createEventCtrl'
       }
+    }
+  })
+  .state('app.roster', {
+    url: "/roster",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/roster.html",
+        controller: 'rosterCtrl'
+			}
     }
   })
 	.state('app.shelf', {
