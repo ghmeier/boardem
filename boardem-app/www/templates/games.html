@@ -25,7 +25,7 @@
                     <div class="tab-item balanced" on-tap="add(game)" ng-hide="game.shelved">
                         <i class="icon ion-checkmark-circled"></i>&nbsp;Add To Shelf!
                     </div>
-                    <div class="tab-item assertive" on-tap="add(game)" ng-show="game.shelved">
+                    <div class="tab-item assertive" on-tap="remove(game)" ng-show="game.shelved">
                         <i class="icon ion-close-circled"></i>&nbsp;Remove from Shelf!
                     </div>
                 </ion-item>

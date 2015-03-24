@@ -13,7 +13,7 @@
 			</ion-item>
 			</div>
     	<div class="list card" ng-repeat="game in games" ng-show="fullView">
-    		<div class="item item-avatar" on-tap="toGame('{{game.name}}')">
+    		<div class="item item-avatar" on-tap="toGame('{{game.name}}')" ng-show="game.shelved">
 		        <img src="http://{{game.image}}" style="border-radius:5%"/>
 		        <h2>{{game.name}}</h2>
 		        <p>{{game.minPlayers}}-{{game.maxPlayers}} players</p>
@@ -22,6 +22,11 @@
 				    {{game.averageRating.toFixed(1)}}/10
 			  </p>
         	</div>
+            <ion-item class="item tabs tabs-secondary tabs-icon-left" >
+                <div class="tab-item assertive" on-tap="remove(game)" ng-show="game.shelved">
+                   <i class="icon ion-close-circled"></i>&nbsp;Remove from Shelf!
+                </div>
+            </ion-item>
         </div>
 			</div>
 			<div class="list card" ng-repeat="game in games" ng-show="!fullView">

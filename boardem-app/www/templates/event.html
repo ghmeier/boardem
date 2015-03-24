@@ -22,7 +22,17 @@
                     </a>
                 </div>
         		<div class="item item-divider">Games</div>
-        		<div class="item" ng-repeat="id in event.games track by $index">{{id}}</div>
+                <div class="item" ng-repeat="game in games">
+                    <div class="item item-avatar" on-tap="toGame('{{game.name}}')">
+                        <img src="http://{{game.image}}" style="border-radius:5%"/>
+                        <h2>{{game.name}}</h2>
+                        <p>{{game.minPlayers}}-{{game.maxPlayers}} players</p>
+                        <p>~{{game.playingTime}} minute play time</p>
+                        <p>
+                            {{game.averageRating.toFixed(1)}}/10
+                         </p>
+                    </div>
+                </div>
                 <div class="item" ng-show="!event.games.length">No games.</div>
                 <div class="item item-divider">Who's Going</div>
                 <div class="item item-avatar" ng-repeat="user in event.participant_profile">

@@ -1,8 +1,9 @@
-appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $state, UtilService, EventService,UserService) {
+appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $state, UtilService, EventService,UserService,GameService) {
 
   $scope.loadEvent = function(){
     $scope.event = {};
     $scope.location = [];
+    $scope.games = [];
 
     EventService.getEvent($rootScope.SERVER_LOCATION,$stateParams.eventId).success(function(res){
     	$scope.event = res.extra;
@@ -22,6 +23,12 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
       },function(error){
         //nothing
       });
+
+      for (id in $scope.event.games){
+        GameService.getSingleGame($rootScope.SERVER_LOCATION,$scope.event.games[id]).success(function(gameRaw){
+          $scope.games.push(gameRaw.extra);
+        });
+      }
 
     	UserService.getUser($rootScope.SERVER_LOCATION ,$scope.event.owner)
     	.success(function(data){

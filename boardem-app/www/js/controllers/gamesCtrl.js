@@ -7,7 +7,7 @@ appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ion
 	$scope.initShelf = function(){
 		if ($scope.shelf.length == 0){
 			UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$scope.shelf).then(function(){
-				$scope.pate = 0;
+				$scope.page = 0;
 				$scope.games = [];
 			});
 		}
@@ -25,6 +25,14 @@ appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ion
 				game.shelved = true;
 			}
 		});
+	}
+
+	$scope.remove = function(game){
+		GameService.removeFromShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,game.name).success(function(res){
+			if (res.code == 0 || res.code === "0"){
+				game.shelved = false;
+			}
+		})
 	}
 
 	$scope.toGame = function(game_name){

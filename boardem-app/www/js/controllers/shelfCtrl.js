@@ -10,6 +10,14 @@ appCtrl.controller('shelfCtrl',function($rootScope, $scope,$window, $state, $ion
 		$window.location.href = "#/app/game/"+game_name;
 	}
 
+	$scope.remove = function(game){
+		GameService.removeFromShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,game.name).success(function(res){
+			if (res.code == 0 || res.code === "0"){
+				game.shelved = false;
+			}
+		})
+	}
+
 	$scope.switchView = function(val) {
 			if(val == 1 || val == "1") {
 				$scope.fullView = true;

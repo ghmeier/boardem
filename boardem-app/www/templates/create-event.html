@@ -63,15 +63,16 @@
 				</div>
 			</div>
 		</div>
-		<div class="item item-input item-floating-label">
-			<span class="input-label">Games</span>
-		<input type="text" ng-model="data.games" placeholder="Games">
+		<div class="item item-button-right">
+			<h2> <strong>Game</strong> </h2>
+			<p>{{eventGames.join(', ')}}</p>
+			<div class="button button-positive" on-tap="gamesModal()">Choose Games.</div>
 		</div>
 
 		<div class="item item-button-right">
 			<h2> <strong>Location</strong> {{eventLocation.name}}</h2>
 			<p>{{eventLocation.formatted_address}}</p>
-			<div class="button button-positive" on-tap="locationModal()">Choose Location.</span>
+			<div class="button button-positive" on-tap="locationModal()">Choose Location.</div>
 		</div>
 
 		</div>

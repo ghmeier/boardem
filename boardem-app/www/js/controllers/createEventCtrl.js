@@ -1,4 +1,4 @@
-appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionicPopup, $ionicModal, $state, UtilService, CreateEventService) {
+appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionicPopup, $ionicModal, $state, UserService, UtilService, CreateEventService,GameService) {
   $scope.data = {games : '',query:''};
 	$scope.eventDay = CreateEventService.getDay();
 	$scope.eventMonth = CreateEventService.getMonth();
@@ -6,6 +6,10 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 	$scope.eventTime = CreateEventService.getTime();
 	$scope.eventLocation = {};
 	$scope.locations = [];
+	$scope.games = [];
+	$scope.page = 0;
+	$scope.shelf = [];
+	$scope.eventGames = [];
 
 
 	$ionicModal.fromTemplateUrl('../templates/location.html', {
@@ -13,13 +17,6 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 	    animation: 'slide-in-up'
 	  }).then(function(modal) {
 	    $scope.modal = modal;
-	  });
-
-	  $ionicModal.fromTemplateUrl('../templates/games-modal.html', {
-	    scope: $scope,
-	    animation: 'slide-in-up'
-	  }).then(function(modal) {
-	    $scope.gModal = modal;
 	  });
 
 	$scope.changeEventDay = function(direction) {
@@ -55,10 +52,18 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 					return;
 				}
 
+				if ($scope.eventGames.length == 0){
+					UtilService.popup("No Games","Be sure to select games for your event.")
+				}
+
+				if ($scope.data.name === ''){
+					UtilService.popup("No Name","Name your event, we swear, it's fun!");
+				}
+
 				loc.lat = $scope.eventLocation.geometry.location.lat;
 				loc.lng = $scope.eventLocation.geometry.location.lng;
 				loc.owner = $rootScope.user_id;
-				loc.games = $scope.data.games.split(',');
+				loc.games = $scope.eventGames;
 				loc.name = $scope.data.name;
 				loc.date = year+"-"+month+"-"+day+" "+time+":00:00";
 
@@ -80,8 +85,27 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 		$scope.modal.hide();
 	}
 
+	$scope.closeGame = function(){
+		$scope.gModal.hide();
+	}
+
 	$scope.selectLocation = function(location){
 		$scope.eventLocation = location;
+	}
+
+	$scope.selectGame = function(game){
+		console.log(game);
+		if (game.checked){
+			game.checked = false;
+			for (id in $scope.eventGames){
+				if ($scope.eventGames[id] === game.name){
+					$scope.eventGames.splice(id,1);
+				}
+			}
+		}else{
+			$scope.eventGames.push(game.name);
+			game.checked = true;
+		}
 	}
 
 	$scope.locationSearch = function(){
@@ -90,7 +114,22 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 	}
 
 	$scope.gamesModal = function(){
-		$scope.gModal.show();
+		  $ionicModal.fromTemplateUrl('../templates/games-modal.html', {
+		    scope: $scope,
+		    animation: 'slide-in-up'
+		  }).then(function(modal) {
+		    $scope.gModal = modal;
+		    $scope.gModal.show();
+		  });
+
+	}
+
+	$scope.getGames = function(){
+		$scope.shelf = [];
+		UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$scope.shelf);
+		GameService.getAllGames($rootScope.SERVER_LOCATION,$scope.games,$scope.page,$scope.shelf);
+		$scope.page++;
+		$scope.$broadcast('scroll.infiniteScrollComplete');
 	}
 });
 
