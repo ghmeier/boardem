@@ -129,6 +129,12 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
             for (id in roster){
               self.getEvent(base_url,roster[id]).success(function(response){
                 var eventDetail = response.extra;
+                eventDetail.time = self.getTimeDifference(eventDetail.date);
+                eventDetail.canJoin = self.isParticipant($rootScope.user_id,eventDetail);
+                eventDetail.isOwner = self.isOwner($rootScope.user_id,eventDetail);
+                UserService.getUser($rootScope.SERVER_LOCATION,eventDetail.owner).success(function(owner){
+                  eventDetail.owner_profile = owner.extra;
+                });
                 rosterDetails.push(eventDetail);
               })
             }
