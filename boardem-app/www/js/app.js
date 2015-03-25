@@ -1,6 +1,6 @@
 var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'])
 
-.run(function($ionicPlatform, $rootScope,$http,$firebaseAuth,$window) {
+.run(function($ionicPlatform, $rootScope,$http,$firebaseAuth,$window,UserService) {
   //$http.defaults.headers.common["Access-Control-Allow-Origin"] = "http://localhost:8100";
 
   $ionicPlatform.ready(function() {
@@ -8,6 +8,8 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
    $rootScope.user_id = $window.localStorage['id'];
    $rootScope.events = [];
 	 $rootScope.shelfGames = [];
+   UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.shelfGames)
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {

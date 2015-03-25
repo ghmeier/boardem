@@ -69,11 +69,10 @@ appCtrl.service("UserService",['$http','GameService',function($http,GameService)
 		var self =this;
 		return $http.delete(base_url+endpoint+user1 +"/contacts?fid="+user2);
 	}
-	
-	this.getShelf = function(base_url,userId){
-		var shelf = [];
+
+	this.getShelf = function(base_url,userId,shelf){
 		var url = base_url+endpoint+userId+"/shelf";
-		$http.get(url).success(function(res){
+		return $http.get(url).success(function(res){
 			var shelfRaw = res.extra;
 			for (id in shelfRaw){
 				GameService.getSingleGame(base_url,shelfRaw[id]).success(function(game){
@@ -83,10 +82,10 @@ appCtrl.service("UserService",['$http','GameService',function($http,GameService)
 				})
 			}
 		});
-		
+
 		return shelf;
 	}
-	
+
 	this.addToUserShelf = function(base_url, userid, game){
 
 		return $http.get(base_url+userid+"/shelf?game"+game);

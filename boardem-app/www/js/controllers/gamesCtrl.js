@@ -2,19 +2,21 @@ appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ion
 	$scope.games = [];
 	$scope.fullView = true;
 	$scope.page = 0;
-	$scope.shelf = [];
 
 	$scope.initShelf = function(){
-		if ($scope.shelf.length == 0){
-			UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$scope.shelf).then(function(){
+		if ($rootScope.shelfGames.length == 0){
+			UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.shelfGames).then(function(){
 				$scope.page = 0;
 				$scope.games = [];
+				$scope.getGames();
 			});
+		}else{
+			$scope.getGames();
 		}
 	}
 
 	$scope.getGames = function(){
-		GameService.getAllGames($rootScope.SERVER_LOCATION,$scope.games,$scope.page,$scope.shelf);
+		GameService.getAllGames($rootScope.SERVER_LOCATION,$scope.games,$scope.page,$rootScope.shelfGames);
 		$scope.page++;
 		$scope.$broadcast('scroll.infiniteScrollComplete');
 	}
@@ -23,10 +25,9 @@ appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ion
 		GameService.addToShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,game.name).success(function(res){
 			if (res.code == 0 || res.code === "0"){
 				game.shelved = true;
+				$rootScope.shelfGames = [];
+				UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.shelfGames);
 			}
-		});
-		safeApply($scope,$rootScope,function(){
-					$rootScope.shelfGames = UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id);
 		});
 	}
 
@@ -34,10 +35,9 @@ appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ion
 		GameService.removeFromShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,game.name).success(function(res){
 			if (res.code == 0 || res.code === "0"){
 				game.shelved = false;
+				$rootScope.shelfGames = [];
+				UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.shelfGames);
 			}
-		});
-		safeApply($scope,$rootScope,function(){
-					$rootScope.shelfGames = UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id);
 		});
 	}
 
