@@ -4,7 +4,7 @@
 appCtrl.service("GameService",['$http',function($http){
 
 	var endpoint = "games/";
-
+	
 	this.getGames = function(base_url, page_num){
 
 		return $http.get(base_url+"games?page_number="+page_num);

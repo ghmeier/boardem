@@ -1,7 +1,7 @@
 *.jar
 *.class
-
 *.DS_Store
+boardem-app/platforms/**
 boardem-server/target/**
 boardem-server/target/maven-archiver/pom.properties
 boardem-server/.gitignore

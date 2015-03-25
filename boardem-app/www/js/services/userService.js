@@ -17,20 +17,6 @@ appCtrl.service("UserService",['$http','GameService',function($http,GameService)
 		return $http.get(url);
 	}
 
-	this.getShelf = function(base_url,userId,shelf){
-		var url = base_url+endpoint+userId+"/shelf";
-		return $http.get(url).success(function(res){
-			var shelfRaw = res.extra;
-			for (id in shelfRaw){
-				GameService.getSingleGame(base_url,shelfRaw[id]).success(function(game){
-					game.extra.image = (game.extra.image).substr(2);
-					game.extra.shelved = true;
-					shelf.push(game.extra);
-				})
-			}
-		});
-	}
-
 	this.parseUsers = function(base_url,users,userDetails,skipId,contact_ids){
 		for (id in users){
 			if (users[id] != skipId){
@@ -83,13 +69,24 @@ appCtrl.service("UserService",['$http','GameService',function($http,GameService)
 		var self =this;
 		return $http.delete(base_url+endpoint+user1 +"/contacts?fid="+user2);
 	}
-
-	this.getUserShelf = function(base_url, userid){
-
-		return $http.get(base_url+userid+"/shelf");
-
+	
+	this.getShelf = function(base_url,userId){
+		var shelf = [];
+		var url = base_url+endpoint+userId+"/shelf";
+		$http.get(url).success(function(res){
+			var shelfRaw = res.extra;
+			for (id in shelfRaw){
+				GameService.getSingleGame(base_url,shelfRaw[id]).success(function(game){
+					game.extra.image = (game.extra.image).substr(2);
+					game.extra.shelved = true;
+					shelf.push(game.extra);
+				})
+			}
+		});
+		
+		return shelf;
 	}
-
+	
 	this.addToUserShelf = function(base_url, userid, game){
 
 		return $http.get(base_url+userid+"/shelf?game"+game);

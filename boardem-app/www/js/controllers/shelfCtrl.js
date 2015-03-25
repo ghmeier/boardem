@@ -1,9 +1,11 @@
 appCtrl.controller('shelfCtrl',function($rootScope, $scope,$window, $state, $ionicPlatform, UserService, UtilService, GameService) {
-	$scope.games = [];
+		//$scope.games = [];
 	$scope.fullView = true;
 
 	$scope.getShelf = function(){
-		UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$scope.games);
+		safeApply($scope,$rootScope,function(){
+					$rootScope.shelfGames = UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id);
+		});
 	}
 
 	$scope.toGame = function(game_name){
@@ -15,7 +17,10 @@ appCtrl.controller('shelfCtrl',function($rootScope, $scope,$window, $state, $ion
 			if (res.code == 0 || res.code === "0"){
 				game.shelved = false;
 			}
-		})
+		});
+		safeApply($scope,$rootScope,function(){
+					$rootScope.shelfGames = UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id);
+		});
 	}
 
 	$scope.switchView = function(val) {
@@ -25,6 +30,4 @@ appCtrl.controller('shelfCtrl',function($rootScope, $scope,$window, $state, $ion
 				$scope.fullView = false;
 			}
 	}
-
-	$scope.getShelf();
 });

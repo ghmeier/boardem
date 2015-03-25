@@ -7,6 +7,7 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
 	 $rootScope.SERVER_LOCATION = "http://proj-309-16.cs.iastate.edu:8080/";
    $rootScope.user_id = $window.localStorage['id'];
    $rootScope.events = [];
+	 $rootScope.shelfGames = [];
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {

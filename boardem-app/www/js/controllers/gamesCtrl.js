@@ -25,6 +25,9 @@ appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ion
 				game.shelved = true;
 			}
 		});
+		safeApply($scope,$rootScope,function(){
+					$rootScope.shelfGames = UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id);
+		});
 	}
 
 	$scope.remove = function(game){
@@ -32,7 +35,10 @@ appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ion
 			if (res.code == 0 || res.code === "0"){
 				game.shelved = false;
 			}
-		})
+		});
+		safeApply($scope,$rootScope,function(){
+					$rootScope.shelfGames = UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id);
+		});
 	}
 
 	$scope.toGame = function(game_name){

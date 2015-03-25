@@ -1,4 +1,4 @@
-<ion-view view-title="Shelf">
+<ion-view view-title="Shelf" ng-init="getShelf()">
 		<ion-content>
 			<ion-item class="item-input-inset" style="background-color:grey;">
 				<label class="item-input-wrapper">
@@ -12,7 +12,7 @@
         </button>
 			</ion-item>
 			</div>
-    	<div class="list card" ng-repeat="game in games" ng-show="fullView">
+    	<div class="list card" ng-repeat="game in shelfGames" ng-show="fullView">
     		<div class="item item-avatar" on-tap="toGame('{{game.name}}')" ng-show="game.shelved">
 		        <img src="http://{{game.image}}" style="border-radius:5%"/>
 		        <h2>{{game.name}}</h2>
@@ -29,7 +29,7 @@
             </ion-item>
         </div>
 			</div>
-			<div class="list card" ng-repeat="game in games" ng-show="!fullView">
+			<div class="list card" ng-repeat="game in shelfGames" ng-show="!fullView">
     		<div class="item item-avatar" on-tap="toGame('{{game.name}}')">
 		        <h2 style="padding-top:5px;padding-bottomn:5px;">{{game.name}}</h2>
         </div>
