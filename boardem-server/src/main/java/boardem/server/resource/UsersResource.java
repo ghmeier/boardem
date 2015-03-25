@@ -217,32 +217,7 @@ public class UsersResource
 	{
 		return Response.ok(UserRosterLogic.getUserRoster(userId)).build();
 	}
-
-	/**
-	 * Adds an event ID to a user
-	 * @param uid Facebook ID of user
-	 * @param eid ID of event
-	 * @return Boardem response (ok or no)
-	 */
-	@POST
-	@Path("{uid}/roster")
-	public Response addRosterItem(@PathParam("uid") String userId, @QueryParam("eid") String eventId)
-	{
-		return Response.ok(UserRosterLogic.addUserRosterItem(userId, eventId)).build();
-	}
-
-	/**
-	 * Deletes an event ID from a user
-	 * @param uid Facebook ID of user
-	 * @param eid ID of event
-	 * @return Boardem response (ok or no)
-	 */
-	@DELETE
-	@Path("{uid}/roster")
-	public Response deleteRosterItem(@PathParam("uid") String userId, @QueryParam("eid") String eventId)
-	{
-		return Response.ok(UserRosterLogic.removeUserRosterItem(userId, eventId)).build();
-	}
+	
 
 	/**
 	 * Lists message IDs from a user
@@ -253,33 +228,6 @@ public class UsersResource
 	 public Response listMessages(@PathParam("uid") String userId)
 	 {
 	 	return Response.ok(UserMessagesLogic.listUserMessages(userId)).build();
-	 }
-
-	/**
-	 * Adds a message to a user
-	 * @param uid Facebook ID of user
-	 * @param to Facebook ID of person to send to
-	 * @param text Body of the message
-	 * @return Boardem response (ok or no)
-	 */
-	@POST
-	@Path("{uid}/message")
-	public Response addRosterItem(@PathParam("uid") String userId, @QueryParam("to") String recipientId, @QueryParam("text") String text)
-	{
-		return Response.ok(UserMessagesLogic.messageUser(userId, recipientId, text)).build();
-	}
-
-	/**
-	 * Deletes a message from a user
-	 * @param uid Facebook ID of user
-	 * @param mid ID of message
-	 * @return Boardem response (ok or no)
-	 */
-	@DELETE
-	@Path("{uid}/message")
-	public Response removeMessage(@PathParam("uid") String userId, @QueryParam("mid") String messageId)
-	{
-		return Response.ok(UserMessagesLogic.deleteMessage(userId, messageId)).build();
-	}	 
+	 }	 
 
 }
