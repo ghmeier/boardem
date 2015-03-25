@@ -128,7 +128,7 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
             }
             for (id in roster){
               self.getEvent(base_url,roster[id]).success(function(response){
-                var eventfDetail = response.extra;
+                var eventDetail = response.extra;
                 rosterDetails.push(eventDetail);
               })
             }

@@ -2,6 +2,7 @@ package boardem.server.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import boardem.server.BoardemApplication;
@@ -25,7 +26,7 @@ public class UserRosterLogic {
 
 		//Point rostersRef to the "roster" table of the user
 		Firebase rootRef = new Firebase(BoardemApplication.FIREBASE_URL);
-		Firebase rostersRef = rootRef.child("users").child(UserLogic.getStringNameFromId(user_id)).child("roster");
+		Firebase rostersRef = rootRef.child("users").child(UserLogic.getStringNameFromId(user_id)).child("events");
 
 		//Create ArrayList used in line 42
 		ArrayList<String> rosterIds = new ArrayList<String>();
@@ -35,7 +36,7 @@ public class UserRosterLogic {
 
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		//Convert rosterIdMap into a HashMap
-		Map<String, HashMap> rosterIdMap = (Map<String, HashMap>) rostersData.getValue();
+		List<String> rosterIdMap = (ArrayList<String>) rostersData.getValue();
 
 		//Check if user has any events
 		if (rosterIdMap == null) {
@@ -44,8 +45,8 @@ public class UserRosterLogic {
 		//If they do have events...
 		} else {
 			//Create a new HashMap with the data inside it
-			Map<String, Object> realrosterIdMap = FirebaseHelper.convertToObjectMap(rosterIdMap, Object.class);
-			rosterIds.addAll(realrosterIdMap.keySet());
+			//Map<String, Object> realrosterIdMap = FirebaseHelper.convertToObjectMap(rosterIdMap, Object.class);
+			rosterIds.addAll(rosterIdMap);
 		}
 
 		//Return success

@@ -94,7 +94,6 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 	}
 
 	$scope.selectGame = function(game){
-		console.log(game);
 		if (game.checked){
 			game.checked = false;
 			for (id in $scope.eventGames){
