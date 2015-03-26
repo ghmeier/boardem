@@ -17,6 +17,7 @@ public class User
 	private String display_name;
 	private String picture_url;
 	private List<String> eventIds;
+	private List<String> messageIds;
 	
 	//Gamification stuff
 	private int eventsCreated;
@@ -24,6 +25,7 @@ public class User
 	public User()
 	{
 		eventIds = new ArrayList<String>();
+		messageIds = new ArrayList<String>();
 	}
 	
 	public User(String username, String facebookId, String displayName, String pictureUrl)
@@ -92,6 +94,18 @@ public class User
 	public List<String> getEvents()
 	{
 		return eventIds;
+	}
+	
+	@JsonProperty("messages")
+	public void setMessages(List<String> list)
+	{
+		messageIds = list;
+	}
+	
+	@JsonProperty("messages")
+	public List<String> getMessages()
+	{
+		return messageIds;
 	}
 
 	@JsonProperty("events_created")

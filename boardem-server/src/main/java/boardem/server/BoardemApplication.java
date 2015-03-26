@@ -13,6 +13,7 @@ import org.eclipse.jetty.servlets.CrossOriginFilter;
 
 import boardem.server.resource.EventResource;
 import boardem.server.resource.GameResource;
+import boardem.server.resource.MessageResource;
 import boardem.server.resource.SearchResource;
 import boardem.server.resource.SignInResource;
 import boardem.server.resource.SignUpResource;
@@ -63,6 +64,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		final UsersResource users = new UsersResource();
 		final SearchResource search = new SearchResource();
 		final GameResource game = new GameResource();
+		final MessageResource messages = new MessageResource();
 		
 		//configureCors(env);
 		
@@ -72,6 +74,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		env.jersey().register(users);
 		env.jersey().register(search);
 		env.jersey().register(game);
+		env.jersey().register(messages);
 	}
 	
 /*	  private void configureCors(Environment environment) {

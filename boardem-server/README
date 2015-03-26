@@ -126,3 +126,20 @@ Date format = "yyyy-MM-dd HH:mm:ss"
 
 /games/{gid} - GET
 -Returns information about a game
+
+/messages/{mid} - GET
+-Returns the conversation
+
+/messages/create - POST
+-Creates a conversation
+-Query parameters
+	*users - List of users in the conversation
+-Returns message id
+-Adds the conversation id to the list of conversations each user is participating in
+	
+/messages/{mid}/send - POST
+-Sends a message to a conversation
+-Path parameter - mid - Message id
+-Query parameters
+	*from - User ID of the sender
+	*content - Contents of the message

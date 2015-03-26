@@ -1,6 +1,6 @@
 package boardem.server.logic;
 
-import java.util.HashMap;
+import java.util.Calendar;
 
 import boardem.server.FirebaseHelper;
 import boardem.server.json.BoardemResponse;
@@ -30,16 +30,10 @@ public class LeaveCommentLogic
 		}
 		else
 		{
-			//Get the event and store the comment in the comment list
-			Event event = Event.getEventFromSnapshot(snap);
-			event.getComments().add(comment);
+			comment.setDateObject(Calendar.getInstance().getTime());
 			
-			//Put the comment list in a map to write to Firebase
-			HashMap<String, Object> dataMap = new HashMap<String, Object>();
-			dataMap.put("comments", event.getComments());
-			
-			//Write the data to Firebase
-			FirebaseHelper.writeData(eventRef, dataMap);
+			//Write the comment to Firebase
+			eventRef.child("comments").push().setValue(comment);
 			
 			response = ResponseList.RESPONSE_SUCCESS;
 		}

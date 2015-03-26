@@ -7,39 +7,40 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * JSON representation of a Comment for an event 
+ * JSON representation of a message
  */
-public class Comment implements Comparable<Comment>
+public class Message implements Comparable<Message>
 {
 	//Format used for dates and time
 	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-	
-	private String userId;	
-	private String comment;
+
+	//Contains the ID of the user, not their username
+	private String from;
+	private String content;
 	private Date timestamp;
 	
-	@JsonProperty("user_id")
-	public void setUserId(String id)
+	@JsonProperty("from")
+	public void setFrom(String from)
 	{
-		userId = id;
+		this.from = from;
 	}
 	
-	@JsonProperty("user_id")
-	public String getUserId()
+	@JsonProperty("from")
+	public String getFrom()
 	{
-		return userId;
+		return from;
 	}
 	
-	@JsonProperty("comment")
-	public void setComment(String comment)
+	@JsonProperty("content")
+	public void setContent(String content)
 	{
-		this.comment = comment;
+		this.content = content;
 	}
 	
-	@JsonProperty("comment")
-	public String getComment()
+	@JsonProperty("content")
+	public String getContent()
 	{
-		return comment;
+		return content;
 	}
 	
 	@JsonProperty("timestamp")
@@ -70,7 +71,7 @@ public class Comment implements Comparable<Comment>
 	}
 
 	@Override
-	public int compareTo(Comment other)
+	public int compareTo(Message other)
 	{
 		return timestamp.compareTo(other.timestamp);
 	}

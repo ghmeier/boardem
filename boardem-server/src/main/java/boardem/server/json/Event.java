@@ -3,9 +3,13 @@ package boardem.server.json;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import boardem.server.FirebaseHelper;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.firebase.client.DataSnapshot;
@@ -183,10 +187,12 @@ public class Event
 			event.setGames(games);
 		}
 		
-		List<Comment> comments = (List<Comment>) map.get("comments");
-		if(comments != null)
+		if(map.get("comments") != null)
 		{
-			event.setComments(comments);
+			@SuppressWarnings("rawtypes")
+			HashMap<String, Comment> commentMap = (HashMap<String, Comment>) FirebaseHelper.convertToObjectMap((Map<String, HashMap>) ((HashMap<String, Object>) snap.getValue()).get("comments"), Comment.class);
+			event.getComments().addAll(commentMap.values());
+			Collections.sort(event.getComments());
 		}
 		
 		return event;
