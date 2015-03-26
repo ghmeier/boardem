@@ -108,7 +108,7 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
                   events[num].time = self.getTimeDifference(res.extra.date);
                   events[num].canJoin = self.isParticipant($rootScope.user_id,events[num]);
                   events[num].isOwner = self.isOwner($rootScope.user_id,events[num]);
-									
+
 									var dateSplit = (res.extra.date).split(" ");
 									var dateDate = dateSplit[0].split("-");
 									var dateTime = dateSplit[1].split(":");

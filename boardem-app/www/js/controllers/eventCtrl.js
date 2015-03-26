@@ -1,9 +1,9 @@
 appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $state, UtilService, EventService,UserService,GameService) {
-	
+
 	$scope.editEvent = function(eventId) {
-		
+
 	}
-	
+
   $scope.loadEvent = function(){
     $scope.event = {};
     $scope.location = [];
@@ -12,14 +12,14 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
 		$scope.eventId = $stateParams.eventId;
 		var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 						"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-		
+
     EventService.getEvent($rootScope.SERVER_LOCATION,$stateParams.eventId).success(function(res){
     	$scope.event = res.extra;
 
       $scope.date = EventService.getTimeDifference(res.extra.date);
       $scope.event.canJoin = EventService.isParticipant($rootScope.user_id,$scope.event);
       $scope.event.isOwner = EventService.isOwner($rootScope.user_id,$scope.event);
-			
+
 			var dateSplit = (res.extra.date).split(" ");
 			var dateDate = dateSplit[0].split("-");
 			var dateTime = dateSplit[1].split(":");
@@ -37,11 +37,14 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
         //nothing
       });
       for (id in $scope.event.games){
+        console.log(id);
         GameService.getSingleGame($rootScope.SERVER_LOCATION,$scope.event.games[id]).success(function(gameRaw){
+          console.log(gameRaw);
+          $scope.areGames = true;
           $scope.games.push(gameRaw.extra);
         });
       }
-			
+
 			if(($scope.games).length == 0) $scope.areGames = false;
 
 
@@ -66,6 +69,8 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
       if (res.code == 0){
         UtilService.popup("Joined","You joined the event!");
         $scope.loadEvent();
+        $rootScope.roster = [];
+        EventService.getRosterDetail($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.roster);
         $rootScope.events = EventService.loadEvents();
       }else {
         UtilService.popup("Failed to join.","Error: "+res.message);
@@ -78,6 +83,8 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
   $scope.leave = function(event){
       EventService.leaveEvent($rootScope.SERVER_LOCATION,event.event_id,$rootScope.user_id).success(function(res){
       if (res.code == 0){
+        $rootScope.roster = [];
+        EventService.getRosterDetail($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.roster);
         UtilService.popup("Success!","You left the event!");
         safeApply($scope,$rootScope,function(){
           event.canJoin = true;

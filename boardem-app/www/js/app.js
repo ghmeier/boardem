@@ -8,6 +8,7 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
    $rootScope.user_id = $window.localStorage['id'];
    $rootScope.events = [];
 	 $rootScope.shelfGames = [];
+   $rootScope.roster = [];
    UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.shelfGames)
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
