@@ -40,8 +40,10 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
         console.log(id);
         GameService.getSingleGame($rootScope.SERVER_LOCATION,$scope.event.games[id]).success(function(gameRaw){
           console.log(gameRaw);
-          $scope.areGames = true;
-          $scope.games.push(gameRaw.extra);
+          if (gameRaw.code == 0 || gameRaw.code === "0"){
+            $scope.areGames = true;
+            $scope.games.push(gameRaw.extra);
+          }
         });
       }
 
