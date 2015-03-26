@@ -187,13 +187,13 @@ public class Event
 			event.setGames(games);
 		}
 		
-		if(map.get("comments") != null)
-		{
-			@SuppressWarnings("rawtypes")
-			HashMap<String, Comment> commentMap = (HashMap<String, Comment>) FirebaseHelper.convertToObjectMap((Map<String, HashMap>) ((HashMap<String, Object>) snap.getValue()).get("comments"), Comment.class);
-			event.getComments().addAll(commentMap.values());
-			Collections.sort(event.getComments());
-		}
+//		if(map.get("comments") != null)
+//		{
+//			@SuppressWarnings("rawtypes")
+//			HashMap<String, Comment> commentMap = (HashMap<String, Comment>) FirebaseHelper.convertToObjectMap((Map<String, HashMap>) ((HashMap<String, Object>) snap.getValue()).get("comments"), Comment.class);
+//			event.getComments().addAll(commentMap.values());
+//			Collections.sort(event.getComments());
+//		}
 		
 		return event;
 	}
