@@ -10,6 +10,8 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
     $scope.games = [];
 		$scope.areGames = true;
 		$scope.eventId = $stateParams.eventId;
+		var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+						"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 		
     EventService.getEvent($rootScope.SERVER_LOCATION,$stateParams.eventId).success(function(res){
     	$scope.event = res.extra;
@@ -17,7 +19,13 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
       $scope.date = EventService.getTimeDifference(res.extra.date);
       $scope.event.canJoin = EventService.isParticipant($rootScope.user_id,$scope.event);
       $scope.event.isOwner = EventService.isOwner($rootScope.user_id,$scope.event);
-
+			
+			var dateSplit = (res.extra.date).split(" ");
+			var dateDate = dateSplit[0].split("-");
+			var dateTime = dateSplit[1].split(":");
+			$scope.event.eventDay = dateDate[2] + " " + monthNames[(dateDate[1]-1)];
+			if(dateTime[0] > 12) $scope.event.eventTime = (dateTime[0]-12) + ":" + dateTime[1] + "pm";
+			else $scope.event.eventTime = dateTime[0] + ":" + dateTime[1] + "am";
 
       navigator.geolocation.getCurrentPosition(function(pos){
         EventService.getLocationFromCoords($scope.event.lat,$scope.event.lng,$scope.location);

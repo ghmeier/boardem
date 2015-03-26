@@ -92,10 +92,13 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
 							template: "Error: "+error
 						});
 					});
+
 					return events;
 				};
 
         this.getEventDetails = function(event_ids,events){
+					var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+						"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
           var self = this;
             for (id in event_ids){
               var id_string = event_ids[id];
@@ -105,6 +108,13 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
                   events[num].time = self.getTimeDifference(res.extra.date);
                   events[num].canJoin = self.isParticipant($rootScope.user_id,events[num]);
                   events[num].isOwner = self.isOwner($rootScope.user_id,events[num]);
+									
+									var dateSplit = (res.extra.date).split(" ");
+									var dateDate = dateSplit[0].split("-");
+									var dateTime = dateSplit[1].split(":");
+									events[num].eventDay = dateDate[2] + " " + monthNames[(dateDate[1]-1)];
+									if(dateTime[0] > 12) events[num].eventTime = (dateTime[0]-12) + ":" + dateTime[1] + "pm";
+									else events[num].eventTime = dateTime[0] + ":" + dateTime[1] + "am";
 
                   UserService.getUser($rootScope.SERVER_LOCATION,events[num].owner).success(function(response){
                     events[num].owner_profile = response.extra;
