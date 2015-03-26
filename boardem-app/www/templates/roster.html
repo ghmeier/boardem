@@ -2,7 +2,7 @@
   <ion-content>
     <div class="list ">
 
-        <div class="card" ng-repeat="event in roster">
+        <div class="card" ng-repeat="event in roster" ng-show="roster.length!=0">
 
             <ion-item class="item item-thumbnail-left" href="#/app/events/{{event.event_id}}">
                 <img src="{{event.owner_profile.picture_url}}"/>
@@ -11,6 +11,11 @@
                         <p>Games: {{event.games.join(", ")}}</p>
             </ion-item>
         </div>
+				<div class="item" ng-show="roster.length==0">
+									<p>
+											Go look for events to Join!
+									</p>
+				</div>
     </div>
   </ion-content>
 </ion-view>

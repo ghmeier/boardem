@@ -1,17 +1,22 @@
 appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $state, UtilService, EventService,UserService,GameService) {
-
+	
+	$scope.editEvent = function(eventId) {
+		
+	}
+	
   $scope.loadEvent = function(){
     $scope.event = {};
     $scope.location = [];
     $scope.games = [];
-
+		$scope.areGames = true;
+		$scope.eventId = $stateParams.eventId;
+		
     EventService.getEvent($rootScope.SERVER_LOCATION,$stateParams.eventId).success(function(res){
     	$scope.event = res.extra;
 
       $scope.date = EventService.getTimeDifference(res.extra.date);
       $scope.event.canJoin = EventService.isParticipant($rootScope.user_id,$scope.event);
       $scope.event.isOwner = EventService.isOwner($rootScope.user_id,$scope.event);
-
 
 
       navigator.geolocation.getCurrentPosition(function(pos){
@@ -23,12 +28,14 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
       },function(error){
         //nothing
       });
-
       for (id in $scope.event.games){
         GameService.getSingleGame($rootScope.SERVER_LOCATION,$scope.event.games[id]).success(function(gameRaw){
           $scope.games.push(gameRaw.extra);
         });
       }
+			
+			if(($scope.games).length == 0) $scope.areGames = false;
+
 
     	UserService.getUser($rootScope.SERVER_LOCATION ,$scope.event.owner)
     	.success(function(data){
