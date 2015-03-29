@@ -37,6 +37,7 @@ public class ExperienceLogic {
 			//Return response that says that they have no experience
 			experience = 0;
 		} else {
+			//Get the experience value as a long
 			experience = (long) experienceSnap.getValue();
 		}
 
@@ -61,7 +62,6 @@ public class ExperienceLogic {
 
 		String userName = UserLogic.getStringNameFromId(user_id);
 
-		BoardemResponse response = null;
 
 		long experience;
 
@@ -85,25 +85,28 @@ public class ExperienceLogic {
 			//Write it to the Firebase in the "experience" table
 			FirebaseHelper.writeData(newExpRef, initialVal);
 
+		//Otherwise, if the user already has a table, add the current value to what already exists
 		} else {
+			//Get the current experience value as a long primitive
 			experience = (long) experienceSnap.getValue();
+
+			//Add the primitive of our input value to the current experience
 			experience += exp.longValue();
 
+			//Create a new reference to the user's data
 			Firebase newExpRef = rootRef.child("users").child(userName);
 
-			Map<String,Long> initialVal = new HashMap<String,Long>();
+			Map<String,Long> updatedVal = new HashMap<String,Long>();
 
-			//Add the first value
-			initialVal.put("experience", experience);
+			//Update the value 
+			updatedVal.put("experience", experience);
 
 			//Write it to the Firebase in the "experience" table
-			FirebaseHelper.writeData(newExpRef, initialVal);
+			FirebaseHelper.writeData(newExpRef, updatedVal);
 
 		}
 
-		response = ResponseList.RESPONSE_SUCCESS;
-
-		return response;
+		return ResponseList.RESPONSE_SUCCESS;
 	}
 
 }

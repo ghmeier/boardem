@@ -143,3 +143,13 @@ Date format = "yyyy-MM-dd HH:mm:ss"
 -Query parameters
 	*from - User ID of the sender
 	*content - Contents of the message
+
+/exp/{uid} - GET
+-Gets the experience value of a user
+-Path parameter - uid - User's Facebook ID
+
+/exp/{uid} - POST
+-Adds a value to a user's experience
+-Path parameter - uid - User's Facebook ID
+-Query parameter
+	*exp - Number of experience points to add
