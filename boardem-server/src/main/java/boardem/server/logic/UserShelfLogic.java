@@ -82,11 +82,8 @@ public class UserShelfLogic {
 
 		//Setup a new Firebase to reference games
 		Firebase gameRef = rootRef.child("games").child(shelf_id);
-		DataSnapshot gameData = FirebaseHelper.readData(gameRef);
-
 		//If this is null, then the shelf_id does not point to a valid game
-		@SuppressWarnings({"rawtypes", "unchecked"})
-		Map<String, Object> gameMap = (Map<String,Object>) gameData.getValue();
+		DataSnapshot gameData = FirebaseHelper.readData(gameRef);
 
 		//If the user doesn't have any games in their shelf
 		if (shelfIDsMap == null) {
@@ -105,7 +102,7 @@ public class UserShelfLogic {
 			return ResponseList.RESPONSE_USER_HAS_SHELF_ID;
 
 		//If shelf ID doesn't exist as a game name
-		} else if (gameMap == null) {
+		} else if (gameData.getValue() == null) {
 
 			return ResponseList.RESPONSE_GAME_DOESNT_EXIST;
 
