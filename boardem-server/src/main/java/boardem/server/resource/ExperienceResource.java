@@ -25,9 +25,10 @@ public class ExperienceResource
 	 * @return The experience points of a user
 	 */
 	@GET
-	public Response getExperience(@QueryParam("uid") String userId)
+	@Path ("{uid}")
+	public Response getExperience(@PathParam("uid") String userId)
 	{
-		return Response.ok(ExperienceLogic.getExperience(userId)).build();
+		return Response.ok(ExperienceLogic.getUserExperience(userId)).build();
 	}
 
 
@@ -37,10 +38,10 @@ public class ExperienceResource
 	 * @param exp The amount of experience points to give to a user
 	 * @return Boardem Response (Success or not)
 	 */
-	@GET
-	public Response setExperience(@PathParam("uid") String userId, @QueryParam("exp") Integer experience)
+	@POST
+	public Response setExperience(@QueryParam("uid") String userId, @QueryParam("exp") Integer experience)
 	{
-		return Response.ok(ExperienceLogic.setExperience(userId, experience)).build();
+		return Response.ok(ExperienceLogic.setUserExperience(userId, experience)).build();
 	}
 
 }
