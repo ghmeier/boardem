@@ -39,7 +39,8 @@ public class ExperienceResource
 	 * @return Boardem Response (Success or not)
 	 */
 	@POST
-	public Response setExperience(@QueryParam("uid") String userId, @QueryParam("exp") Integer experience)
+	@Path ("{uid}")
+	public Response setExperience(@PathParam("uid") String userId, @QueryParam("exp") Long experience)
 	{
 		return Response.ok(ExperienceLogic.setUserExperience(userId, experience)).build();
 	}
