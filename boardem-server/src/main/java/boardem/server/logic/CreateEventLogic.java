@@ -51,7 +51,7 @@ public class CreateEventLogic
 			
 			FirebaseHelper.writeData(newEventRef, data);
 			
-			updateUser(event.getOwner());
+			updateUser(event.getOwner(), event.getId());
 		}
 		else
 		{
@@ -77,7 +77,7 @@ public class CreateEventLogic
 			
 			FirebaseHelper.writeData(newEventRef, data);
 			
-			updateUser(event.getOwner());
+			updateUser(event.getOwner(), event.getId());
 		}
 		
 		return ResponseList.RESPONSE_SUCCESS;
@@ -88,21 +88,23 @@ public class CreateEventLogic
 	 * @param userId ID of user to update
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private static void updateUser(String userId)
+	private static void updateUser(String userId, String eventId)
 	{
 		//Get the username from the user ID
 		Firebase idRef = new Firebase("https://boardem.firebaseio.com/facebook_id/" + userId);
 		DataSnapshot idSnap = FirebaseHelper.readData(idRef);
 		
-		//Get the user and increment the number of games created
+		//Get the user and update their information from the new event
 		Firebase userRef = new Firebase("https://boardem.firebaseio.com/users/" + ((Map<String, HashMap>) idSnap.getValue()).get("username"));
 		DataSnapshot userSnap = FirebaseHelper.readData(userRef);
 		User user = User.getUserFromSnapshot(userSnap);
 		user.incrementEventsCreated();
+		user.getEvents().add(eventId);
 		
 		//Write the data to Firebase
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("events_created", user.getEventsCreated());
+		data.put("events", user.getEvents());
 		FirebaseHelper.writeData(userRef, data);
 	}
 }
