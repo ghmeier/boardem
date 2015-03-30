@@ -1,5 +1,6 @@
 package boardem.server.logic;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import boardem.server.FirebaseHelper;
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.Conversation;
+import boardem.server.json.Message;
 import boardem.server.json.ResponseList;
 import boardem.server.json.User;
 
@@ -16,11 +18,60 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
 /**
- * Contains logic for creating a conversation. Randomly generates a unique message ID
- * and adds the message to the list of conversations each user is participating in
+ * Contains logic for the endpoints in MessageResource
  */
-public class CreateConversationLogic
+public class MessageLogic
 {
+	/**
+	 * Sends a message
+	 * @param messageId ID of the message of the thread
+	 * @param message JSON data for the message to be sent
+	 */
+	public static BoardemResponse sendMessage(String messageId, Message message)
+	{
+		BoardemResponse response = null;
+		
+		//Get the existing message thread
+		Firebase msgRef = new Firebase("https://boardem.firebaseio.com/messages/" + messageId);
+		DataSnapshot snap = FirebaseHelper.readData(msgRef);
+		
+		if(snap == null || snap.getValue() == null)
+		{
+			response = ResponseList.RESPONSE_CONVERSATION_DOES_NOT_EXIST;
+		}
+		else
+		{
+			message.setDateObject(Calendar.getInstance().getTime());
+			
+			//Write the message to Firebase
+			msgRef.child("messages").push().setValue(message);
+			
+			response = ResponseList.RESPONSE_SUCCESS;
+		}
+		
+		return response;
+	}
+	
+	/**
+	 * Gets all of the messages from a message thread
+	 * @param mid ID of the message thread
+	 */
+	public static BoardemResponse getMessages(String mid)
+	{
+		//Get the conversation from Firebase
+		Firebase msgRef = new Firebase("https://boardem.firebaseio.com/messages/" + mid);
+		DataSnapshot snap = FirebaseHelper.readData(msgRef);
+		Conversation convo = Conversation.getConversationFromSnapshot(snap);
+		
+		BoardemResponse response = ResponseList.RESPONSE_SUCCESS.clone();
+		response.setExtra(convo);
+		return response;
+	}
+	
+	/**
+	 * Creates a conversation between users
+	 * @param users List of users in the conversation
+	 */
 	public static BoardemResponse createConversation(List<String> users)
 	{		
 		Firebase msgRef = new Firebase("https://boardem.firebaseio.com/messages");

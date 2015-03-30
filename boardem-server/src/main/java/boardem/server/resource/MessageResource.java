@@ -2,23 +2,14 @@ package boardem.server.resource;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import boardem.server.json.Message;
-import boardem.server.logic.CreateConversationLogic;
-import boardem.server.logic.GetMessagesLogic;
-import boardem.server.logic.SendMessageLogic;
-
-@Path("/messages")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+import boardem.server.logic.MessageLogic;
 public class MessageResource
 {
 	/**
@@ -28,7 +19,7 @@ public class MessageResource
 	@Path("{mid}")
 	public Response getMessages(@PathParam("mid") String messageId)
 	{
-		return Response.ok(GetMessagesLogic.getMessages(messageId)).build();
+		return Response.ok(MessageLogic.getMessages(messageId)).build();
 	}
 	
 	/**
@@ -38,7 +29,7 @@ public class MessageResource
 	@Path("{mid}/send")
 	public Response sendMessage(@PathParam("mid") String messageId, Message message)
 	{
-		return Response.ok(SendMessageLogic.sendMessage(messageId, message)).build();
+		return Response.ok(MessageLogic.sendMessage(messageId, message)).build();
 	}
 	
 	/**
@@ -48,6 +39,6 @@ public class MessageResource
 	@Path("create")
 	public Response createConversation(List<String> users)
 	{
-		return Response.ok(CreateConversationLogic.createConversation(users)).build();
+		return Response.ok(MessageLogic.createConversation(users)).build();
 	}
 }
