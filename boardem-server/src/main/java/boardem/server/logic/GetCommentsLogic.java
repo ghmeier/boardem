@@ -1,8 +1,13 @@
 package boardem.server.logic;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
 import boardem.server.FirebaseHelper;
 import boardem.server.json.BoardemResponse;
-import boardem.server.json.Event;
+import boardem.server.json.Comment;
 import boardem.server.json.ResponseList;
 
 import com.firebase.client.DataSnapshot;
@@ -13,24 +18,25 @@ import com.firebase.client.Firebase;
  */
 public class GetCommentsLogic
 {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static BoardemResponse getComments(String eventId)
 	{
-		BoardemResponse response = null;
+		BoardemResponse response = ResponseList.RESPONSE_SUCCESS.clone();
 
-		Firebase eventRef = new Firebase("https://boardem.firebaseio.com/events/" + eventId);
+		Firebase eventRef = new Firebase("https://boardem.firebaseio.com/comments/" + eventId + "/comments");
 		DataSnapshot snap = FirebaseHelper.readData(eventRef);
 		
 		//Check if the event exists
 		if(snap == null || snap.getValue() == null)
 		{
-			response = ResponseList.RESPONSE_EVENT_DOES_NOT_EXIST;
+			response.setExtra(null);
 		}
 		else
 		{
-			Event event = Event.getEventFromSnapshot(snap);
-			
-			response = ResponseList.RESPONSE_SUCCESS.clone();
-			response.setExtra(event.getComments());
+			List<Comment> commentList = new ArrayList<Comment>();
+			commentList.addAll(FirebaseHelper.convertToObjectMap((HashMap<String, HashMap>) snap.getValue(), Comment.class).values());
+			Collections.sort(commentList);
+			response.setExtra(commentList);
 		}
 		
 		return response;
