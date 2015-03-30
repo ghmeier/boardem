@@ -6,12 +6,14 @@ appCtrl.controller("signinCtrl",function($window,$rootScope,$scope,$state,$http,
 
 	$scope.toFacebook = function(){
 		var response = $scope.facebookLogin("",$scope.fbLoginCall);
-		
+
 	}
 
 	$scope.fbLoginCall = function(authData,username){
 		var id = authData.facebook.id;
 		var url = $rootScope.SERVER_LOCATION + "signin?facebookId="+id;
+		console.log(authData);
+		$rootScope.token = authData.facebook.accessToken;
 		$scope.idLogin(id,$scope.toEvents);
 	}
 
@@ -35,7 +37,11 @@ appCtrl.controller("signinCtrl",function($window,$rootScope,$scope,$state,$http,
 		var ref = new Firebase("https://boardem.firebaseio.com");
 		var authRef = $firebaseAuth(ref);
 
-		authRef.$authWithOAuthPopup("facebook").then(function(authData){
+		authRef.$authWithOAuthPopup("facebook",{
+  remember: "sessionOnly",
+  scope: "public_profile,user_friends"
+}).then(function(authData){
+
 			callback(authData,username);
 		}).catch(function(error){
 			UtilService.popup("Login Error",error);

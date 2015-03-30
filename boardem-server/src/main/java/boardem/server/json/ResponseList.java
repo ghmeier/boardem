@@ -28,4 +28,5 @@ public class ResponseList
 	public static final BoardemResponse RESPONSE_USER_HAS_ATTRIBUTE = new BoardemResponse(19,"User already has this attribute.");	
 	public static final BoardemResponse RESPONSE_NO_EVENTS = new BoardemResponse(20,"User has no events.");
 	public static final BoardemResponse RESPONSE_CONVERSATION_DOES_NOT_EXIST = new BoardemResponse(21, "Conversation does not exist");
+	public static final BoardemResponse RESPONSE_NULL_INPUT = new BoardemResponse(22, "One (or more) input values are null");
 }

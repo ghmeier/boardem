@@ -6,7 +6,7 @@ var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 	$scope.month = SearchCriteria.getMonth();
 	$scope.year = SearchCriteria.getYear();
 	$scope.locationSearch = SearchCriteria.getLocationSearch();
-	
+
 	$ionicHistory.clearHistory();
 
 	//Actions
@@ -16,7 +16,7 @@ var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 			$scope.month = SearchCriteria.getMonth();
 			$scope.year = SearchCriteria.getYear();
 	}
-	
+
 	$scope.changeLocationSearch = function(direction){
 			SearchCriteria.changeDistance(direction);
 			$scope.locationSearch = SearchCriteria.getLocationSearch();
@@ -25,13 +25,21 @@ var appCtrl =angular.module('starter.controllers', ['ionic','firebase'])
 	$scope.searchEvents = function(){
 		CreateEventService.getLocation(function(pos){
 			RestService.getSearch($rootScope.SERVER_LOCATION,pos.coords.latitude.toFixed(2),pos.coords.longitude.toFixed(2),$rootScope.user_id,SearchCriteria.getSearchDate(),$scope.locationSearch).success(function(res){
-				$scope.events = [];
 				var event_ids = res.extra;
-				EventService.getEventDetails(event_ids,$scope.events);
+                $rootScope.events = [];
+				EventService.getEventDetails(event_ids,$rootScope.events);
 				$ionicSideMenuDelegate.toggleRight();
 			})
 		});
 	}
+
+    $scope.loadEvents = function(){
+        $rootScope.events = [];
+        safeApply($scope,$rootScope,function(){
+            EventService.loadEvents($rootScope.events);
+        });
+        $ionicSideMenuDelegate.toggleRight();
+    }
 
 });
 

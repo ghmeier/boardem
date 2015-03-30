@@ -12,7 +12,7 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 	$scope.eventGames = [];
 
 
-	$ionicModal.fromTemplateUrl('../templates/location.html', {
+	$ionicModal.fromTemplateUrl('location.html', {
 	    scope: $scope,
 	    animation: 'slide-in-up'
 	  }).then(function(modal) {
@@ -113,7 +113,11 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 	}
 
 	$scope.gamesModal = function(){
-		  $ionicModal.fromTemplateUrl('../templates/games-modal.html', {
+		if ($rootScope.shelfGames.length == 0){
+			$rootScope.shelfGames = [];
+			UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.shelfGames);
+		}
+		  $ionicModal.fromTemplateUrl('games-modal.html', {
 		    scope: $scope,
 		    animation: 'slide-in-up'
 		  }).then(function(modal) {
@@ -124,9 +128,7 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 	}
 
 	$scope.getGames = function(){
-		$scope.shelf = [];
-		UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$scope.shelf);
-		GameService.getAllGames($rootScope.SERVER_LOCATION,$scope.games,$scope.page,$scope.shelf);
+		GameService.getAllGames($rootScope.SERVER_LOCATION,$scope.games,$scope.page,$rootScope.shelfGames);
 		$scope.page++;
 		$scope.$broadcast('scroll.infiniteScrollComplete');
 	}

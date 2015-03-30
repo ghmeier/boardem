@@ -80,8 +80,8 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
             return val * Math.PI / 180;
         };
 
-				this.loadEvents = function(){
-					var events = [];
+				this.loadEvents = function(events){
+					//var events = [];
 					var self = this;
 					RestService.getEvents($rootScope.SERVER_LOCATION).success(function(res){
 						var event_ids = res.extra;
@@ -93,7 +93,7 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
 						});
 					});
 
-					return events;
+					//return events;
 				};
 
         this.getEventDetails = function(event_ids,events){

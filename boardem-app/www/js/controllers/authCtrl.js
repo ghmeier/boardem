@@ -1,11 +1,12 @@
-appCtrl.controller('AuthCtrl',function($rootScope,$window,$ionicPopup,$http, $scope, $state){
+appCtrl.controller('AuthCtrl',function($rootScope,$window,$ionicPopup,$http, $scope, $state,$firebaseAuth){
 
 	$scope.idLogin = function(id,callback){
-	    $http.get($rootScope.SERVER_LOCATION + "signin?facebookId="+id).
+	    $http.get("http://proj-309-16.cs.iastate.edu:8080/" + "signin?facebookId="+id).
 	    success(function(data, status, headers, config) {
-	        if (data.code === 0){
-	          $window.localStorage.setItem('id', id);
-	          callback();
+	      if (data.code === 0){
+	         $window.localStorage.setItem('id', id);
+	         var response = $scope.facebookLogin("",$scope.fbLoginCall,callback);
+
 	      }else {
 	      	$state.transitionTo("login.signup");
 	      }
@@ -15,12 +16,31 @@ appCtrl.controller('AuthCtrl',function($rootScope,$window,$ionicPopup,$http, $sc
 	    });
 	};
 
+	$scope.facebookLogin = function(username, callback,cb){
+		var ref = new Firebase("https://boardem.firebaseio.com");
+		var authRef = $firebaseAuth(ref);
+
+		authRef.$authWithOAuthPopup("facebook",{
+		  remember: "sessionOnly",
+		  scope: "public_profile,user_friends"
+		}).then(function(authData){
+			callback(authData,username,cb);
+		}).catch(function(error){
+			UtilService.popup("Login Error",error);
+	  	});
+	}
+
+	$scope.fbLoginCall = function(authData,username,callback){
+		var id = authData.facebook.id;
+		console.log(authData);
+		$rootScope.token = authData.facebook.accessToken;
+		callback();
+	}
+
 	if (window.localStorage['id'] ===null ||window.localStorage['id'] ===undefined || window.localStorage['id'] === ""){
 		$state.transitionTo("login.signup");
 	}else {
 		var id = $window.localStorage['id'];
-		console.log(id);
-		var url = $rootScope.SERVER_LOCATION + "signin?facebookId="+id;
 		$scope.idLogin(id,function(){$state.transitionTo('app.events');});
 	}
 

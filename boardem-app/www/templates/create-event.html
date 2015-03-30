@@ -81,3 +81,64 @@
 		</button>
   </ion-content>
 </ion-view>
+
+<script id="games-modal.html" type="text/ng-template">
+<ion-modal-view>
+    <ion-header-bar>
+        <button class="button button-clear" on-tap="closeGame()">Cancel</button>
+      <h1 class="title">Games Modal</h1>
+    </ion-header-bar>
+    <ion-content>
+            <div class="item item-divider">
+                Shelf
+            </div>
+            <div class="list card" ng-repeat="game in shelfGames" ng-show="!fullView">
+                <div class="item item-icon-right" on-tap="selectGame(game)">
+                    <h2 style="padding-top:5px;padding-bottomn:5px;">{{game.name}}</h2>
+                    <i class="icon ion-checkmark" ng-show="game.checked"></i>
+                </div>
+            </div>
+            <div class="item item-divider">
+                All Games
+            </div>
+            <div class="list card" ng-repeat="game in games" ng-hide="game.shelved">
+                <div class="item item-icon-right" on-tap="selectGame(game)">
+                    <h2 style="padding-top:5px;padding-bottomn:5px;">{{game.name}}</h2>
+                    <i class="icon ion-checkmark" ng-show="game.checked"></i>
+                </div>
+            </div>
+            <ion-infinite-scroll on-infinite="getGames()" distance="1%"></ion-infinite-scroll>
+    </ion-content>
+  </ion-modal-view>
+
+</script>
+<script id="location.html" type="text/ng-template">
+<ion-modal-view>
+    <ion-header-bar class="button-left">
+    <button class="button button-clear" on-tap="closeLocation()">Cancel</button>
+      <h1 class="title">Location Search</h1>
+
+    </ion-header-bar>
+    <ion-content >
+        <ion-list>
+            <div class="item-input-inset">
+      <label class="item-input-wrapper">
+        <i class="icon ion-ios7-search placeholder-icon"></i>
+        <input ng-model="data.query" type="search" placeholder="Enter A Location">
+      </label>
+      <button class="button button-clear"  on-tap="locationSearch()">
+        Search
+      </button>
+    </div>
+            <ion-item ng-hide="locations.length > 0">
+                <h3>No Locations</h3>
+                <p>Try a different search</p>
+            </ion-item>
+            <ion-item ng-repeat="loc in locations" on-tap="selectLocation({{loc}})">
+                <h3>{{loc.name}}</h3>
+                <p>{{loc.formatted_address}}</p>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+  </ion-modal-view>
+  </script>

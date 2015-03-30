@@ -1,5 +1,8 @@
 <ion-view view-title="Contacts" ng-init="getUsers()">
   <ion-content>
+            <div class="item item-divider">
+                Boardem Friends
+            </div>
     	<div class="list card" ng-repeat="user in users">
     		<div class="item item-avatar" on-tap="toProfile({{user.facebook_id}})">
 		        <img src="{{user.picture_url}}"/>
@@ -13,6 +16,16 @@
 
 	      	</ion-item>
         </div>
+        <div class="item item-divider">
+            Facebook Friends
+        </div>
+        <div class="list card" ng-repeat="user in fbFriends">
+            <div class="item item-avatar" on-tap="invite(user.id)">
+                <img src="{{user.picture.data.url}}"/>
+                <h2>{{user.name}}</h2>
+            </div>
+        </div>
+        <ion-infinite-scroll on-infinite="initUsers()" icon="ion-more" distance="1%"></ion-infinite-scroll>
 
   </ion-content>
 </ion-view>

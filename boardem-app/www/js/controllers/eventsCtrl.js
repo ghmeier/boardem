@@ -5,7 +5,7 @@ appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $state, $io
 	$scope.year = SearchCriteria.getYear();
 
 	$scope.loadEvents = function(){
-		$rootScope.events = EventService.loadEvents();
+		EventService.loadEvents($rootScope.events);
 	};
 
 	$scope.join = function(event_id){

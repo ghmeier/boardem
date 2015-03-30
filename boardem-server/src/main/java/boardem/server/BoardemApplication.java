@@ -18,6 +18,7 @@ import boardem.server.resource.SearchResource;
 import boardem.server.resource.SignInResource;
 import boardem.server.resource.SignUpResource;
 import boardem.server.resource.UsersResource;
+import boardem.server.resource.ExperienceResource;
 
 public class BoardemApplication extends Application<BoardemConfiguration>
 {
@@ -65,6 +66,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		final SearchResource search = new SearchResource();
 		final GameResource game = new GameResource();
 		final MessageResource messages = new MessageResource();
+		final ExperienceResource experience = new ExperienceResource();
 		
 		//configureCors(env);
 		
@@ -75,6 +77,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		env.jersey().register(search);
 		env.jersey().register(game);
 		env.jersey().register(messages);
+		env.jersey().register(experience);
 	}
 	
 /*	  private void configureCors(Environment environment) {

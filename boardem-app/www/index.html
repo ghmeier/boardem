@@ -25,6 +25,7 @@
     <script src="js/services/userService.js"></script>
     <script src="js/services/utilService.js"></script>
     <script src="js/services/gameService.js"></script>
+    <script src="js/services/facebookService.js"></script>
     <script src="js/controllers/authCtrl.js"></script>
     <script src="js/controllers/signinCtrl.js"></script>
     <script src="js/controllers/signupCtrl.js"></script>
@@ -40,6 +41,24 @@
     <script src="js/controllers/rosterCtrl.js"></script>
 		<script src="js/controllers/shelfCtrl.js"></script>
   </head>
+
+  <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '906099946120368',
+          xfbml      : true,
+          version    : 'v2.3'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
 
   <body ng-app="starter">
     <ion-nav-view></ion-nav-view>
