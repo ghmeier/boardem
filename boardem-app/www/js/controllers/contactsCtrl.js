@@ -17,8 +17,8 @@ appCtrl.controller('ContactsCtrl',function($rootScope,$window,$ionicPopup,$http,
 		    message: 'Boardem Invitation!',
 		    to: id
 		  },
-		  function(){
-		  	console.log("done");
+		  function(res){
+		  	console.log(res);
 		  }
 		);
 	}

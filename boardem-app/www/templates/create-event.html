@@ -101,9 +101,10 @@
             <div class="item item-divider">
                 All Games
             </div>
-            <div class="list card" ng-repeat="game in games" ng-show="!fullView">
-                <div class="item" on-tap="toGame('{{game.name}}')">
+            <div class="list card" ng-repeat="game in games" ng-hide="game.shelved">
+                <div class="item item-icon-right" on-tap="selectGame(game)">
                     <h2 style="padding-top:5px;padding-bottomn:5px;">{{game.name}}</h2>
+                    <i class="icon ion-checkmark" ng-show="game.checked"></i>
                 </div>
             </div>
             <ion-infinite-scroll on-infinite="getGames()" distance="1%"></ion-infinite-scroll>
