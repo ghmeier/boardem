@@ -1,17 +1,18 @@
 <ion-view view-title="Games" ng-init="initShelf()">
+    <ion-nav-buttons side = "right">
+                <button class="button button-icon ion-arrow-shrink"  on-tap="switchView(0)" ng-show="fullView" >
+
+                </button>
+                <button class="button button-icon ion-arrow-expand" on-tap="switchView(1)" ng-show="!fullView">
+
+                </button>
+    </ion-nav-buttons>
 		<ion-content>
-			<ion-item class="item-input-inset" >
+<!-- 			<ion-item class="item-input-inset" >
 				<label class="item-input-wrapper">
 					<input type="text" placeholder="Search Games"> </input>
 				</label>
-				
-				<button class="button button-icon ion-navicon-round"  on-tap="switchView(0)" ng-show="fullView" >
-					
-                </button>
-				<button class="button button-icon ion-android-checkbox-blank" on-tap="switchView(1)" ng-show="!fullView">
-					
-                </button>
-			</ion-item>
+			</ion-item> -->
         	<div class="list card" ng-repeat="game in games" ng-show="fullView">
         		<div class="item item-avatar" on-tap="toGame('{{game.name}}')">
     		        <img src="http://{{game.image}}" style="border-radius:5%"/>
