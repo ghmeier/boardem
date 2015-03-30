@@ -29,14 +29,14 @@ public class Event
 	private String ownerId;
 	private List<String> participantIds;
 	private List<String> gameIds;
-	private List<Comment> comments;
+	//private List<Comment> comments;
 	
 	public Event()
 	{
 		//Make sure the objects exist in case they don't in Firebase
 		participantIds = new ArrayList<String>();
 		gameIds = new ArrayList<String>();
-		comments = new ArrayList<Comment>();
+		//comments = new ArrayList<Comment>();
 	}
 	
 	@JsonProperty("event_id")
@@ -150,7 +150,7 @@ public class Event
 		return gameIds;
 	}
 	
-	@JsonProperty("comments")
+/*	@JsonProperty("comments")
 	public void setComments(List<Comment> comments)
 	{
 		this.comments = comments;
@@ -160,7 +160,7 @@ public class Event
 	public List<Comment> getComments()
 	{
 		return comments;
-	}
+	}*/
 	
 	@SuppressWarnings("unchecked")
 	public static Event getEventFromSnapshot(DataSnapshot snap)
@@ -189,10 +189,10 @@ public class Event
 		
 		if(map.get("comments") != null)
 		{
-			@SuppressWarnings("rawtypes")
-			HashMap<String, Comment> commentMap = (HashMap<String, Comment>) FirebaseHelper.convertToObjectMap((Map<String, HashMap>) ((HashMap<String, Object>) snap.getValue()).get("comments"), Comment.class);
-			event.getComments().addAll(commentMap.values());
-			Collections.sort(event.getComments());
+			//@SuppressWarnings("rawtypes")
+			//HashMap<String, Comment> commentMap = (HashMap<String, Comment>) FirebaseHelper.convertToObjectMap((Map<String, HashMap>) ((HashMap<String, Object>) snap.getValue()).get("comments"), Comment.class);
+			//event.getComments().addAll(commentMap.values());
+			//Collections.sort(event.getComments());
 		}
 		
 		return event;
