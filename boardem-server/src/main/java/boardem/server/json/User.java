@@ -18,6 +18,7 @@ public class User
 	private String picture_url;
 	private List<String> eventIds;
 	private List<String> messageIds;
+	private List<String> completedIds; //Completed event IDs
 	
 	//Gamification stuff
 	private int eventsCreated;
@@ -120,6 +121,18 @@ public class User
 		return eventsCreated;
 	}
 	
+	@JsonProperty("completed_event_list")
+	public void setCompletedEventList(List<String> list)
+	{
+		completedIds = list;
+	}
+	
+	@JsonProperty("completed_event_list")
+	public List<String> getCompletedEventList()
+	{
+		return completedIds;
+	}
+	
 	public void incrementEventsCreated()
 	{
 		++eventsCreated;
@@ -143,6 +156,18 @@ public class User
 		if(eventList != null)
 		{
 			user.setEvents(eventList);
+		}
+		
+		List<String> messagesList = (List<String>) map.get("messages");
+		if(messagesList != null)
+		{
+			user.setMessages(messagesList);
+		}
+		
+		List<String> completedList = (List<String>) map.get("completed_event_list");
+		if(completedList != null)
+		{
+			user.setCompletedEventList(completedList);
 		}
 		
 		return user;

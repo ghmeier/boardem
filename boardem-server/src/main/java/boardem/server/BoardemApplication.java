@@ -1,5 +1,8 @@
 package boardem.server;
 
+import static org.quartz.CronScheduleBuilder.dailyAtHourAndMinute;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -10,15 +13,20 @@ import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.impl.StdSchedulerFactory;
 
 import boardem.server.resource.EventResource;
+import boardem.server.resource.ExperienceResource;
 import boardem.server.resource.GameResource;
 import boardem.server.resource.MessageResource;
 import boardem.server.resource.SearchResource;
 import boardem.server.resource.SignInResource;
 import boardem.server.resource.SignUpResource;
 import boardem.server.resource.UsersResource;
-import boardem.server.resource.ExperienceResource;
 
 public class BoardemApplication extends Application<BoardemConfiguration>
 {
@@ -44,6 +52,28 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 	@Override
 	public void run(BoardemConfiguration config, Environment env)
 	{
+		Scheduler sched = null;
+		try
+		{
+			sched = StdSchedulerFactory.getDefaultScheduler();
+			JobDetail job = newJob(UpdateEventJob.class)
+					.withIdentity("updateEventJob", "eventGroup")
+					.build();
+			Trigger trigger = newTrigger()
+					.withIdentity("updateEventTrigger", "eventGroup")
+					.startNow()
+					.withSchedule(dailyAtHourAndMinute(0,0)) //Once a day at midnight
+					.build();
+			sched.scheduleJob(job, trigger);
+		}
+		catch (SchedulerException e)
+		{
+			e.printStackTrace();
+		}
+		
+		//Manage the Quartz job scheduler
+		QuartzManager quartzManager = new QuartzManager(sched);
+		env.lifecycle().manage(quartzManager);
 		
     	final FilterRegistration.Dynamic cors = env.servlets().addFilter("CORS", CrossOriginFilter.class);
 
