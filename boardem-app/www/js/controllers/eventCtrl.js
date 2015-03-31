@@ -10,6 +10,7 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
     $scope.games = [];
 		$scope.areGames = true;
 		$scope.eventId = $stateParams.eventId;
+    $scope.pics = {};
 		var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 						"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -52,14 +53,14 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
     	UserService.getUser($rootScope.SERVER_LOCATION ,$scope.event.owner)
     	.success(function(data){
     		$scope.owner = data.extra;
+        $scope.pics[$scope.owner.facebook_id] = data.extra.picture_url;
     	});
       $scope.event.participant_profile = [];
       for (id in $scope.event.participants){
         UserService.getUser($rootScope.SERVER_LOCATION ,$scope.event.participants[id])
         .success(function(data){
-          safeApply($scope,$rootScope,function(){
             $scope.event.participant_profile.push(data.extra);
-          });
+            $scope.pics[data.extra.facebook_id] = data.extra.picture_url;
         });
       }
     });

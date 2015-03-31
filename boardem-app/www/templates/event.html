@@ -64,7 +64,7 @@
                 </ion-item>
                 <div class="item item-divider">Comments</div>
                 <div class="item item-avatar" ng-repeat="com in event.comments">
-                    <img src="{{com.picture_url}}"/>
+                    <img src="{{pics[com.user_id]}}"/>
                     <h2>{{com.comment}}</h2>
                     <p>{{com.timestamp}}</p>
                 </div>

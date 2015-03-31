@@ -97,15 +97,11 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
 				};
 
         this.getEventComments = function(base_url,event_id,event){
+          console.log(event);
           $http.get(base_url+endpoint+event_id+"/comments").success(function(res){
             event["comments"] = [];
             for (id in res.extra){
-              var i = id;
-              UserService.getUser($rootScope.SERVER_LOCATION,res.extra[i].user_id).success(function(response){
-                res.extra[i].picture_url = response.extra.picture_url;
-              });
-              //console.log(res.extra[i]);
-              event["comments"].push(res.extra[i]);
+              event["comments"].push(res.extra[id]);
             }
           });
         }
@@ -113,7 +109,6 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
         this.comment = function(base_url,event_id,user_id,comment,event){
           var self = this;
           $http.post(base_url+endpoint+event_id+"/comment?",{user_id:user_id,comment:comment}).success(function(res){
-            console.log(res);
             self.getEventComments(base_url,event_id,event);
           });
         }

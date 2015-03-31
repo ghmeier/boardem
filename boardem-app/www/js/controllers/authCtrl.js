@@ -1,4 +1,4 @@
-appCtrl.controller('AuthCtrl',function($rootScope,$window,$ionicPopup,$http, $scope, $state,$firebaseAuth){
+appCtrl.controller('AuthCtrl',function($rootScope,$window,$ionicPopup,$http, $scope, $state,$firebaseAuth,UtilService){
 
 	$scope.idLogin = function(id,callback){
 	    $http.get("http://proj-309-16.cs.iastate.edu:8080/" + "signin?facebookId="+id).
