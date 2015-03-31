@@ -1,5 +1,6 @@
 package boardem.server;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -84,6 +85,8 @@ public class UpdateEventJob implements Job
 						
 						List<String> activeEvents = user.getEvents();
 						List<String> finishedEvents = user.getCompletedEventList();
+						activeEvents = activeEvents == null ? new ArrayList<String>() : activeEvents;
+						finishedEvents = finishedEvents == null ? new ArrayList<String>() : finishedEvents;
 						
 						//Remove the event from active events and put it in finished events
 						activeEvents.remove(event.getId());
