@@ -64,7 +64,7 @@ public class UpdateEventJob implements Job
 				data.put("participants", event.getParticipants());
 				data.put("games", event.getGames());
 				
-				FirebaseHelper.writeData(expiredRef, data);
+				FirebaseHelper.writeData(expiredRef.child(event.getId()), data);
 				
 				//Update the users that were in the event
 				List<String> participants = event.getParticipants();
