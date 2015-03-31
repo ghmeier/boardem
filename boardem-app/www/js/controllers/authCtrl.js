@@ -32,7 +32,6 @@ appCtrl.controller('AuthCtrl',function($rootScope,$window,$ionicPopup,$http, $sc
 
 	$scope.fbLoginCall = function(authData,username,callback){
 		var id = authData.facebook.id;
-		console.log(authData);
 		$rootScope.token = authData.facebook.accessToken;
 		callback();
 	}

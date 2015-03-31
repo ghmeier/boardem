@@ -229,7 +229,6 @@ appCtrl.service('CreateEventService', ['$http', function ($http) {
 					for (id in loc){
 						locations.push(loc[id]);
 					}
-					console.log(locations);
 				});
 			});
 		}

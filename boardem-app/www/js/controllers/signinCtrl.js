@@ -11,8 +11,6 @@ appCtrl.controller("signinCtrl",function($window,$rootScope,$scope,$state,$http,
 
 	$scope.fbLoginCall = function(authData,username){
 		var id = authData.facebook.id;
-		var url = $rootScope.SERVER_LOCATION + "signin?facebookId="+id;
-		console.log(authData);
 		$rootScope.token = authData.facebook.accessToken;
 		$scope.idLogin(id,$scope.toEvents);
 	}
@@ -21,7 +19,6 @@ appCtrl.controller("signinCtrl",function($window,$rootScope,$scope,$state,$http,
 	    $http.get($rootScope.SERVER_LOCATION + "signin?facebookId="+id).
 	    success(function(data, status, headers, config) {
 	        if (data.code === 0){
-	        	console.log(id);
 	          $window.localStorage.setItem('id', id);
 	          callback();
 	      }else {
