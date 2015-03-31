@@ -16,14 +16,7 @@ import javax.ws.rs.core.Response;
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.Comment;
 import boardem.server.json.Event;
-import boardem.server.logic.CreateEventLogic;
-import boardem.server.logic.GetCommentsLogic;
-import boardem.server.logic.GetEventLogic;
-import boardem.server.logic.GetEventsLogic;
-import boardem.server.logic.JoinEventLogic;
-import boardem.server.logic.LeaveCommentLogic;
-import boardem.server.logic.LeaveEventLogic;
-import boardem.server.logic.UpdateEventLogic;
+import boardem.server.logic.EventLogic;
 
 
 @Path("/event")
@@ -37,7 +30,7 @@ public class EventResource
 	@POST
 	public Response addEvent(Event event)
 	{
-		BoardemResponse response = CreateEventLogic.createEvent(event).clone();
+		BoardemResponse response = EventLogic.createEvent(event).clone();
 		response.setExtra(event.getId());
 		return Response.ok(response).build();
 	}
@@ -48,7 +41,7 @@ public class EventResource
 	@GET
 	public Response getEvents()
 	{
-		return Response.ok(GetEventsLogic.getEvents()).build();
+		return Response.ok(EventLogic.getEvents()).build();
 	}
 	
 	/**
@@ -58,7 +51,7 @@ public class EventResource
 	@Path("{eid}/join")
 	public Response joinEvent(@PathParam("eid") String eventId, @QueryParam("user_id") String userId)
 	{
-		return Response.ok(JoinEventLogic.joinEvent(eventId, userId)).build();
+		return Response.ok(EventLogic.joinEvent(eventId, userId)).build();
 	}
 	
 	/**
@@ -68,7 +61,7 @@ public class EventResource
 	@Path("{eid}/leave")
 	public Response leaveEvent(@PathParam("eid") String eventId, @QueryParam("user_id") String userId)
 	{
-		return Response.ok(LeaveEventLogic.leaveEvent(eventId, userId)).build();
+		return Response.ok(EventLogic.leaveEvent(eventId, userId)).build();
 	}
 	
 	/**
@@ -78,7 +71,7 @@ public class EventResource
 	@Path("{eid}")
 	public Response getEvent(@PathParam("eid") String eventId)
 	{
-		return Response.ok(GetEventLogic.getEvent(eventId)).build();
+		return Response.ok(EventLogic.getEvent(eventId)).build();
 	}
 	
 	/**
@@ -91,7 +84,7 @@ public class EventResource
 			@QueryParam("date") String date, @QueryParam("owner") String owner,
 			@QueryParam("games") List<String> games)
 	{
-		return Response.ok(UpdateEventLogic.updateEvent(eventId, name, lat, lng, date, owner, games)).build();
+		return Response.ok(EventLogic.updateEvent(eventId, name, lat, lng, date, owner, games)).build();
 	}
 	
 	/**
@@ -101,7 +94,7 @@ public class EventResource
 	@Path("{eid}/comment")
 	public Response leaveComment(@PathParam("eid") String eventId, Comment comment)
 	{
-		return Response.ok(LeaveCommentLogic.leaveComment(eventId, comment)).build();
+		return Response.ok(EventLogic.leaveComment(eventId, comment)).build();
 	}
 	
 	/**
@@ -111,6 +104,6 @@ public class EventResource
 	@Path("{eid}/comments")
 	public Response getComments(@PathParam("eid") String eventId)
 	{
-		return Response.ok(GetCommentsLogic.getComments(eventId)).build();
+		return Response.ok(EventLogic.getComments(eventId)).build();
 	}
 }
