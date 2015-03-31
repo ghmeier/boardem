@@ -49,7 +49,7 @@ public class UserShelfLogic {
 		}
 
 		//Return success
-		response = ResponseList.RESPONSE_SUCCESS;
+		response = ResponseList.RESPONSE_SUCCESS.clone();
 
 		//Add shelfID IDs to the response
 		response.setExtra(shelfIDs);

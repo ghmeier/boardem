@@ -34,65 +34,28 @@ public class EventLogic
 	 */
 	public static BoardemResponse createEvent(Event event)
 	{
-		//Give the event a unique id
-		event.setId(RandomStringUtils.randomAlphanumeric(20));
-
 		Firebase rootRef = new Firebase("https://boardem.firebaseio.com");
-		Firebase eventsRef = rootRef.child("events");
+		Firebase eventRef = rootRef.child("events").push();
+		
+		event.setId(eventRef.getKey());
 
 		GeoFire geoFire = new GeoFire(rootRef.child("geofire"));
 		FirebaseHelper.writeLocation(geoFire, new GeoLocation(event.getLatitude(), event.getLongitude()), event.getId());
 
-		DataSnapshot eventData = FirebaseHelper.readData(eventsRef);
+		//Write the data to Firebase
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("event_id", event.getId());
+		data.put("name", event.getName());
+		data.put("lat", event.getLatitude());
+		data.put("lng", event.getLongitude());
+		data.put("date", event.getDate());
+		data.put("owner", event.getOwner());
+		data.put("participants", event.getParticipants());
+		data.put("games", event.getGames());
 
-		@SuppressWarnings({ "unchecked", "rawtypes"})
-		Map<String, HashMap> dataMap = (Map<String, HashMap>) eventData.getValue();
+		FirebaseHelper.writeData(eventRef, data);
 
-		if(dataMap == null)
-		{
-			//No events are in the database, create one
-			Firebase newEventRef = eventsRef.child(event.getId());
-
-			Map<String, Object> data = new HashMap<String, Object>();
-			data.put("event_id", event.getId());
-			data.put("name", event.getName());
-			data.put("lat", event.getLatitude());
-			data.put("lng", event.getLongitude());
-			data.put("date", event.getDate());
-			data.put("owner", event.getOwner());
-			data.put("participants", event.getParticipants());
-			data.put("games", event.getGames());
-
-			FirebaseHelper.writeData(newEventRef, data);
-
-			createEventUpdateUser(event.getOwner(), event.getId());
-		}
-		else
-		{
-			Map<String, Event> events = FirebaseHelper.convertToObjectMap(dataMap, Event.class);
-
-			//Check if the event ID is already in use and change it if necessary
-			while(events.containsKey(event.getId()))
-			{
-				event.setId(RandomStringUtils.randomAlphanumeric(20));
-			}
-
-			Firebase newEventRef = eventsRef.child(event.getId());
-
-			Map<String, Object> data = new HashMap<String, Object>();
-			data.put("event_id", event.getId());
-			data.put("name", event.getName());
-			data.put("lat", event.getLatitude());
-			data.put("lng", event.getLongitude());
-			data.put("date", event.getDate());
-			data.put("owner", event.getOwner());
-			data.put("participants", event.getParticipants());
-			data.put("games", event.getGames());
-
-			FirebaseHelper.writeData(newEventRef, data);
-
-			createEventUpdateUser(event.getOwner(), event.getId());
-		}
+		createEventUpdateUser(event.getOwner(), event.getId());
 
 		return ResponseList.RESPONSE_SUCCESS;
 	}
@@ -122,7 +85,7 @@ public class EventLogic
 		data.put("events", user.getEvents());
 		FirebaseHelper.writeData(userRef, data);
 	}
-	
+
 	/**
 	 * Gets the comments for an event
 	 * @param eventId ID of the event
@@ -134,7 +97,7 @@ public class EventLogic
 
 		Firebase eventRef = new Firebase("https://boardem.firebaseio.com/comments/" + eventId + "/comments");
 		DataSnapshot snap = FirebaseHelper.readData(eventRef);
-		
+
 		//Check if the event exists
 		if(snap == null || snap.getValue() == null)
 		{
@@ -147,10 +110,10 @@ public class EventLogic
 			Collections.sort(commentList);
 			response.setExtra(commentList);
 		}
-		
+
 		return response;
 	}
-	
+
 	/**
 	 * Gets information about an event
 	 * @param eventId ID of event to get information about
@@ -158,10 +121,10 @@ public class EventLogic
 	public static BoardemResponse getEvent(String eventId)
 	{
 		BoardemResponse response = null;
-		
+
 		Firebase fb = new Firebase("https://boardem.firebaseio.com/events/" + eventId);
 		DataSnapshot snap = FirebaseHelper.readData(fb);
-		
+
 		if(snap == null || snap.getValue() == null)
 		{
 			response = ResponseList.RESPONSE_EVENT_DOES_NOT_EXIST;
@@ -172,10 +135,10 @@ public class EventLogic
 			response = ResponseList.RESPONSE_SUCCESS.clone();
 			response.setExtra(event);
 		}
-		
+
 		return response;
 	}
-	
+
 	/**
 	 * Gets the list of event IDs for active events 
 	 */
@@ -183,28 +146,28 @@ public class EventLogic
 	{
 		BoardemResponse response = null;
 		List<String> eventIds = new ArrayList<String>();
-		
+
 		Firebase rootRef = new Firebase("https://boardem.firebaseio.com");
 		Firebase eventsRef = rootRef.child("events");
-		
+
 		DataSnapshot eventsSnap = FirebaseHelper.readData(eventsRef);
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		Map<String, HashMap> dataMap = (Map<String, HashMap>) eventsSnap.getValue();
-		
+
 		//If the data map is null it will return an empty list of events
 		if(dataMap != null)
 		{
 			Map<String, Object> eventsMap = FirebaseHelper.convertToObjectMap(dataMap, Object.class);
 			eventIds.addAll(eventsMap.keySet());
 		}
-				
+
 		//Add the list of event IDs to the extra part of the response
 		response = ResponseList.RESPONSE_SUCCESS.clone();
 		response.setExtra(eventIds);
-		
+
 		return response;
 	}
-	
+
 	/**
 	 * Marks that a user is joining an event
 	 * @param eventId ID of the event
@@ -213,14 +176,14 @@ public class EventLogic
 	public static BoardemResponse joinEvent(String eventId, String userId)
 	{
 		BoardemResponse response = null;
-		
+
 		Firebase rootRef = new Firebase("https://boardem.firebaseio.com");
 		Firebase idRef = rootRef.child("facebook_id");
 		Firebase eventsRef = rootRef.child("events");
-		
+
 		DataSnapshot eventData = FirebaseHelper.readData(eventsRef);
 		DataSnapshot idData = FirebaseHelper.readData(idRef);
-				
+
 		@SuppressWarnings({"unchecked", "rawtypes"})
 		Map<String, HashMap> eventDataMap = (Map<String, HashMap>) eventData.getValue();
 		@SuppressWarnings({"unchecked", "rawtypes"})
@@ -239,7 +202,7 @@ public class EventLogic
 		else
 		{
 			Map<String, Event> eventMap = FirebaseHelper.convertToObjectMap(eventDataMap, Event.class);
-			
+
 			//Make sure the event exists
 			if(!eventMap.containsKey(eventId))
 			{
@@ -248,7 +211,7 @@ public class EventLogic
 			else
 			{
 				Map<String, User> idMap = FirebaseHelper.convertToObjectMap(idDataMap, User.class);
-								
+
 				//Make sure the user exists
 				if(!idMap.containsKey(userId))
 				{
@@ -257,10 +220,10 @@ public class EventLogic
 				else
 				{
 					Firebase joinEventRef = eventsRef.child(eventId);
-					
+
 					//Get the event from the list of events
 					Event toUpdate = eventMap.get(eventId);
-					
+
 					//Check if the user is already in the event
 					if(toUpdate.getParticipants().contains(userId))
 					{
@@ -277,28 +240,28 @@ public class EventLogic
 						Map<String, List<String>> data = new HashMap<String, List<String>>();
 						toUpdate.getParticipants().add(userId);
 						data.put("participants", toUpdate.getParticipants());
-					
+
 						//Add the event to the list of events the user is in
 						Firebase userRef = rootRef.child("users/" + idMap.get(userId).getUsername());
 						DataSnapshot userSnapshot = FirebaseHelper.readData(userRef);
 						User user = User.getUserFromSnapshot(userSnapshot);
 						user.getEvents().add(toUpdate.getId());
-						
+
 						Map<String, Object> userData = new HashMap<String, Object>();
 						userData.put("events", user.getEvents());
-						
+
 						FirebaseHelper.writeData(joinEventRef, data);
 						FirebaseHelper.writeData(userRef, userData);
-						
+
 						response = ResponseList.RESPONSE_SUCCESS;
 					}
 				}
 			}
 		}
-		
+
 		return response;
 	}
-	
+
 	/**
 	 * Leaves a comment on an event
 	 * @param eventId ID of the event to leave a comment on
@@ -307,7 +270,7 @@ public class EventLogic
 	public static BoardemResponse leaveComment(String eventId, Comment comment)
 	{
 		Firebase eventRef = new Firebase("https://boardem.firebaseio.com/comments/" + eventId + "/comments");
-		
+
 		//Set the time the comment was sent
 		comment.setDateObject(Calendar.getInstance().getTime());
 
@@ -325,14 +288,14 @@ public class EventLogic
 	public static BoardemResponse leaveEvent(String eventId, String userId)
 	{
 		BoardemResponse response = null;
-		
+
 		Firebase rootRef = new Firebase("https://boardem.firebaseio.com");
 		Firebase idRef = rootRef.child("facebook_id");
 		Firebase eventsRef = rootRef.child("events");
-		
+
 		DataSnapshot eventData = FirebaseHelper.readData(eventsRef);
 		DataSnapshot idData = FirebaseHelper.readData(idRef);
-				
+
 		@SuppressWarnings({"unchecked", "rawtypes"})
 		Map<String, HashMap> eventDataMap = (Map<String, HashMap>) eventData.getValue();
 		@SuppressWarnings({"unchecked", "rawtypes"})
@@ -352,7 +315,7 @@ public class EventLogic
 			//Root of the problem
 			//Converting from the array in FIreba
 			Map<String, Event> eventMap = FirebaseHelper.convertToObjectMap(eventDataMap, Event.class);
-			
+
 			//Make sure the event exists
 			if(!eventMap.containsKey(eventId))
 			{
@@ -361,7 +324,7 @@ public class EventLogic
 			else
 			{
 				Map<String, User> idMap = FirebaseHelper.convertToObjectMap(idDataMap, User.class);
-								
+
 				//Make sure the user exists
 				if(!idMap.containsKey(userId))
 				{
@@ -385,9 +348,9 @@ public class EventLogic
 						//Have to get user first to avoid null pointer
 						DataSnapshot userSnapshot = FirebaseHelper.readData(userRef);
 						User user = User.getUserFromSnapshot(userSnapshot);
-						
+
 						final CountDownLatch removeLatch = new CountDownLatch(1);
-						
+
 						//Remove the existing list
 						ref.child("participants").removeValue(new Firebase.CompletionListener() 
 						{	
@@ -398,7 +361,7 @@ public class EventLogic
 								removeLatch.countDown();
 							}
 						});
-						
+
 						//Wait for the removal to complete
 						try
 						{
@@ -408,7 +371,7 @@ public class EventLogic
 						{
 							e.printStackTrace();
 						}
-						
+
 						final CountDownLatch userRemoveLatch = new CountDownLatch(1);
 						userRef.child("events").removeValue(new Firebase.CompletionListener()
 						{
@@ -418,7 +381,7 @@ public class EventLogic
 								userRemoveLatch.countDown();
 							}
 						});
-						
+
 						try
 						{
 							userRemoveLatch.await();
@@ -427,29 +390,29 @@ public class EventLogic
 						{
 							e.printStackTrace();
 						}
-						 
+
 						//Write the data to Firebase
 						Map<String, List<String>> data = new HashMap<String, List<String>>();
 						Map<String, List<String>> userData = new HashMap<String, List<String>>();
-						
+
 						toUpdate.getParticipants().remove(userId);
 						data.put("participants", toUpdate.getParticipants());
-					
+
 						user.getEvents().remove(toUpdate.getId());
 						userData.put("events", user.getEvents());
-						
+
 						FirebaseHelper.writeData(ref, data);
 						FirebaseHelper.writeData(userRef, userData);
-						
+
 						response = ResponseList.RESPONSE_SUCCESS;
 					}
 				}
 			}
 		}
-		
+
 		return response;
 	}
-	
+
 	/**
 	 * Updates information about an event.
 	 * <p>
@@ -506,7 +469,7 @@ public class EventLogic
 			{
 				event.setGames(games);
 			}
-			
+
 			Map<String, Object> data = new HashMap<String, Object>();
 			data.put("name", event.getName());
 			data.put("lat", event.getLatitude());
@@ -514,14 +477,14 @@ public class EventLogic
 			data.put("date", event.getDate());
 			data.put("owner", event.getOwner());
 			data.put("games", event.getGames());
-			
+
 			FirebaseHelper.writeData(ref, data);
 			GeoFire geofire = new GeoFire(new Firebase("https://boardem.firebaseio.com/geofire"));
-			
+
 			//Write the updated location data
 			GeoLocation loc = new GeoLocation(event.getLatitude(), event.getLongitude());
 			FirebaseHelper.writeLocation(geofire, loc, eventId);
-			
+
 			response = ResponseList.RESPONSE_SUCCESS;
 		}
 
