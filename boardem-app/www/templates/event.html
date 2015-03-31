@@ -62,6 +62,21 @@
                         <i class="icon ion-close-circled"></i>&nbsp;Leave
                     </div>
                 </ion-item>
+                <div class="item item-divider">Comments</div>
+                <div class="item item-avatar" ng-repeat="com in event.comments">
+                    <img src="{{com.picture_url}}"/>
+                    <h2>{{com.comment}}</h2>
+                    <p>{{com.timestamp}}</p>
+                </div>
+                <div class="item" ng-show="event.comments.length === 0">No comments yet.</div>
+                <div class="item item-input-inset" ng-hide="event.canJoin && !event.isOwner">
+                    <label class="item-input-wrapper">
+                      <input type="text" ng-model="data.comment" placeholder="Comment">
+                    </label>
+                    <button class="button button-small" on-tap="comment()">
+                      Send
+                    </button>
+                </div>
         	</div>
         </div>
     </div>

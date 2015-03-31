@@ -96,6 +96,28 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
 					//return events;
 				};
 
+        this.getEventComments = function(base_url,event_id,event){
+          $http.get(base_url+endpoint+event_id+"/comments").success(function(res){
+            event["comments"] = [];
+            for (id in res.extra){
+              var i = id;
+              UserService.getUser($rootScope.SERVER_LOCATION,res.extra[i].user_id).success(function(response){
+                res.extra[i].picture_url = response.extra.picture_url;
+              });
+              //console.log(res.extra[i]);
+              event["comments"].push(res.extra[i]);
+            }
+          });
+        }
+
+        this.comment = function(base_url,event_id,user_id,comment,event){
+          var self = this;
+          $http.post(base_url+endpoint+event_id+"/comment?",{user_id:user_id,comment:comment}).success(function(res){
+            console.log(res);
+            self.getEventComments(base_url,event_id,event);
+          });
+        }
+
         this.getEventDetails = function(event_ids,events){
 					var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 						"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -115,7 +137,7 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
 									events[num].eventDay = dateDate[2] + " " + monthNames[(dateDate[1]-1)];
 									if(dateTime[0] > 12) events[num].eventTime = (dateTime[0]-12) + ":" + dateTime[1] + "pm";
 									else events[num].eventTime = dateTime[0] + ":" + dateTime[1] + "am";
-
+                  //self.getEventComments($rootScope.SERVER_LOCATION,event_ids[id],events[num]);
                   UserService.getUser($rootScope.SERVER_LOCATION,events[num].owner).success(function(response){
                     events[num].owner_profile = response.extra;
                   });
