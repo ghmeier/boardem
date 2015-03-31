@@ -1,5 +1,5 @@
 appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $state, UtilService, EventService,UserService,GameService) {
-
+  $scope.data = {comment:''};
 	$scope.editEvent = function(eventId) {
 
 	}
@@ -20,6 +20,7 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
       $scope.event.canJoin = EventService.isParticipant($rootScope.user_id,$scope.event);
       $scope.event.isOwner = EventService.isOwner($rootScope.user_id,$scope.event);
 
+      EventService.getEventComments($rootScope.SERVER_LOCATION,$scope.eventId,$scope.event);
 			var dateSplit = (res.extra.date).split(" ");
 			var dateDate = dateSplit[0].split("-");
 			var dateTime = dateSplit[1].split(":");
@@ -37,9 +38,7 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
         //nothing
       });
       for (id in $scope.event.games){
-        console.log(id);
         GameService.getSingleGame($rootScope.SERVER_LOCATION,$scope.event.games[id]).success(function(gameRaw){
-          console.log(gameRaw);
           if (gameRaw.code == 0 || gameRaw.code === "0"){
             $scope.areGames = true;
             $scope.games.push(gameRaw.extra);
@@ -100,6 +99,13 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
       UtilService.popup("Failed to leave.","Error: "+error);
     });
   };
+
+  $scope.comment = function(){
+    console.log($scope.data.comment);
+    var message = $scope.data.comment;
+    EventService.comment($rootScope.SERVER_LOCATION,$scope.eventId,$rootScope.user_id,message,$scope.event);
+    $scope.data.comment = '';
+  }
 });
 
 

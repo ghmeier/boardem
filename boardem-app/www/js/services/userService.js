@@ -76,9 +76,11 @@ appCtrl.service("UserService",['$http','GameService',function($http,GameService)
 			var shelfRaw = res.extra;
 			for (id in shelfRaw){
 				GameService.getSingleGame(base_url,shelfRaw[id]).success(function(game){
-					game.extra.image = (game.extra.image).substr(2);
-					game.extra.shelved = true;
-					shelf.push(game.extra);
+					if (game.extra && game.extra.image){
+						game.extra.image = (game.extra.image).substr(2);
+						game.extra.shelved = true;
+						shelf.push(game.extra);
+					}
 				})
 			}
 		});
