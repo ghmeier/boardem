@@ -91,6 +91,7 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 
 	$scope.selectLocation = function(location){
 		$scope.eventLocation = location;
+		$scope.closeLocation();
 	}
 
 	$scope.selectGame = function(game){
