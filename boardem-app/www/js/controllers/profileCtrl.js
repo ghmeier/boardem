@@ -1,7 +1,7 @@
-appCtrl.controller('profileCtrl',function($rootScope,$http, $scope, $state,$stateParams,UtilService, UserService){
+appCtrl.controller('profileCtrl',function($rootScope,$http, $scope, $state,$stateParams,UtilService, UserService, ExperienceService){
 	$scope.user={};
 	$scope.invite = $stateParams.profileId != $rootScope.user_id
-
+	$rootScope.xp = ExperienceService.get
 	UserService.getUser($rootScope.SERVER_LOCATION,$stateParams.profileId).
 	    success(function(data) {
 	        if (data.code === 0){

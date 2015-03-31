@@ -136,5 +136,4 @@ appCtrl.service("UserService",['$http','GameService',function($http,GameService)
 		return $http.get(base_url+userid+"/shelf?game"+game);
 
 	}
-
 }]);
