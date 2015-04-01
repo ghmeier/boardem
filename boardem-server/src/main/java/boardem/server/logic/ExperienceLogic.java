@@ -41,7 +41,7 @@ public class ExperienceLogic {
 			experience = (long) experienceSnap.getValue();
 		}
 
-		response = ResponseList.RESPONSE_SUCCESS;
+		response = ResponseList.RESPONSE_SUCCESS.clone();
 
 		response.setExtra(experience);
 
