@@ -49,7 +49,7 @@ public class UserBadgesLogic {
 		}
 
 		//Return success
-		response = ResponseList.RESPONSE_SUCCESS;
+		response = ResponseList.RESPONSE_SUCCESS.clone();
 
 		//Add badge IDs to the response
 		response.setExtra(badgeIds);

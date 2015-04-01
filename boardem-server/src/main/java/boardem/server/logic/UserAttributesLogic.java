@@ -49,7 +49,7 @@ public class UserAttributesLogic {
 		}
 
 		//Return success
-		response = ResponseList.RESPONSE_SUCCESS;
+		response = ResponseList.RESPONSE_SUCCESS.clone();
 
 		//Add attribute IDs to the response
 		response.setExtra(attributeIds);

@@ -37,7 +37,7 @@ public class UserContactsLogic {
 			contactIds.addAll(realContactIdMap.keySet());
 		}
 
-		response = ResponseList.RESPONSE_SUCCESS;
+		response = ResponseList.RESPONSE_SUCCESS.clone();
 
 		//Everything works now!
 		response.setExtra(contactIds);
