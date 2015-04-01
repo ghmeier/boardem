@@ -3,9 +3,13 @@
     	<div class="list card">
     		<div class="item item-avatar">
 		        <img src="{{user.picture_url}}"/>
-		        <h2>{{user.display_name}}</h2>
-			        <p>@{{user.username}}</p>
-	        	</div>
+						<h2>Level {{level}}</h2>
+						<div style="width:100%;">
+							<div style="height:100%; width:100%; color:red;">
+							</div>
+						</div>
+						<h2>XP: {{xp}}</h2>
+				</div>
 				<ion-item class="item tabs tabs-secondary tabs-icon-left" ng-show="{{invite}}">
 				<div class="tab-item balanced" on-tap="join(event.event_id)" >
 					<i class="icon ion-checkmark-circled"></i>&nbsp;Friend!
@@ -13,6 +17,8 @@
 
 		    </ion-item>
         </div>
-
+			
+				<h2>{{user.display_name}}</h2>
+				<p>@{{user.username}}</p>
     </ion-content>
 </ion-view>
