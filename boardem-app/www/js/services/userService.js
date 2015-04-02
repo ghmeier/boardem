@@ -36,6 +36,23 @@ appCtrl.service("UserService",['$http','GameService',function($http,GameService)
 		}
 	}
 
+	this.getUserMessages = function(base_url,userId,messages){
+		var self = this;
+		this.getUser(base_url,userId).success(function(res){
+			var messageIds = res.extra.messages;
+			console.log(messageIds);
+			for (id in messageIds){
+				self.getMessages(base_url,messageIds[id]).success(function(mes){
+					console.log(mes.extra);
+				});
+			}
+		})
+	}
+
+	this.getMessages = function(base_url,messageId){
+		return $http.get(base_url+"messages/"+messageId);
+	}
+
 	this.getUserDetail = function(base_url,skipId){
 		var self = this;
 		var userDetails = [];

@@ -85,7 +85,7 @@ public class Conversation
 			c.getMessages().addAll(messageMap.values());
 			Collections.sort(c.getMessages());
 		}
-		
+
 		return c;
 	}
 }

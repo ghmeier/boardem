@@ -10,6 +10,8 @@ import javax.ws.rs.core.Response;
 
 import boardem.server.json.Message;
 import boardem.server.logic.MessageLogic;
+
+@Path("/messages")
 public class MessageResource
 {
 	/**
@@ -19,6 +21,7 @@ public class MessageResource
 	@Path("{mid}")
 	public Response getMessages(@PathParam("mid") String messageId)
 	{
+		System.out.println("Workds");
 		return Response.ok(MessageLogic.getMessages(messageId)).build();
 	}
 	
