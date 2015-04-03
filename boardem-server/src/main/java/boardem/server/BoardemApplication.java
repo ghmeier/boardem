@@ -75,7 +75,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 			Trigger gameCacheTrigger = newTrigger()
 					.withIdentity("updateGamesCacheTrigger", "cacheGroup")
 					.startNow()
-					.withSchedule(weeklyOnDayAndHourAndMinute(0, 0, 0))
+					.withSchedule(weeklyOnDayAndHourAndMinute(1, 0, 0))
 					.build();
 			
 			//Schedule the jobs
