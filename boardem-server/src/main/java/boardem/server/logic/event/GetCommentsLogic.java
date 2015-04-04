@@ -31,14 +31,16 @@ public class GetCommentsLogic
 		DataSnapshot snap = FirebaseHelper.readData(eventRef);
 
 		//Check if the event exists
-		if(snap == null || snap.getValue() == null)
+		if(snap.getValue() == null)
 		{
 			response.setExtra(null);
 		}
 		else
 		{
+			//Get the list of comments from the DataSnapshot
 			List<Comment> commentList = new ArrayList<Comment>();
 			commentList.addAll(FirebaseHelper.convertToObjectMap((HashMap<String, HashMap>) snap.getValue(), Comment.class).values());
+			//Sort the comments by date and time posted
 			Collections.sort(commentList);
 			response.setExtra(commentList);
 		}
