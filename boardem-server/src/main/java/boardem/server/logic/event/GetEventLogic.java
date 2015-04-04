@@ -24,7 +24,7 @@ public class GetEventLogic
 		Firebase fb = new Firebase("https://boardem.firebaseio.com/events/" + eventId);
 		DataSnapshot snap = FirebaseHelper.readData(fb);
 
-		if(snap == null || snap.getValue() == null)
+		if(snap.getValue() == null)
 		{
 			response = ResponseList.RESPONSE_EVENT_DOES_NOT_EXIST;
 		}

@@ -24,7 +24,7 @@ public class GetGameLogic
 		Firebase fb = new Firebase("https://boardem.firebaseio.com/games/" + gameId);
 		DataSnapshot snap = FirebaseHelper.readData(fb);
 		
-		if(snap == null || snap.getValue() == null)
+		if(snap.getValue() == null)
 		{
 			response = ResponseList.RESPONSE_GAME_DOESNT_EXIST;
 		}

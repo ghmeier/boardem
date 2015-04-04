@@ -27,8 +27,8 @@ public class GetEventsLogic
 
 		Firebase rootRef = new Firebase("https://boardem.firebaseio.com");
 		Firebase eventsRef = rootRef.child("events");
-
 		DataSnapshot eventsSnap = FirebaseHelper.readData(eventsRef);
+		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		Map<String, HashMap> dataMap = (Map<String, HashMap>) eventsSnap.getValue();
 
