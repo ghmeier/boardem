@@ -22,9 +22,9 @@ import com.firebase.geofire.GeoFire;
 /**
  * Job to look through events and move finished events to a new table in Firebase
  */
-public class UpdateEventJob implements Job
+public class UpdateExpiredEventsJob implements Job
 {
-	public UpdateEventJob()
+	public UpdateExpiredEventsJob()
 	{
 		
 	}

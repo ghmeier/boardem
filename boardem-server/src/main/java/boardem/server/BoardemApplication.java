@@ -1,6 +1,7 @@
 package boardem.server;
 
 import static org.quartz.CronScheduleBuilder.dailyAtHourAndMinute;
+import static org.quartz.CronScheduleBuilder.weeklyOnDayAndHourAndMinute;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 import io.dropwizard.Application;
@@ -56,15 +57,30 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		try
 		{
 			sched = StdSchedulerFactory.getDefaultScheduler();
-			JobDetail job = newJob(UpdateEventJob.class)
-					.withIdentity("updateEventJob", "eventGroup")
+			
+			//Create the job and trigger for managing expired events
+			JobDetail expiredEventsJob = newJob(UpdateExpiredEventsJob.class)
+					.withIdentity("updateExpiredEventsJob", "eventGroup")
 					.build();
-			Trigger trigger = newTrigger()
-					.withIdentity("updateEventTrigger", "eventGroup")
+			Trigger expiredEventsTrigger = newTrigger()
+					.withIdentity("updateExpiredEventsTrigger", "eventGroup")
 					.startNow()
 					.withSchedule(dailyAtHourAndMinute(0,0)) //Once a day at midnight
 					.build();
-			sched.scheduleJob(job, trigger);
+			
+			//Create the job and trigger for updating the game cache
+			JobDetail gameCacheJob = newJob(UpdateGamesCacheJob.class)
+					.withIdentity("updateGamesCacheJob", "cacheGroup")
+					.build();
+			Trigger gameCacheTrigger = newTrigger()
+					.withIdentity("updateGamesCacheTrigger", "cacheGroup")
+					.startNow()
+					.withSchedule(weeklyOnDayAndHourAndMinute(0, 0, 0))
+					.build();
+			
+			//Schedule the jobs
+			sched.scheduleJob(expiredEventsJob, expiredEventsTrigger);
+			sched.scheduleJob(gameCacheJob, gameCacheTrigger);
 		}
 		catch (SchedulerException e)
 		{
