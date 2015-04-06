@@ -29,7 +29,6 @@ appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ion
 				UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.shelfGames);
 				var xp = 100;
 				ExperienceService.addToUserXP($rootScope.SERVER_LOCATION, $rootScope.user_id, xp);
-				ExperienceService.updateUserXPInfo($rootScope.SERVER_LOCATION, $rootScope.user_id);
 			}
 		});
 	}

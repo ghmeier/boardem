@@ -7,9 +7,9 @@ appCtrl.service("ExperienceService",['$rootScope','$http',function($rootScope,$h
 	}
 	
 	this.addToUserXP = function(base_url, userid, xp_amount){
-
-		return $http.post(base_url+"exp/"+userid+"?exp"+xp_amount);
-
+		$http.post(base_url+"exp/"+userid+"?exp="+xp_amount);
+		var scopeVar = this;
+		scopeVar.updateUserXPInfo(base_url, userid);
 	}
 	
 	this.updateUserXPInfo = function(base_url, userid){
