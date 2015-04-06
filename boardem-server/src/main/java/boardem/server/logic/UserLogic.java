@@ -47,7 +47,7 @@ public class UserLogic {
 		}
 
 		//Return a successful response
-		response = ResponseList.RESPONSE_SUCCESS;
+		response = ResponseList.RESPONSE_SUCCESS.clone();
 
 		//Return the list of usernames
 		response.setExtra(userIds);
