@@ -9,7 +9,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import boardem.server.logic.GameLogic;
+import boardem.server.logic.game.GetGameLogic;
+import boardem.server.logic.game.GetGamesLogic;
 
 @Path("/games")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -22,7 +23,7 @@ public class GameResource
 	@GET
 	public Response getGames(@QueryParam("page_number") int pageNumber)
 	{
-		return Response.ok(GameLogic.getGames(pageNumber)).build();
+		return Response.ok(GetGamesLogic.getGames(pageNumber)).build();
 	}
 	
 	/**
@@ -32,6 +33,6 @@ public class GameResource
 	@Path("{gid}")
 	public Response getGame(@PathParam("gid") String gameId)
 	{
-		return Response.ok(GameLogic.getGame(gameId)).build();
+		return Response.ok(GetGameLogic.getGame(gameId)).build();
 	}
 }

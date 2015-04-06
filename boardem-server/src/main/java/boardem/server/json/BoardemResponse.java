@@ -12,6 +12,9 @@ public class BoardemResponse
 	
 	private Object extra;
 	
+	//For badges
+	private String badgeId;
+	
 	public BoardemResponse()
 	{
 		
@@ -22,6 +25,7 @@ public class BoardemResponse
 		this.code = code;
 		this.message = message;
 		this.extra = "none";
+		this.badgeId = null;
 	}
 
 	@JsonProperty("code")
@@ -60,14 +64,28 @@ public class BoardemResponse
 		return extra;
 	}
 	
+	@JsonProperty("badge")
+	public String getBadge()
+	{
+		return badgeId;
+	}
+	
+	@JsonProperty("badge")
+	public void setBadge(String badgeId)
+	{
+		this.badgeId = badgeId;
+	}
+	
 	/**
 	 * Clones this BoardemResponse
 	 */
+	@Override
 	public BoardemResponse clone()
 	{
 		BoardemResponse r = new BoardemResponse();
 		r.setMessage(this.message);
 		r.setCode(this.code);
+		r.setBadge(this.badgeId);
 		return r;
 	}
 }

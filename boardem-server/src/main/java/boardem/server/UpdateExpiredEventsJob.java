@@ -17,13 +17,14 @@ import boardem.server.json.User;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.geofire.GeoFire;
 
 /**
  * Job to look through events and move finished events to a new table in Firebase
  */
-public class UpdateEventJob implements Job
+public class UpdateExpiredEventsJob implements Job
 {
-	public UpdateEventJob()
+	public UpdateExpiredEventsJob()
 	{
 		
 	}
@@ -32,6 +33,7 @@ public class UpdateEventJob implements Job
 	public void execute(JobExecutionContext context) throws JobExecutionException
 	{
 		Firebase rootRef = new Firebase("https://boardem.firebaseio.com");
+		GeoFire geofire = new GeoFire(rootRef.child("geofire"));
 		Firebase eventRef = rootRef.child("events");
 		Firebase expiredRef = rootRef.child("expired_events");
 		
@@ -66,6 +68,9 @@ public class UpdateEventJob implements Job
 				data.put("games", event.getGames());
 				
 				FirebaseHelper.writeData(expiredRef.child(event.getId()), data);
+				
+				//Remove the event from Geofire
+				geofire.removeLocation(event.getId());
 				
 				//Update the users that were in the event
 				List<String> participants = event.getParticipants();
