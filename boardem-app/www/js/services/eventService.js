@@ -97,7 +97,6 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
 				};
 
         this.getEventComments = function(base_url,event_id,event){
-          console.log(event);
           $http.get(base_url+endpoint+event_id+"/comments").success(function(res){
             event["comments"] = [];
             for (id in res.extra){

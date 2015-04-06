@@ -30,7 +30,6 @@ appCtrl.service("UserService",['$http','GameService',function($http,GameService)
 						}
 					}
 					userDetails.push(res.extra);
-
 				});
 			}
 		}
@@ -40,10 +39,12 @@ appCtrl.service("UserService",['$http','GameService',function($http,GameService)
 		var self = this;
 		this.getUser(base_url,userId).success(function(res){
 			var messageIds = res.extra.messages;
-			console.log(messageIds);
 			for (id in messageIds){
 				self.getMessages(base_url,messageIds[id]).success(function(mes){
-					console.log(mes.extra);
+					var mes = mes.extra;
+					mes.userDetails = [];
+					messages.push(mes);
+					self.parseUsers(base_url,mes.users,mes.userDetails,userId,[]);
 				});
 			}
 		})
@@ -51,6 +52,31 @@ appCtrl.service("UserService",['$http','GameService',function($http,GameService)
 
 	this.getMessages = function(base_url,messageId){
 		return $http.get(base_url+"messages/"+messageId);
+	}
+
+	this.getMessageDetails = function(base_url,messageId,messages,pics){
+		var self = this;
+		this.getMessages(base_url,messageId).success(function(res){
+			var mes = res.extra.messages;
+
+			for (id in mes){
+				messages.push(mes[id]);
+			}
+
+			for (id in res.extra.users){
+				self.getUser(base_url,res.extra.users[id]).success(function(use){
+					pics[use.extra.facebook_id] = use.extra.picture_url;
+				});
+			}
+		});
+	}
+
+	this.postMessage = function(base_url,messageId,userId,comment){
+		return $http.post(base_url+"messages/"+messageId+"/send",{from:userId,content:comment});
+	}
+
+	this.createConversation = function(base_url,users){
+		return $http.post(base_url+"messages/create",users);
 	}
 
 	this.getUserDetail = function(base_url,skipId){

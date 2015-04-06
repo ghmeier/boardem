@@ -25,9 +25,9 @@
                 <div class="item">
                     <h2>{{location[0].formatted_address}}</h2>
                     <p>Distance: {{event.distance}}km</p>
-										<a class="button button-positive" href="geo:{{event.lat}},{{event.lng}}">
+										<button class="button button-positive" on-tap="openRoute()">
                        Open In Maps
-                    </a>
+                    </button>
                 </div>
         		<div class="item item-divider">Games</div>
                 <div class="item" ng-repeat="game in games" ng-show="areGames">

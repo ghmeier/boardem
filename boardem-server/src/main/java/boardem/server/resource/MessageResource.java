@@ -1,5 +1,7 @@
 package boardem.server.resource;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -40,8 +42,8 @@ public class MessageResource
 	 */
 	@POST
 	@Path("create")
-	public Response createConversation(List<String> users)
+	public Response createConversation(String[] users)
 	{
-		return Response.ok(MessageLogic.createConversation(users)).build();
+		return Response.ok(MessageLogic.createConversation(Arrays.asList(users))).build();
 	}
 }

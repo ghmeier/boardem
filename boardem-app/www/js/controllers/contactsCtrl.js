@@ -25,7 +25,6 @@ appCtrl.controller('ContactsCtrl',function($rootScope,$window,$ionicPopup,$http,
 
 	$scope.getUsers = function(){
 		$scope.users = UserService.getUserContacts($rootScope.SERVER_LOCATION,$rootScope.user_id);
-		//$scope.initUsers();
 	}
 
 	$scope.toProfile = function(profile_id){

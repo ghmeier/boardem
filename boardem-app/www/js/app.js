@@ -165,6 +165,15 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
       }
     }
   })
+  .state('app.conversation', {
+    url: "/messages/:mid",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/conversation.html",
+        controller: 'ConversationCtrl'
+      }
+    }
+  })
   .state('app.contacts', {
     url: "/contacts",
     views: {

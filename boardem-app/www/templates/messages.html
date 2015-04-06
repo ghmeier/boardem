@@ -1,0 +1,33 @@
+<ion-view view-title="Messages" ng-init="getMessages()">
+    <ion-nav-buttons side = "right">
+                <button class="button button-icon ion-plus"  on-tap="showAdd()">
+                </button>
+    </ion-nav-buttons>
+  <ion-content>
+        <div class="list card" ng-repeat="mes in message_details">
+            <div class="item" on-tap="toMessages(mes.id)">
+                <h2>Conversation with <span ng-repeat="user in mes.userDetails">{{user.display_name}}, </span></h2>
+            </div>
+        </div>
+  </ion-content>
+</ion-view>
+
+<script id="contact-modal.html" type="text/ng-template">
+<ion-modal-view>
+    <ion-header-bar>
+        <button class="button button-clear" on-tap="closeAdd()">Cancel</button>
+        <h1 class="title">New Conversation</h1>
+        <button class="button button-clear" on-tap="startConversation()">Start</button>
+    </ion-header-bar>
+    <ion-content>
+        <div class="list card" ng-repeat="user in users">
+            <div class="item item-avatar item-icon-right" on-tap="addUser(user)">
+                <img src="{{user.picture_url}}"/>
+                <h2>{{user.display_name}}</h2>
+                <i class="icon ion-checkmark" ng-show="user.added"></i>
+            </div>
+        </div>
+    </ion-content>
+  </ion-modal-view>
+
+</script>

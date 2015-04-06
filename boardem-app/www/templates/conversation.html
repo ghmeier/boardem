@@ -1,0 +1,21 @@
+<ion-view view-title="Conversation" ng-init="getMessages()">
+  <ion-content>
+    <div class="list">
+                <div class="item item-divider">Comments</div>
+                <div class="item item-avatar" ng-repeat="com in messages">
+                    <img src="{{pics[com.from]}}"/>
+                    <h2>{{com.content}}</h2>
+                    <p>{{com.timestamp}}</p>
+                </div>
+                <div class="item" ng-show="messages.length === 0">No comments yet.</div>
+                <div class="item item-input-inset">
+                    <label class="item-input-wrapper">
+                      <input type="text" ng-model="data.comment" placeholder="Comment">
+                    </label>
+                    <button class="button button-small" on-tap="comment()">
+                      Send
+                    </button>
+                </div>
+            </div>
+  </ion-content>
+</ion-view>

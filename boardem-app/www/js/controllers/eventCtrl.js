@@ -30,6 +30,7 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
 			else $scope.event.eventTime = dateTime[0] + ":" + dateTime[1] + "am";
 
       navigator.geolocation.getCurrentPosition(function(pos){
+        $scope.pos = pos;
         EventService.getLocationFromCoords($scope.event.lat,$scope.event.lng,$scope.location);
         safeApply($scope,$rootScope,function(){
           $scope.event.distance = EventService.getDistanceInKM($scope.event.lat,$scope.event.lng,pos.coords.latitude,pos.coords.longitude);
@@ -106,6 +107,10 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
     var message = $scope.data.comment;
     EventService.comment($rootScope.SERVER_LOCATION,$scope.eventId,$rootScope.user_id,message,$scope.event);
     $scope.data.comment = '';
+  }
+
+  $scope.openRoute = function(){
+    window.open("http://maps.google.com/maps?z=12&t=m&saddr=loc:"+$scope.event.lat+"+"+$scope.event.lng+"&daddr="+$scope.pos.coords.latitude+"+"+$scope.pos.coords.longitude,"_system");
   }
 });
 
