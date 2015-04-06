@@ -11,7 +11,7 @@ appCtrl.service("GameService",['$http',function($http){
 	}
 
 	this.getSingleGame = function(base_url,name){
-			return $http.get(base_url+"games/"+name);;
+			return $http.get(base_url+"games/"+name);
 	}
 
 	this.getAllGames = function(base_url,games,page,shelf){

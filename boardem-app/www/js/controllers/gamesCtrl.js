@@ -1,4 +1,4 @@
-appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ionicPlatform, UtilService, UserService,GameService) {
+appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ionicPlatform, UtilService, UserService,GameService, ExperienceService) {
 	$scope.games = [];
 	$scope.fullView = true;
 	$scope.page = 0;
@@ -27,6 +27,9 @@ appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ion
 				game.shelved = true;
 				$rootScope.shelfGames = [];
 				UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.shelfGames);
+				var xp = 100;
+				ExperienceService.addToUserXP($rootScope.SERVER_LOCATION, $rootScope.user_id, xp);
+				ExperienceService.updateUserXPInfo($rootScope.SERVER_LOCATION, $rootScope.user_id);
 			}
 		});
 	}
