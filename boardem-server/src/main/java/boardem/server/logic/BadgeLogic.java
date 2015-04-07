@@ -8,6 +8,7 @@ import static boardem.server.BadgeActions.ACTION_LEVEL;
 import static boardem.server.BadgeActions.ACTION_PLAY_GAME;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,9 +64,32 @@ public class BadgeLogic
 			earnedBadges.add(badge);
 			BoardemResponse response = ExperienceLogic.setUserExperience(userId, badge.getExp());
 			earnedBadges.addAll(response.getBadges());
+			
+			updateBadgeTable(earnedBadges, user);
 		}
 		
 		return earnedBadges;
+	}
+	
+	/**
+	 * Updates the earned badges of a user.
+	 * @param badges Badges that were earned.
+	 * @param user The user to update.
+	 */
+	private static void updateBadgeTable(List<Badge> badges, User user)
+	{
+		List<String> earnedBadges = user.getEarnedBadges(); //Badges the user already earned
+		
+		for(Badge b : badges)
+		{
+			earnedBadges.add(b.getId());
+		}
+		
+		//Write the data to Firebase
+		Firebase ref = new Firebase("https://boardem.firebaseio.com/users/" + user.getUsername());
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("earned_badges", earnedBadges);
+		FirebaseHelper.writeData(ref, data);
 	}
 	
 	/**

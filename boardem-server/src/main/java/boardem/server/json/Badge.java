@@ -18,7 +18,8 @@ public class Badge
 	private long exp;
 	private String icon;
 	private String name;
-
+	private String id;
+	
 	public Badge()
 	{
 		
@@ -84,6 +85,18 @@ public class Badge
 		return exp;
 	}
 	
+	@JsonProperty("id")
+	public void setId(String id)
+	{
+		this.id = id;
+	}
+	
+	@JsonProperty("id")
+	public String getId()
+	{
+		return id;
+	}
+	
 	/**
 	 * Gets information about a badge from Firebase.
 	 * @param badgeId ID of the badge to get.
@@ -106,6 +119,7 @@ public class Badge
 		badge.description = (String) data.get("description");
 		badge.icon = (String) data.get("icon");
 		badge.name = (String) data.get("name");
+		badge.id = (String) data.get("id");
 		
 		return badge;
 	}
