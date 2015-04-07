@@ -1,5 +1,8 @@
 package boardem.server.json;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -12,20 +15,19 @@ public class BoardemResponse
 	
 	private Object extra;
 	
-	//For badges
-	private String badgeId;
+	private List<Badge> badgesEarned;
 	
 	public BoardemResponse()
 	{
-		
+		badgesEarned = new ArrayList<Badge>();
 	}
 	
 	public BoardemResponse(int code, String message)
 	{
+		this();
 		this.code = code;
 		this.message = message;
 		this.extra = "none";
-		this.badgeId = null;
 	}
 
 	@JsonProperty("code")
@@ -65,15 +67,20 @@ public class BoardemResponse
 	}
 	
 	@JsonProperty("badge")
-	public String getBadge()
+	public List<Badge> getBadges()
 	{
-		return badgeId;
+		return badgesEarned;
 	}
 	
 	@JsonProperty("badge")
-	public void setBadge(String badgeId)
+	public void setBadges(List<Badge> badges)
 	{
-		this.badgeId = badgeId;
+		badgesEarned = badges;
+	}
+	
+	public void addBadge(Badge b)
+	{
+		badgesEarned.add(b);
 	}
 	
 	/**
@@ -82,10 +89,7 @@ public class BoardemResponse
 	@Override
 	public BoardemResponse clone()
 	{
-		BoardemResponse r = new BoardemResponse();
-		r.setMessage(this.message);
-		r.setCode(this.code);
-		r.setBadge(this.badgeId);
+		BoardemResponse r = new BoardemResponse(this.code, this.message);
 		return r;
 	}
 }
