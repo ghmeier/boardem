@@ -1,8 +1,6 @@
 package boardem.server.resource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
