@@ -12,8 +12,10 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import boardem.server.json.Badge;
 import boardem.server.json.Event;
 import boardem.server.json.User;
+import boardem.server.logic.BadgeLogic;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -103,6 +105,9 @@ public class UpdateExpiredEventsJob implements Job
 						userData.put("completed_event_list", finishedEvents);
 						
 						FirebaseHelper.writeData(userRef, userData);
+						
+						//Update the user's badge progress
+						BadgeLogic.updateBadge(userId, BadgeActions.ACTION_PLAY_GAME);
 					}
 				}
 			}

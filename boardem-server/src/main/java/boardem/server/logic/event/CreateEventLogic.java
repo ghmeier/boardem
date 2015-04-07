@@ -1,15 +1,17 @@
 package boardem.server.logic.event;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import boardem.server.BadgeActions;
 import boardem.server.FirebaseHelper;
+import boardem.server.json.Badge;
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.Event;
 import boardem.server.json.ResponseList;
-import boardem.server.json.User;
+import boardem.server.logic.BadgeLogic;
 
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
@@ -48,35 +50,15 @@ public class CreateEventLogic
 
 		FirebaseHelper.writeData(eventRef, data);
 
-		//Update the user information
-		updateUser(event.getOwner(), event.getId());
-
-		return ResponseList.RESPONSE_SUCCESS;
-	}
-
-	/**
-	 * Updates the users gamification attributes for creating an event.
-	 * Used in event creation.
-	 * @param userId ID of user to update
-	 */
-	private static void updateUser(String userId, String eventId)
-	{
-		//Get the username from the user ID
-		Firebase idRef = new Firebase("https://boardem.firebaseio.com/facebook_id/" + userId);
-		DataSnapshot idSnap = FirebaseHelper.readData(idRef);
-
-		//Get the user and update their information from the new event
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		Firebase userRef = new Firebase("https://boardem.firebaseio.com/users/" + ((Map<String, HashMap>) idSnap.getValue()).get("username"));
-		DataSnapshot userSnap = FirebaseHelper.readData(userRef);
-		User user = User.getUserFromSnapshot(userSnap);
-		user.incrementEventsCreated();
-		user.getEvents().add(eventId);
-
-		//Write the data to Firebase
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("events_created", user.getEventsCreated());
-		data.put("events", user.getEvents());
-		FirebaseHelper.writeData(userRef, data);
+		//Update the user's badge progress
+		List<Badge> earned = BadgeLogic.updateBadge(event.getOwner(), BadgeActions.ACTION_CREATE_EVENT);
+		
+		//Add the earned badges to the response
+		BoardemResponse response = ResponseList.RESPONSE_SUCCESS.clone();
+		for(Badge b : earned)
+		{
+			response.addBadge(b);
+		}
+		return response;
 	}
 }

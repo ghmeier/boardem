@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import boardem.server.BadgeActions;
 import boardem.server.FirebaseHelper;
+import boardem.server.json.Badge;
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.Event;
 import boardem.server.json.ResponseList;
 import boardem.server.json.User;
+import boardem.server.logic.BadgeLogic;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -103,7 +106,15 @@ public class JoinEventLogic
 						FirebaseHelper.writeData(joinEventRef, data);
 						FirebaseHelper.writeData(userRef, userData);
 
-						response = ResponseList.RESPONSE_SUCCESS;
+						//Update the user's badge progress
+						List<Badge> earnedBadges = BadgeLogic.updateBadge(userId, BadgeActions.ACTION_JOIN_EVENT);
+
+						//Add any earned badges to the response
+						response = ResponseList.RESPONSE_SUCCESS.clone();
+						for(Badge b : earnedBadges)
+						{
+							response.addBadge(b);
+						}
 					}
 				}
 			}
