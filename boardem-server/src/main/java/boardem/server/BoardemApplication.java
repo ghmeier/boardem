@@ -20,6 +20,7 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
 
+import boardem.server.resource.BadgeResource;
 import boardem.server.resource.EventResource;
 import boardem.server.resource.ExperienceResource;
 import boardem.server.resource.GameResource;
@@ -113,6 +114,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		final GameResource game = new GameResource();
 		final MessageResource messages = new MessageResource();
 		final ExperienceResource experience = new ExperienceResource();
+		final BadgeResource badge = new BadgeResource();
 		
 		//configureCors(env);
 		
@@ -124,6 +126,7 @@ public class BoardemApplication extends Application<BoardemConfiguration>
 		env.jersey().register(game);
 		env.jersey().register(messages);
 		env.jersey().register(experience);
+		env.jersey().register(badge);
 	}
 	
 /*	  private void configureCors(Environment environment) {

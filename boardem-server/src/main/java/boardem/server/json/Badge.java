@@ -11,7 +11,7 @@ import com.firebase.client.Firebase;
 /**
  * JSON representation of a badge.
  */
-public class Badge
+public class Badge implements Comparable<Badge>
 {
 	private String congrats;
 	private String description;
@@ -122,5 +122,12 @@ public class Badge
 		badge.id = (String) data.get("id");
 		
 		return badge;
+	}
+
+	@Override
+	//this.id.compareTo(other.id)
+	public int compareTo(Badge other)
+	{
+		return this.id.compareTo(other.id);
 	}
 }
