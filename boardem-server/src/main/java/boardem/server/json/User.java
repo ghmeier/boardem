@@ -1,8 +1,11 @@
 package boardem.server.json;
 
+import static boardem.server.BadgeActions.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.firebase.client.DataSnapshot;
@@ -19,14 +22,22 @@ public class User
 	private List<String> eventIds;
 	private List<String> messageIds;
 	private List<String> completedIds; //Completed event IDs
-	
-	//Gamification stuff
-	private int eventsCreated;
+	private List<String> earnedBadges; //IDs of earned badges
+	private Map<String, Long> badgeProgress; //Key is the action for a badge, value is the number of times that action has been completed
 	
 	public User()
 	{
 		eventIds = new ArrayList<String>();
 		messageIds = new ArrayList<String>();
+		earnedBadges = new ArrayList<String>();
+		
+		badgeProgress = new HashMap<String, Long>();
+		badgeProgress.put(ACTION_ADD_GAME, 0L);
+		badgeProgress.put(ACTION_CREATE_EVENT, 0L);
+		badgeProgress.put(ACTION_FRIEND, 0L);
+		badgeProgress.put(ACTION_JOIN_EVENT, 0L);
+		badgeProgress.put(ACTION_LEVEL, 0L);
+		badgeProgress.put(ACTION_PLAY_GAME, 0L);
 	}
 	
 	public User(String username, String facebookId, String displayName, String pictureUrl)
@@ -108,18 +119,6 @@ public class User
 	{
 		return messageIds;
 	}
-
-	@JsonProperty("events_created")
-	public void setEventsCreated(int num)
-	{
-		eventsCreated = num;
-	}
-	
-	@JsonProperty("events_created")
-	public int getEventsCreated()
-	{
-		return eventsCreated;
-	}
 	
 	@JsonProperty("completed_event_list")
 	public void setCompletedEventList(List<String> list)
@@ -133,9 +132,28 @@ public class User
 		return completedIds;
 	}
 	
-	public void incrementEventsCreated()
+	@JsonProperty("badge_progress")
+	public void setBadgeProgress(Map<String, Long> map)
 	{
-		++eventsCreated;
+		badgeProgress = map;
+	}
+	
+	@JsonProperty("badge_progress")
+	public Map<String, Long> getBadgeProgress()
+	{
+		return badgeProgress;
+	}
+	
+	@JsonProperty("earned_badges")
+	public List<String> getEarnedBadges()
+	{
+		return earnedBadges;
+	}
+	
+	@JsonProperty("earned_badges")
+	public void setEarnedBadges(List<String> list)
+	{
+		earnedBadges = list;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -147,10 +165,6 @@ public class User
 		user.setFacebookId((String) map.get("facebook_id"));
 		user.setDisplayName((String) map.get("display_name"));
 		user.setPictureUrl((String) map.get("picture_url"));
-		
-		//Just in case the value is not present in the database
-		Long tmp = (Long) map.get("events_created");
-		user.setEventsCreated((int) (tmp == null ? 0 : tmp));
 		
 		List<String> eventList = (List<String>) map.get("events");
 		if(eventList != null)
@@ -168,6 +182,18 @@ public class User
 		if(completedList != null)
 		{
 			user.setCompletedEventList(completedList);
+		}
+		
+		List<String> badgesList = (List<String>) map.get("earned_badges");
+		if(badgesList != null)
+		{
+			user.setEarnedBadges(badgesList);
+		}
+		
+		Map<String, Long> badgeProgressMap = (Map<String, Long>) map.get("badge_progress");
+		if(badgeProgressMap != null)
+		{
+			user.setBadgeProgress(badgeProgressMap);
 		}
 		
 		return user;
