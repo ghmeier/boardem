@@ -1,4 +1,4 @@
-appCtrl.controller('BrowseCtrl',function($rootScope,$window,$ionicPopup,$http, $scope, $state,UserService){
+appCtrl.controller('BrowseCtrl',function($rootScope,$window,$ionicPopup,$http, $scope, $state,UtilService,UserService){
 	$scope.getUsers = function(){
 		$scope.users = UserService.getUserDetail($rootScope.SERVER_LOCATION,$rootScope.user_id);
 	}
