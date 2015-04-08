@@ -13,6 +13,7 @@ appCtrl.service('BadgeService', ['$ionicPopup','$rootScope','$http','RestService
                     for (i in earned){
                         if (earned[i].id === r.extra.id){
                             r.extra.opacity = 1;
+                            break;
                         }
                     }
                     badges.push(r.extra);

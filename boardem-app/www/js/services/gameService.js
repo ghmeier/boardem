@@ -4,7 +4,7 @@
 appCtrl.service("GameService",['$http',function($http){
 
 	var endpoint = "games/";
-	
+
 	this.getGames = function(base_url, page_num){
 
 		return $http.get(base_url+"games?page_number="+page_num);
@@ -19,7 +19,9 @@ appCtrl.service("GameService",['$http',function($http){
 		this.getGames(base_url, page).success(function(res){
 			var gameRaw = res.extra;
 			for (id in gameRaw){
-				gameRaw[id].image = (gameRaw[id].image).substr(2);
+				if (gameRaw[id]){
+					gameRaw[id].image = (gameRaw[id].image).substr(2);
+				}
 				for (i in shelf){
 					if (shelf[i].name === gameRaw[id].name){
 						gameRaw[id].shelved = true;
@@ -31,7 +33,7 @@ appCtrl.service("GameService",['$http',function($http){
 		});
 	}
 
-	this.getGameDetails = function(gamesRaw,games,shelf){
+	this.getGameDetails = function(gameRaw,games,shelf){
 			for (id in gameRaw){
 				gameRaw[id].image = (gameRaw[id].image).substr(2);
 				for (i in shelf){

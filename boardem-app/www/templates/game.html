@@ -4,13 +4,21 @@
 
     		<div class="item item-text-wrap item-thumbnail-left">
     			<img src="http://{{game.image}}" style="border-radius:5%"/>
-		        <h2>{{game.name}}</h2>
-		        <p>{{game.minPlayers}}-{{game.maxPlayers}} players</p>
-		        <p>~{{game.playingTime}} minute play time</p>
-		        <p>{{game.averageRating.toFixed(1)}}/10</p>
-		        <p class="text-wrap">{{game.description}}</p>
-        	</div>
+		      <h2>{{game.name}}</h2>
+		      <p>{{game.minPlayers}}-{{game.maxPlayers}} players</p>
+		      <p>~{{game.playingTime}} minute play time</p>
+		      <p>{{game.averageRating.toFixed(1)}}/10</p>
+		      <p class="text-wrap">{{game.description}}</p>
         </div>
+        <ion-item class="item tabs tabs-secondary tabs-icon-left" >
+          <div class="tab-item balanced" on-tap="add(game)" ng-hide="game.shelved">
+            <i class="icon ion-checkmark-circled"></i>&nbsp;Add To Shelf!
+          </div>
+          <div class="tab-item assertive" on-tap="remove(game)" ng-show="game.shelved">
+            <i class="icon ion-close-circled"></i>&nbsp;Remove from Shelf!
+          </div>
+        </ion-item>
+      </div>
 
   </ion-content>
 </ion-view>
