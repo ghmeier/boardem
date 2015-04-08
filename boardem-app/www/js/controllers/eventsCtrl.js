@@ -22,6 +22,10 @@ appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $state, $io
 		}).error(function(error){
 			UtilService.popup("Failed to join.","Error: "+error);
 		});
+		var xp = 47;
+		ExperienceService.addToUserXP($rootScope.SERVER_LOCATION, $rootScope.user_id, xp);
+		$rootScope.xp_info = [];
+		ExperienceService.updateUserXPInfo($rootScope.SERVER_LOCATION, $rootScope.user_id, $rootScope.xp_info);
 	};
 
 	$scope.leave = function(event){
