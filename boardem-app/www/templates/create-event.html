@@ -75,7 +75,7 @@
 			<h2><strong>Location:</strong></h2>
 			<div class="button button-positive button-clear" on-tap="locationModal()">Choose Location</div>
 		</div>
-        <div class="item">
+        <div class="item" ng-show="eventLocation.name">
             <h2> <strong>{{eventLocation.name}}</strong></h2>
             <p>{{eventLocation.formatted_address}}</p>
         </div>

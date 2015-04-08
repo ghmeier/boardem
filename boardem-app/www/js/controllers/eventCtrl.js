@@ -106,6 +106,10 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
     var message = $scope.data.comment;
     EventService.comment($rootScope.SERVER_LOCATION,$scope.eventId,$rootScope.user_id,message,$scope.event);
     $scope.data.comment = '';
+		var xp = 13;
+		ExperienceService.addToUserXP($rootScope.SERVER_LOCATION, $rootScope.user_id, xp);
+		$rootScope.xp_info = [];
+		ExperienceService.updateUserXPInfo($rootScope.SERVER_LOCATION, $rootScope.user_id, $rootScope.xp_info);
   }
 
   $scope.openRoute = function(){

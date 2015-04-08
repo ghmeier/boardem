@@ -71,7 +71,11 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 						UtilService.checkBadges(response);
 
 						var xp = 100;
+						//console.log(($scope.eventGames).length);
+						var xp = Math.round(Math.random() * (150 - 50) + 50);
 						ExperienceService.addToUserXP($rootScope.SERVER_LOCATION, $rootScope.user_id, xp);
+						$rootScope.xp_info = [];
+						ExperienceService.updateUserXPInfo($rootScope.SERVER_LOCATION, $rootScope.user_id, $rootScope.xp_info);
 			    	$state.go("app.single",{eventId:response.extra});
 
 				}).error(function(error){

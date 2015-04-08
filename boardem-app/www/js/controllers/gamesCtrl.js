@@ -28,8 +28,10 @@ appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ion
 				$rootScope.shelfGames = [];
 				UtilService.checkBadges(res);
 				UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.shelfGames);
-				var xp = 100;
+				var xp = Math.round(Math.random() * (150 - 50) + 50);
 				ExperienceService.addToUserXP($rootScope.SERVER_LOCATION, $rootScope.user_id, xp);
+				$rootScope.xp_info = [];
+				ExperienceService.updateUserXPInfo($rootScope.SERVER_LOCATION, $rootScope.user_id, $rootScope.xp_info);
 			}
 		});
 	}
