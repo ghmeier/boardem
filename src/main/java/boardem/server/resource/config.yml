@@ -1,4 +1,3 @@
-applicationName: boardem
 server:
   type: simple
   applicationContextPath: /
