@@ -177,6 +177,15 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
       }
     }
   })
+  .state('app.badges', {
+    url: "/badges",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/badges.html",
+        controller: 'BadgesCtrl'
+      }
+    }
+  })
   .state('app.contacts', {
     url: "/contacts",
     views: {
