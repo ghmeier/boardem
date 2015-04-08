@@ -19,7 +19,10 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
         }
 
         this.getTimeDifference = function(date){
-          var cur = date.replace(/-/g,"/");
+          var cur = "N/A";
+          if (date){
+            cur = date.replace(/-/g,"/");
+          }
 
           var millis1 = Date.parse(cur);
           var millis2 = Date.now();
@@ -119,6 +122,9 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
             for (id in event_ids){
               var id_string = event_ids[id];
               self.getEvent($rootScope.SERVER_LOCATION,event_ids[id]).success(function(res){
+                  if (!events){
+                    events = [];
+                  }
                   events.push(res.extra);
                   var num = events.length-1;
                   events[num].time = self.getTimeDifference(res.extra.date);

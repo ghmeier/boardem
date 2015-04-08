@@ -8,12 +8,13 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
    $rootScope.user_id = $window.localStorage['id'];
    $rootScope.events = [];
 	 $rootScope.shelfGames = [];
+   $rootScope.userBadges = [];
    $rootScope.roster = [];
 	 $rootScope.ex = 0;
 	 $rootScope.level = 0;
 	 $rootScope.xppercent = 0;
    UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.shelfGames)
-
+   UserService.getBadges($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.userBadges);
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {

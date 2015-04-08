@@ -8,11 +8,6 @@
                 </button>
     </ion-nav-buttons>
 		<ion-content>
-<!-- 			<ion-item class="item-input-inset" >
-				<label class="item-input-wrapper">
-					<input type="text" placeholder="Search Games"> </input>
-				</label>
-			</ion-item> -->
         	<div class="list card" ng-repeat="game in games" ng-show="fullView">
         		<div class="item item-avatar" on-tap="toGame('{{game.name}}')">
     		        <img src="http://{{game.image}}" style="border-radius:5%"/>

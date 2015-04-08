@@ -26,7 +26,6 @@ appCtrl.controller('ContactsCtrl',function($rootScope,$window,$ionicPopup,$http,
 	}
 
 	$scope.invite = function(id){
-		console.log(id);
 		FB.ui({
 		    method: 'apprequests',
 		    message: 'Boardem Invitation!',

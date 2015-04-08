@@ -1,0 +1,12 @@
+<ion-view view-title="Badges" ng-init="initBadges()">
+        <ion-content>
+            <div class="list card" ng-repeat="badge in badges" >
+                <div class="item item-avatar">
+                    <img style="opacity:{{badge.opacity}}" src="{{badge.icon}}" style="border-radius:5%"/>
+                    <h2>{{badge.name}}</h2>
+                    <p>{{badge.description}}</p>
+                    <p>Worth: {{badge.exp}}exp</p>
+                </div>
+            </div>
+  </ion-content>
+</ion-view>

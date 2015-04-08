@@ -70,7 +70,7 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
   $scope.join = function(event_id){
       EventService.joinEvent($rootScope.SERVER_LOCATION,event_id,$rootScope.user_id).success(function(res){
       if (res.code == 0){
-        UtilService.popup("Joined","You joined the event!");
+        UtilService.checkBadges(res);
         $scope.loadEvent();
         $rootScope.roster = [];
         EventService.getRosterDetail($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.roster);
@@ -88,7 +88,6 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
       if (res.code == 0){
         $rootScope.roster = [];
         EventService.getRosterDetail($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.roster);
-        UtilService.popup("Success!","You left the event!");
         safeApply($scope,$rootScope,function(){
           event.canJoin = true;
         })

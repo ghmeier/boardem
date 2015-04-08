@@ -11,7 +11,7 @@ appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $state, $io
 	$scope.join = function(event_id){
 		EventService.joinEvent($rootScope.SERVER_LOCATION,event_id,$rootScope.user_id).success(function(res){
 			if (res.code == 0){
-				UtilService.popup("Joined","Joined the event");
+				UtilService.checkBadges(res);
 				$scope.loadEvents();
 				$rootScope.roster = [];
 				EventService.getRosterDetail($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.roster);
@@ -27,12 +27,10 @@ appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $state, $io
 	$scope.leave = function(event){
 		EventService.leaveEvent($rootScope.SERVER_LOCATION,event.event_id,$rootScope.user_id).success(function(res){
 			if (res.code == 0){
-				safeApply($scope,$rootScope,function(){
 					event.canJoin = true;
 					$rootScope.roster = [];
 					EventService.getRosterDetail($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.roster);
 					$scope.loadEvents();
-				});
 			}else {
 				UtilService.popup("Failed to leave.","Error: "+res.message);
 			}

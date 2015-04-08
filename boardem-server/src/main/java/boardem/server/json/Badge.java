@@ -113,6 +113,10 @@ public class Badge implements Comparable<Badge>
 		@SuppressWarnings("unchecked")
 		Map<String, Object> data = (Map<String, Object>) snap.getValue();
 		
+		if (data == null){
+			return null;
+		}
+		
 		Badge badge = new Badge();
 		badge.exp = (Long) data.get("exp");
 		badge.congrats = (String) data.get("congrats");

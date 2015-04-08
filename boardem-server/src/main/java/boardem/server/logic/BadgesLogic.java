@@ -29,10 +29,10 @@ public class BadgesLogic
 		DataSnapshot snap = FirebaseHelper.readData(ref);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Map<String, Badge> map = (Map<String, Badge>) FirebaseHelper.convertToObjectMap((Map<String, HashMap>) snap.getValue(), Badge.class);
-		
+		System.out.println(map);
 		//Put the badges in a sorted list
-		List<Badge> badgesList = new ArrayList<Badge>();
-		badgesList.addAll(map.values());
+		List<String> badgesList = new ArrayList<String>();
+		badgesList.addAll(map.keySet());
 		Collections.sort(badgesList);
 		
 		BoardemResponse response = ResponseList.RESPONSE_SUCCESS.clone();

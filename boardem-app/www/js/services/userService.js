@@ -1,7 +1,7 @@
 /*-----------------------------------------------------
 								USER SERVICE
 -----------------------------------------------------*/
-appCtrl.service("UserService",['$http','GameService',function($http,GameService){
+appCtrl.service("UserService",['$http','GameService','BadgeService',function($http,GameService,BadgeService){
 
 	var endpoint = "users/"
 	this.getUser = function(base_url,userid){
@@ -101,6 +101,17 @@ appCtrl.service("UserService",['$http','GameService',function($http,GameService)
 
 		});
 		return userDetails;
+	}
+
+	this.getBadges = function(base_url,userId,badges){
+		return this.getUser(base_url,userId).success(function(res){
+			var badge_id = res.extra.earned_badges;
+			for (id in badge_id){
+				BadgeService.getBadgeDetail(base_url,badge_id[id]).success(function(r){
+					badges.push(r.extra);
+				});
+			}
+		});
 	}
 
 	this.addFriend = function(base_url,user1,user2){

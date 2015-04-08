@@ -9,6 +9,7 @@ appCtrl.controller('BrowseCtrl',function($rootScope,$window,$ionicPopup,$http, $
 
 	$scope.addFriend = function(friend_id){
 		UserService.addFriend($rootScope.SERVER_LOCATION,$rootScope.user_id,friend_id).success(function(res){
+			UtilService.checkBadges(res);
 			$scope.getUsers();
 		});
 	}

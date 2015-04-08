@@ -26,6 +26,7 @@ appCtrl.controller('GamesCtrl',function($rootScope, $scope,$window, $state, $ion
 			if (res.code == 0 || res.code === "0"){
 				game.shelved = true;
 				$rootScope.shelfGames = [];
+				UtilService.checkBadges(res);
 				UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.shelfGames);
 				var xp = 100;
 				ExperienceService.addToUserXP($rootScope.SERVER_LOCATION, $rootScope.user_id, xp);
