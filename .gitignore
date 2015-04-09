@@ -11,3 +11,5 @@ boardem-server/.settings/**
 boardem-server/output.txt
 boardem-server/games.dat
 boardem-server/games_list.dat
+boardem-server/push
+boardem-server/push.bat
