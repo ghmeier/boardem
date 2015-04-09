@@ -1,0 +1,158 @@
+This document gives information about the endpoints in the dropwizard server.
+
+curl -H "Content-Type: application/json" -X POST -d data http://localhost:8080/endpoint
+
+Date format = "yyyy-MM-dd HH:mm:ss"
+
+/signup
+-Pass in user information
+	*username
+	*facebookId
+	*displayName
+	*pictureUrl
+-Example
+	/signup?username=americandragon&facebookId=jdkakdhfhakd&displayName=Jake&pictureUrl=jake.png
+-Returns a JSON response
+	*0 if operation completed successfully
+	*2 if username has already been used
+	
+/event - GET
+-Gets a list of all event IDs in the database
+	
+/event - POST
+-ID is generated automatically by server
+-For creating events
+	*lat
+	*lng
+	*date
+	*owner
+	*games
+	
+/event/{eid} - GET
+-Gets information about the event
+
+/event/{eid} - PUT
+-Updates information about the event
+-Information to update as query params
+-Can update this information:
+	*name
+	*lat
+	*lng
+	*date
+	*owner
+	*games
+	
+/event/{eid}/join
+-For joining events
+	*eid is the event id
+	*user_id is the ID of the user joining - Query param
+
+/event/{eid}/leave
+-For leaving events
+	*eid is the event id
+	*user_id is the ID of the user leaving - Query param
+	
+	
+/event/{eid}/comment - POST
+-Leaving comments on an event
+-Query parameters
+	*user_id - ID of the user leaving a comment
+-JSON object
+	*Comment
+		*user_id
+		*comment
+
+/event/{eid}/comments - GET
+-Gets the list of comments of an event
+	
+/search
+-For searching through events
+-Returns a BoardemResponse with the extra field containing a list of the IDs of matching events
+-Search parameters
+	-user_lat - Latitude of the user
+	-user_lng - Longitude of the user
+	-user_id - User's ID 
+	//Everything after this is an optional parameter
+	-dist - Max distance an event can be from the user
+	-date - Date the event occurs on - Should be specified as yyyy-MM-dd
+
+/users
+-Returns a list of all user facebook id's
+
+/users/{uid}
+-returns the full profile of a user
+
+/users/{uid}/contacts - GET
+-returns and array of the user's contacts as facebook id's
+
+/users/{uid}/contacts - POST
+-Adds a facebook id to a users contacts
+-Params
+	-fid - the friend's facebook id
+
+/users/{uid}/contacts - DELETE
+-Removes a user from their contact list
+-Params
+	-fid - the friend's facebook id
+
+/users/{uid}/badges - GET
+-returns all of the badges that a specific user has
+
+/users/{uid}/badges - POST
+-adds a badge to the specified user
+
+	@param bid - Badge ID to add to user
+
+/users/{uid}/badges - DELETE
+-removes a badge from specified user
+
+	@param bid - Badge ID to add to user
+
+/users/{uid}/attributes - GET
+-returns all of the attributes that a specific user has
+
+/users/{uid}/attributes - POST
+-adds a attribute to the specified user
+
+	@param aid - Attribute ID to add to user
+
+/users/{uid}/attributes - DELETE
+-removes a attribute from specified user
+
+	@param aid - Attribute ID to add to user
+
+/games - GET
+-Gets a list of games 10 at a time
+-Returns null if there are no more pages
+-Query parameters
+	-page_number - Page number
+
+/games/{gid} - GET
+-Returns information about a game
+
+/messages/{mid} - GET
+-Returns the conversation
+
+/messages/create - POST
+-Creates a conversation
+-Query parameters
+	*users - List of users in the conversation
+-Returns message id
+-Adds the conversation id to the list of conversations each user is participating in
+	
+/messages/{mid}/send - POST
+-Sends a message to a conversation
+-Path parameter - mid - Message id
+-Query parameters
+	*from - User ID of the sender
+	*content - Contents of the message
+
+/exp/{uid} - GET
+-Gets the experience value of a user
+-Path parameter - uid - User's Facebook ID
+
+/exp/{uid} - POST
+-Adds a value to a user's experience
+-Path parameter - uid - User's Facebook ID
+-Query parameter
+	*exp - Number of experience points to add
