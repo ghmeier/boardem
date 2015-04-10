@@ -1,0 +1,1 @@
+web    java $JAVA_OPTS -Ddw.server.connector.port=$PORT -jar boardem-server/target/boardem-1.jar server boardem-server/src/main/java/boardem/server/resource/config.yml
