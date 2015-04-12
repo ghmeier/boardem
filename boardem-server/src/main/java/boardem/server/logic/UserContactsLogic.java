@@ -3,11 +3,15 @@ package boardem.server.logic;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import boardem.server.BoardemApplication;
 import boardem.server.FirebaseHelper;
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.ResponseList;
+import boardem.server.BadgeActions;
+import boardem.server.json.Badge;
+import boardem.server.logic.BadgeLogic;	
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -83,9 +87,17 @@ public class UserContactsLogic {
 		Map<String,String> friend = new HashMap<String,String>();
 		friend.put(friend_id, fName.get("username"));
 		FirebaseHelper.writeData(contactsRef, friend);
+
+		//Update the user's badge progress
+		List<Badge> earnedBadges = BadgeLogic.updateBadge(user_id, BadgeActions.ACTION_FRIEND);
 		
 		response = new BoardemResponse(200,"Successfully added contact.");
 		response.setExtra(friend);
+
+		for(Badge b : earnedBadges)
+		{
+			response.addBadge(b);
+		}
 		return response;
 	}
 	
