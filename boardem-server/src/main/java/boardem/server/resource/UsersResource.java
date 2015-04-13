@@ -1,23 +1,23 @@
 package boardem.server.resource;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import boardem.server.json.User;
+import boardem.server.logic.UserAttributesLogic;
+import boardem.server.logic.UserBadgesLogic;
+import boardem.server.logic.UserCompletedEventsLogic;
 import boardem.server.logic.UserContactsLogic;
 import boardem.server.logic.UserLogic;
-import boardem.server.logic.UserBadgesLogic;
-import boardem.server.logic.UserAttributesLogic;
-import boardem.server.logic.UserShelfLogic;
-import boardem.server.logic.UserRosterLogic;
 import boardem.server.logic.UserMessagesLogic;
+import boardem.server.logic.UserRosterLogic;
+import boardem.server.logic.UserShelfLogic;
 
 
 @Path("/users")
@@ -229,5 +229,14 @@ public class UsersResource
 	 {
 	 	return Response.ok(UserMessagesLogic.listUserMessages(userId)).build();
 	 }	 
-
+	 
+	 /**
+	  * Gets the expired events that a user participated in.
+	  */
+	 @GET
+	 @Path("{uid}/completed")
+	 public Response getCompletedEvents(@PathParam("uid") String userId)
+	 {
+		 return Response.ok(UserCompletedEventsLogic.getCompletedEvents(userId)).build();
+	 }
 }
