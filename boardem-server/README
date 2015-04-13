@@ -120,6 +120,9 @@ Date format = "yyyy-MM-dd HH:mm:ss"
 -removes a attribute from specified user
 
 	@param aid - Attribute ID to add to user
+	
+/users/{uid}/completed - GET
+-Gets the list of completed events a user participated in
 
 /games - GET
 -Gets a list of games 10 at a time
