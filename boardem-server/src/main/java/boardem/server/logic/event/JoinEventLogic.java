@@ -31,91 +31,64 @@ public class JoinEventLogic
 		BoardemResponse response = null;
 
 		Firebase rootRef = new Firebase("https://boardem.firebaseio.com");
-		Firebase idRef = rootRef.child("facebook_id");
-		Firebase eventsRef = rootRef.child("events");
-
-		DataSnapshot eventData = FirebaseHelper.readData(eventsRef);
-		DataSnapshot idData = FirebaseHelper.readData(idRef);
-
-		@SuppressWarnings({"unchecked", "rawtypes"})
-		Map<String, HashMap> eventDataMap = (Map<String, HashMap>) eventData.getValue();
-		@SuppressWarnings({"unchecked", "rawtypes"})
-		Map<String, HashMap> idDataMap = (Map<String, HashMap>) idData.getValue();
-
+		Firebase idRef = rootRef.child("facebook_id/" + userId);
+		Firebase eventRef = rootRef.child("events/" + eventId);
+		DataSnapshot eventSnap = FirebaseHelper.readData(eventRef);
+		
+		//Get the user. Find their username first
+		DataSnapshot idSnap = FirebaseHelper.readData(idRef);
+		User user = User.getUserFromSnapshot(idSnap);
+		
+		Firebase userRef = rootRef.child("users/" + user.getUsername());
+		DataSnapshot userSnap = FirebaseHelper.readData(userRef);
+		user = User.getUserFromSnapshot(userSnap);
+		
 		//Check if the event exists
-		if(eventDataMap == null)
+		if(eventSnap.getValue() == null)
 		{
 			response = ResponseList.RESPONSE_EVENT_DOES_NOT_EXIST;
 		}
-		else if(idDataMap == null)
-		{
-			System.out.println("Here");
-			response = ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
-		}
 		else
 		{
-			Map<String, Event> eventMap = FirebaseHelper.convertToObjectMap(eventDataMap, Event.class);
-
-			//Make sure the event exists
-			if(!eventMap.containsKey(eventId))
+			Event event = Event.getEventFromSnapshot(eventSnap);
+			List<String> participants = event.getParticipants();
+			
+			//Check if the user is already attending the event
+			if(participants.contains(userId))
 			{
-				response = ResponseList.RESPONSE_EVENT_DOES_NOT_EXIST;
+				response = ResponseList.RESPONSE_USER_IN_EVENT;
+			}
+			//Check if the user owns the event
+			else if(event.getOwner().equals(userId))
+			{
+				response = ResponseList.RESPONSE_USER_OWNS_EVENT;
 			}
 			else
 			{
-				Map<String, User> idMap = FirebaseHelper.convertToObjectMap(idDataMap, User.class);
+				//Add the user to the event's participant list
+				participants.add(userId);
+				
+				//Add the event to the list of events the user is attending
+				List<String> userEvents = user.getEvents();
+				userEvents.add(eventId);
+				
+				//Write the data to Firebase
+				Map<String, Object> eventData = new HashMap<String, Object>();
+				eventData.put("participants", participants);
+				FirebaseHelper.writeData(eventRef, eventData);
+				
+				Map<String, Object> userData = new HashMap<String, Object>();
+				userData.put("events", userEvents);
+				FirebaseHelper.writeData(userRef, userData);
+				
+				//Update the user's badge progress
+				List<Badge> earnedBadges = BadgeLogic.updateBadge(userId, BadgeActions.ACTION_JOIN_EVENT);
 
-				//Make sure the user exists
-				if(!idMap.containsKey(userId))
+				//Add any earned badges to the response
+				response = ResponseList.RESPONSE_SUCCESS.clone();
+				for(Badge b : earnedBadges)
 				{
-					response = ResponseList.RESPONSE_USER_DOES_NOT_EXIST;
-				}
-				else
-				{
-					Firebase joinEventRef = eventsRef.child(eventId);
-
-					//Get the event from the list of events
-					Event toUpdate = eventMap.get(eventId);
-
-					//Check if the user is already in the event
-					if(toUpdate.getParticipants().contains(userId))
-					{
-						response = ResponseList.RESPONSE_USER_IN_EVENT;
-					}
-					//Check if the user is the owner of the event
-					else if(toUpdate.getOwner().equals(userId))
-					{
-						response = ResponseList.RESPONSE_USER_OWNS_EVENT;
-					}
-					else
-					{
-						//Write the data to Firebase
-						Map<String, List<String>> data = new HashMap<String, List<String>>();
-						toUpdate.getParticipants().add(userId);
-						data.put("participants", toUpdate.getParticipants());
-
-						//Add the event to the list of events the user is in
-						Firebase userRef = rootRef.child("users/" + idMap.get(userId).getUsername());
-						DataSnapshot userSnapshot = FirebaseHelper.readData(userRef);
-						User user = User.getUserFromSnapshot(userSnapshot);
-						user.getEvents().add(toUpdate.getId());
-
-						Map<String, Object> userData = new HashMap<String, Object>();
-						userData.put("events", user.getEvents());
-
-						FirebaseHelper.writeData(joinEventRef, data);
-						FirebaseHelper.writeData(userRef, userData);
-
-						//Update the user's badge progress
-						List<Badge> earnedBadges = BadgeLogic.updateBadge(userId, BadgeActions.ACTION_JOIN_EVENT);
-
-						//Add any earned badges to the response
-						response = ResponseList.RESPONSE_SUCCESS.clone();
-						for(Badge b : earnedBadges)
-						{
-							response.addBadge(b);
-						}
-					}
+					response.addBadge(b);
 				}
 			}
 		}
