@@ -1,0 +1,64 @@
+<ion-view view-title="Event" ng-init="loadEvent()">
+  <ion-content>
+    <div class="list">
+        <div class="card">
+            <div class="item item-divider">
+                 <button class="button button-icon button-clear ion-edit" ng-show="event.isOwner" on-tap="editEvent({{eventId}})">
+                     <span style="color:black; margin-left:5px;">{{event.name}}</span>
+        </button>
+                <span ng-show="!event.isOwner">{{event.name}}<span>
+            </div>
+            <div class="item item-avatar">
+                 <img src="{{owner.picture_url}}"/>
+                <h2>{{owner.display_name}}</h2>
+                <p>@{{owner.username}}</p>
+            </div>
+
+            <div class="list" >
+                <div class="item">
+                    <p style="color:black;">{{event.eventDay}} {{event.eventTime}}</p>
+                </div>
+                <div class="item item-divider">
+                     Location
+                </div>
+                <div class="item">
+                    <h2>{{location[0].formatted_address}}</h2>
+                    <p>Distance: {{event.distance}}km</p>
+                </div>
+                <div class="item item-divider">Games</div>
+                <div class="item" ng-repeat="game in games" ng-show="areGames">
+                    <div class="item item-avatar" on-tap="toGame('{{game.name}}')">
+                        <img src="http://{{game.image}}" style="border-radius:5%"/>
+                        <h2>{{game.name}}</h2>
+                        <p>{{game.minPlayers}}-{{game.maxPlayers}} players</p>
+                        <p>~{{game.playingTime}} minute play time</p>
+                        <p>
+                            {{game.averageRating.toFixed(1)}}/10
+                         </p>
+                    </div>
+                </div>
+                                <div class="item" ng-show="!areGames">
+                                    <p>
+                                            No Games
+                                    </p>
+                                </div>
+                <div class="item" ng-show="!event.games.length">No games.</div>
+                <div class="item item-divider">Who's Going</div>
+                <div class="item item-avatar" ng-repeat="user in event.participant_profile">
+                    <img src="{{user.picture_url}}"/>
+                    <h2>{{user.display_name}}</h2>
+                    <p>@{{user.username}}</p>
+                </div>
+                <div class="item" ng-show="!event.participants.length">No participants, yet.</div>
+                <div class="item item-divider">Comments</div>
+                <div class="item item-avatar" ng-repeat="com in event.comments">
+                    <img src="{{pics[com.user_id]}}"/>
+                    <h2>{{com.comment}}</h2>
+                    <p>{{com.timestamp}}</p>
+                </div>
+                <div class="item" ng-show="event.comments.length === 0">No comments yet.</div>
+            </div>
+        </div>
+    </div>
+  </ion-content>
+</ion-view>

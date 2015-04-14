@@ -158,18 +158,54 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
             if (roster === "none"){
               return;
             }
+
+            self.parseEventIds(self,roster,base_url,rosterDetails);
+          });
+        }
+
+        this.parseEventIds = function(self,roster,base_url,rosterDetails){
             for (id in roster){
               self.getEvent(base_url,roster[id]).success(function(response){
-                var eventDetail = response.extra;
-                eventDetail.time = self.getTimeDifference(eventDetail.date);
-                eventDetail.canJoin = self.isParticipant($rootScope.user_id,eventDetail);
-                eventDetail.isOwner = self.isOwner($rootScope.user_id,eventDetail);
-                UserService.getUser($rootScope.SERVER_LOCATION,eventDetail.owner).success(function(owner){
-                  eventDetail.owner_profile = owner.extra;
-                });
-                rosterDetails.push(eventDetail);
-              })
+                self.parseEvent(self,response,rosterDetails);
+              });
             }
+        }
+
+        this.parseCompletedIds = function(self,roster,base_url,rosterDetails){
+          for (id in roster){
+              self.getCompletedEvent(base_url,roster[id]).success(function(response){
+                self.parseEvent(self,response,rosterDetails);
+              });
+            }
+        }
+
+        this.getCompletedEvent = function(base_url,eventId){
+          return $http.get(base_url+endpoint+"expired/"+eventId);
+        }
+
+        this.parseEvent = function(self,response,rosterDetails){
+            var eventDetail = response.extra;
+                if (eventDetail && eventDetail !== "none"){
+                  eventDetail.time = self.getTimeDifference(eventDetail.date);
+                  eventDetail.canJoin = self.isParticipant($rootScope.user_id,eventDetail);
+                  eventDetail.isOwner = self.isOwner($rootScope.user_id,eventDetail);
+                  UserService.getUser($rootScope.SERVER_LOCATION,eventDetail.owner).success(function(owner){
+                    eventDetail.owner_profile = owner.extra;
+                  });
+                  rosterDetails.push(eventDetail);
+                }
+        }
+
+        this.getCompletedEvents = function(base_url,userId,completed){
+          var self = this;
+          UserService.getCompleted(base_url,userId).success(function(res){
+            var roster = res.extra;
+            console.log(roster);
+            if(roster === "none"){
+              return;
+            }
+
+            self.parseCompletedIds(self,roster,base_url,completed);
           });
         }
 	}]);

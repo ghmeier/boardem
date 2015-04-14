@@ -147,4 +147,8 @@ appCtrl.service("UserService",['$http','GameService','BadgeService',function($ht
 		return $http.get(base_url+userid+"/shelf?game"+game);
 
 	}
+
+	this.getCompleted = function(base_url,userid){
+		return $http.get(base_url+endpoint+userid+"/completed");
+	}
 }]);

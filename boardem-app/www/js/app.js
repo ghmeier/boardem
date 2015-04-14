@@ -113,6 +113,15 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
       }
     }
   })
+  .state('app.completed', {
+    url: "/completed_events/:eventId",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/completed_event.html",
+        controller: 'completeEventCtrl'
+      }
+    }
+  })
   .state('app.games', {
     url: "/games",
     views: {
