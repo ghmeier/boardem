@@ -88,6 +88,6 @@ public class CreateEventLogic
 		//Write the data to Firebase
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("events", userEvents);
-		FirebaseHelper.writeData(idRef, data);
+		FirebaseHelper.writeData(userRef, data);
 	}
 }
