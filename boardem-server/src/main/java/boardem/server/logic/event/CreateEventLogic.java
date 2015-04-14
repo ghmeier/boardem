@@ -10,8 +10,10 @@ import boardem.server.json.Badge;
 import boardem.server.json.BoardemResponse;
 import boardem.server.json.Event;
 import boardem.server.json.ResponseList;
+import boardem.server.json.User;
 import boardem.server.logic.BadgeLogic;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
@@ -50,6 +52,9 @@ public class CreateEventLogic
 
 		FirebaseHelper.writeData(eventRef, data);
 
+		//Add the event to the owner's list
+		updateUser(event.getOwner(), event.getId());
+		
 		//Update the user's badge progress
 		List<Badge> earned = BadgeLogic.updateBadge(event.getOwner(), BadgeActions.ACTION_CREATE_EVENT);
 		
@@ -60,5 +65,29 @@ public class CreateEventLogic
 			response.addBadge(b);
 		}
 		return response;
+	}
+	
+	/**
+	 * Updates the user's event list to contain the event they created 
+	 */
+	private static void updateUser(String userId, String eventId)
+	{
+		//Get the user. Find their username first
+		Firebase idRef = new Firebase("https://boardem.firebaseio.com/facebook_id/" + userId);
+		DataSnapshot idSnap = FirebaseHelper.readData(idRef);
+		User user = User.getUserFromSnapshot(idSnap);
+		
+		Firebase userRef = new Firebase("https://boardem.firebaseio.com/users/" + user.getUsername());
+		DataSnapshot userSnap = FirebaseHelper.readData(userRef);
+		user = User.getUserFromSnapshot(userSnap);
+		
+		//Add the event to the user's list
+		List<String> userEvents = user.getEvents();
+		userEvents.add(eventId);
+		
+		//Write the data to Firebase
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("events", userEvents);
+		FirebaseHelper.writeData(idRef, data);
 	}
 }
