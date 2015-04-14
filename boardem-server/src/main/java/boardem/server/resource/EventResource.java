@@ -20,6 +20,7 @@ import boardem.server.logic.event.CreateEventLogic;
 import boardem.server.logic.event.GetCommentsLogic;
 import boardem.server.logic.event.GetEventLogic;
 import boardem.server.logic.event.GetEventsLogic;
+import boardem.server.logic.event.GetExpiredEventLogic;
 import boardem.server.logic.event.JoinEventLogic;
 import boardem.server.logic.event.LeaveCommentLogic;
 import boardem.server.logic.event.LeaveEventLogic;
@@ -112,5 +113,15 @@ public class EventResource
 	public Response getComments(@PathParam("eid") String eventId)
 	{
 		return Response.ok(GetCommentsLogic.getComments(eventId)).build();
+	}
+	
+	/**
+	 * Get's information about an expired event
+	 */
+	@GET
+	@Path("expired/{eid}")
+	public Response getExpiredEvent(@PathParam("eid") String eventId)
+	{
+		return Response.ok(GetExpiredEventLogic.getExpiredEvent(eventId)).build();
 	}
 }

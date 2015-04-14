@@ -64,6 +64,9 @@ Date format = "yyyy-MM-dd HH:mm:ss"
 
 /event/{eid}/comments - GET
 -Gets the list of comments of an event
+
+/event/expired/{eid} - GET
+-Gets information about an expired event
 	
 /search
 -For searching through events
