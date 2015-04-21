@@ -149,6 +149,15 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
       }
     }
   })
+	.state('app.edit', {
+    url: "/event/edit/:eventId",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/edit-event.html",
+        controller: 'editEventCtrl'
+      }
+    }
+  })
   .state('app.roster', {
     url: "/roster",
     views: {

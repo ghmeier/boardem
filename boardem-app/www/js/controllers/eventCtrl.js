@@ -1,8 +1,5 @@
 appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $state, UtilService, EventService,UserService,GameService) {
   $scope.data = {comment:''};
-	$scope.editEvent = function(eventId) {
-
-	}
 
   $scope.loadEvent = function(){
     $scope.event = {};

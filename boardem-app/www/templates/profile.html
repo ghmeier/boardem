@@ -1,11 +1,13 @@
 <ion-view view-title="Profile" ng-init="initProfile()">
     <ion-content>
+			<div class="item item-divider">You</div>
     	<div class="list card">
     		<div class="item item-avatar">
 		        <img src="{{user.picture_url}}"/>
 				<h2>{{user.display_name}}</h2>
 			     <p>@{{user.username}}</p>
 			</div>
+			<div class="item item-divider">Experience</div>
 			<div class="item item-body">
                         <div style="width:60px; height:60px; border-radius:50%; font-size:25px; color:#fff; line-height:60px; text-align:center; background:grey; border:2px solid black;">{{xp_info[1]}}</div>
                         <div style="width:100%; height: 10px; border:2px solid black; margin-top:10px;">

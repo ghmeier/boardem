@@ -3,11 +3,13 @@
     <div class="list">
     	<div class="card">
     		<div class="item item-divider">
-    			 <button class="button button-icon button-clear ion-edit" ng-show="event.isOwner" on-tap="editEvent({{eventId}})">
-					 <span style="color:black; margin-left:5px;">{{event.name}}</span>
-        </button>
-				<span ng-show="!event.isOwner">{{event.name}}<span>
-    		</div>
+					<ion-item class="item" href="#/app/event/edit/{{eventId}}" ng-show="event.isOwner">
+							<h2 style="color:grey;">{{event.name}}</h2>
+					</ion-item>
+					<ion-item class="item" ng-show="!event.isOwner">
+							<h2 style="color:grey;">{{event.name}}</h2>
+					</ion-item>
+				</div>
     		<div class="item item-avatar">
 		         <img src="{{owner.picture_url}}"/>
 		        <h2>{{owner.display_name}}</h2>
