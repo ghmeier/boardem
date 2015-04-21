@@ -200,7 +200,6 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
           var self = this;
           UserService.getCompleted(base_url,userId).success(function(res){
             var roster = res.extra;
-            console.log(roster);
             if(roster === "none"){
               return;
             }
