@@ -67,7 +67,9 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 				loc.name = $scope.data.name;
 				loc.date = year+"-"+month+"-"+day+" "+time+":00:00";
 
+				UtilService.showLoad();
 				CreateEventService.createEvent($rootScope.SERVER_LOCATION,loc).success(function(response){
+						UtilService.hideLoad();
 						UtilService.checkBadges(response);
 
 						var xp = 100;
@@ -79,6 +81,7 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 			    		$state.go("app.single",{eventId:response.extra});
 
 				}).error(function(error){
+					UtilService.hideLoad();
 					//console.log(error);
 				});
 			});
@@ -142,7 +145,7 @@ appCtrl.controller('createEventCtrl', function($rootScope, $scope,$window,$ionic
 	}
 });
 
-appCtrl.service('CreateEventService', ['$http', function ($http) {
+appCtrl.service('CreateEventService', ['$http','UtilService', function ($http,UtilService) {
 
 		var dateObject = new Date();
 		var daysArray = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];

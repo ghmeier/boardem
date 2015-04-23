@@ -1,8 +1,10 @@
 appCtrl.controller('AuthCtrl',function($rootScope,$window,$ionicPopup,$http, $scope, $state,$firebaseAuth,UtilService){
 
 	$scope.idLogin = function(id,callback){
+		UtilService.showLoad();
 	    $http.get("http://proj-309-16.cs.iastate.edu:8080/" + "signin?facebookId="+id).
 	    success(function(data, status, headers, config) {
+	    	UtilService.hideLoad();
 	      if (data.code === 0){
 	         $window.localStorage.setItem('id', id);
 	         var response = $scope.facebookLogin("",$scope.fbLoginCall,callback);
@@ -12,6 +14,7 @@ appCtrl.controller('AuthCtrl',function($rootScope,$window,$ionicPopup,$http, $sc
 	      }
 	    }).
 	    error(function(data, status, headers, config) {
+	    	UtilService.hideLoad();
 	      $state.transitionTo("login.signup");
 	    });
 	};

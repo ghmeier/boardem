@@ -1,9 +1,10 @@
-appCtrl.service('BadgeService', ['$ionicPopup','$rootScope','$http','RestService', function ($ionicPopup,$rootScope,$http,RestService,UserService) {
+appCtrl.service('BadgeService', ['$ionicPopup','$rootScope','$http','RestService','UtilService', function ($ionicPopup,$rootScope,$http,RestService,UtilService) {
 
     var endpoint = "badges/"
 
     this.getBadges = function(base_url,badges,earned){
         var self = this;
+        UtilService.showLoad();
         $http.get(base_url+endpoint).success(function(res){
             var badge_ids = res.extra;
             badge_ids.sort();
@@ -19,6 +20,7 @@ appCtrl.service('BadgeService', ['$ionicPopup','$rootScope','$http','RestService
                     badges.push(r.extra);
                 });
             }
+            UtilService.hideLoad();
         });
     }
 

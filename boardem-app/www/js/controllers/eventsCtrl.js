@@ -1,10 +1,11 @@
-appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $state, $ionicPlatform, UtilService, RestService, SearchCriteria,EventService,UserService) {
+appCtrl.controller('eventsCtrl', function($rootScope, $scope, $http, $state, $ionicPlatform, UtilService, RestService, SearchCriteria,EventService,UserService,ExperienceService) {
 
 	$scope.day = SearchCriteria.getDay();
 	$scope.month = SearchCriteria.getMonth();
 	$scope.year = SearchCriteria.getYear();
 
 	$scope.loadEvents = function(){
+		$rootScope.events = [];
 		EventService.loadEvents($rootScope.events);
 	};
 

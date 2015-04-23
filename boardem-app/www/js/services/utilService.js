@@ -1,7 +1,7 @@
 /*-----------------------------------------------------
 								UTIL SERVICE
 -----------------------------------------------------*/
-appCtrl.service("UtilService",['$http','$ionicPopup',function($http,$ionicPopup){
+appCtrl.service("UtilService",['$http','$ionicPopup','$ionicLoading',function($http,$ionicPopup,$ionicLoading){
 
 	this.popup = function(title,template){
         $ionicPopup.alert({
@@ -20,4 +20,14 @@ appCtrl.service("UtilService",['$http','$ionicPopup',function($http,$ionicPopup)
         }
     }
 
+    this.showLoad = function(){
+        $ionicLoading.show({
+          template: 'Loading...',
+          noBackdrop: true
+        });
+    }
+
+    this.hideLoad = function(){
+        $ionicLoading.hide();
+    }
 }]);

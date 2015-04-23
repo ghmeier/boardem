@@ -1,7 +1,7 @@
 /*-----------------------------------------------------
 								GAME SERVICE
 -----------------------------------------------------*/
-appCtrl.service("GameService",['$http',function($http){
+appCtrl.service("GameService",['$http','UtilService',function($http,UtilService){
 
 	var endpoint = "games/";
 
@@ -16,6 +16,7 @@ appCtrl.service("GameService",['$http',function($http){
 
 	this.getAllGames = function(base_url,games,page,shelf){
 		var self = this;
+		UtilService.showLoad();
 		this.getGames(base_url, page).success(function(res){
 			var gameRaw = res.extra;
 			for (id in gameRaw){
@@ -30,6 +31,7 @@ appCtrl.service("GameService",['$http',function($http){
 				}
 				games.push(gameRaw[id]);
 			}
+			UtilService.hideLoad();
 		});
 	}
 

@@ -1,7 +1,7 @@
 /*-----------------------------------------------------
 								EVENT SERVICE
 -----------------------------------------------------*/
-appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService','UserService', function ($ionicPopup,$rootScope,$http,RestService,UserService) {
+appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService','UserService', "UtilService",'ExperienceService',function ($ionicPopup,$rootScope,$http,RestService,UserService,UtilService,ExperienceService) {
 
         var endpoint = 'event/';
 
@@ -84,8 +84,8 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
         };
 
 				this.loadEvents = function(events){
-					//var events = [];
 					var self = this;
+          UtilService.showLoad();
 					RestService.getEvents($rootScope.SERVER_LOCATION).success(function(res){
 						var event_ids = res.extra;
             self.getEventDetails(event_ids,events);
@@ -121,6 +121,7 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
           var self = this;
             for (id in event_ids){
               var id_string = event_ids[id];
+              UtilService.showLoad();
               self.getEvent($rootScope.SERVER_LOCATION,event_ids[id]).success(function(res){
                   if (!events){
                     events = [];
@@ -141,6 +142,7 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
                   UserService.getUser($rootScope.SERVER_LOCATION,events[num].owner).success(function(response){
                     events[num].owner_profile = response.extra;
                   });
+                  UtilService.hideLoad();
               });
             }
         }

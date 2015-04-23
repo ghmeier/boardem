@@ -1,7 +1,7 @@
 /*-----------------------------------------------------
 								USER SERVICE
 -----------------------------------------------------*/
-appCtrl.service("UserService",['$http','GameService','BadgeService',function($http,GameService,BadgeService){
+appCtrl.service("UserService",['$http','GameService','BadgeService','UtilService',function($http,GameService,BadgeService,UtilService){
 
 	var endpoint = "users/"
 	this.getUser = function(base_url,userid){
@@ -37,6 +37,7 @@ appCtrl.service("UserService",['$http','GameService','BadgeService',function($ht
 
 	this.getUserMessages = function(base_url,userId,messages){
 		var self = this;
+		UtilService.showLoad();
 		this.getUser(base_url,userId).success(function(res){
 			var messageIds = res.extra.messages;
 			for (id in messageIds){
@@ -47,7 +48,8 @@ appCtrl.service("UserService",['$http','GameService','BadgeService',function($ht
 					self.parseUsers(base_url,mes.users,mes.userDetails,userId,[]);
 				});
 			}
-		})
+			UtilService.hideLoad();
+		});
 	}
 
 	this.getMessages = function(base_url,messageId){
@@ -56,6 +58,7 @@ appCtrl.service("UserService",['$http','GameService','BadgeService',function($ht
 
 	this.getMessageDetails = function(base_url,messageId,messages,pics){
 		var self = this;
+		UtilService.showLoad();
 		this.getMessages(base_url,messageId).success(function(res){
 			var mes = res.extra.messages;
 
@@ -68,6 +71,7 @@ appCtrl.service("UserService",['$http','GameService','BadgeService',function($ht
 					pics[use.extra.facebook_id] = use.extra.picture_url;
 				});
 			}
+			UtilService.hideLoad();
 		});
 	}
 
@@ -82,13 +86,14 @@ appCtrl.service("UserService",['$http','GameService','BadgeService',function($ht
 	this.getUserDetail = function(base_url,skipId){
 		var self = this;
 		var userDetails = [];
+		UtilService.showLoad();
 		this.getUsers(base_url).success(function(res){
 			var users = res.extra;
 			self.getContacts(base_url,skipId).success(function(con){
 				var contacts = con.extra;
 				self.parseUsers(base_url,users,userDetails,skipId,contacts);
 			});
-
+			UtilService.hideLoad();
 		});
 		return userDetails;
 	}
@@ -96,9 +101,10 @@ appCtrl.service("UserService",['$http','GameService','BadgeService',function($ht
 	this.getUserContacts = function(base_url,userId){
 		var userDetails = [];
 		var self = this;
+		UtilService.showLoad();
 		this.getContacts(base_url,userId).success(function(res){
 			self.parseUsers(base_url,res.extra,userDetails,userId,res.extra);
-
+			UtilService.hideLoad();
 		});
 		return userDetails;
 	}
@@ -126,6 +132,7 @@ appCtrl.service("UserService",['$http','GameService','BadgeService',function($ht
 
 	this.getShelf = function(base_url,userId,shelf){
 		var url = base_url+endpoint+userId+"/shelf";
+		UtilService.showLoad();
 		return $http.get(url).success(function(res){
 			var shelfRaw = res.extra;
 			for (id in shelfRaw){
@@ -135,8 +142,9 @@ appCtrl.service("UserService",['$http','GameService','BadgeService',function($ht
 						game.extra.shelved = true;
 						shelf.push(game.extra);
 					}
-				})
+				});
 			}
+			UtilService.hideLoad();
 		});
 
 		return shelf;
