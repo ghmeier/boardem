@@ -34,7 +34,7 @@ appCtrl.controller('editEventCtrl', function($rootScope, $scope, $stateParams, $
       //$scope.date = EventService.getTimeDifference(res.extra.date);
 		
 			var stringDateTime = res.extra.date;
-			console.log("---" + JSON.stringify(res.extra));
+			//console.log("---" + JSON.stringify(res.extra));
 			var dateTimeArr = stringDateTime.split(" ");
 			var dateArr = dateTimeArr[0].split("-");
 			var timeArr = dateTimeArr[1].split(":");
@@ -49,6 +49,10 @@ appCtrl.controller('editEventCtrl', function($rootScope, $scope, $stateParams, $
 		
 			var longitude = res.extra.lng;
 			var latitude = res.extra.lat;
+			
+			//EditEventService.getSearchLocation(latitude,longitude,$scope.eventLocation);
+			
+			console.log("--lksd--" + JSON.stringify($scope.eventLocation));
 			
 			for (id in res.extra.games){
         GameService.getSingleGame($rootScope.SERVER_LOCATION,$scope.event.games[id]).success(function(gameRaw){
@@ -297,6 +301,18 @@ appCtrl.service('EditEventService', ['$http', function ($http) {
 					}
 				});
 			});
+		}
+		
+		this.getSearchLocation = function(lat, lng, location){
+				var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?radius=10000&location="+lat+","+lng+"&key=AIzaSyBinl1su9ywT5WVhBNmKugvdQHziIlCDyY&query=none";
+				
+				$http.get(url).success(function(res){
+					var loc = res.results;
+					for (id in loc){
+						location = loc[id];
+					}
+					console.log("ksdkjsdnksd" + JSON.stringify(location));
+				});
 		}
 
 		this.editEvent = function(base_url,data){
