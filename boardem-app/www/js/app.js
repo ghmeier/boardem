@@ -106,6 +106,7 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
 
   .state('app.single', {
     url: "/events/:eventId",
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: "templates/event.html",
