@@ -10,6 +10,8 @@ appCtrl.controller('editEventCtrl', function($rootScope, $scope, $stateParams, $
 	$scope.page = 0;
 	$scope.shelf = [];
 	$scope.eventGames = [];
+	$scope.lat = "";
+	$scope.lng = "";
 
 	$ionicModal.fromTemplateUrl('location.html', {
 	    scope: $scope,
@@ -49,10 +51,11 @@ appCtrl.controller('editEventCtrl', function($rootScope, $scope, $stateParams, $
 		
 			var longitude = res.extra.lng;
 			var latitude = res.extra.lat;
-			
+			$scope.lat = latitude;
+			$scope.lng = longitude;
 			//EditEventService.getSearchLocation(latitude,longitude,$scope.eventLocation);
 			
-			console.log("--lksd--" + JSON.stringify($scope.eventLocation));
+			//console.log("--lksd--" + JSON.stringify($scope.eventLocation));
 			
 			for (id in res.extra.games){
         GameService.getSingleGame($rootScope.SERVER_LOCATION,$scope.event.games[id]).success(function(gameRaw){
@@ -108,9 +111,11 @@ appCtrl.controller('editEventCtrl', function($rootScope, $scope, $stateParams, $
 				if ($scope.data.name === ''){
 					UtilService.popup("No Name","Name your event, we swear, it's fun!");
 				}
-
-				loc.lat = $scope.eventLocation.geometry.location.lat;
-				loc.lng = $scope.eventLocation.geometry.location.lng;
+				
+				//loc.lat = $scope.eventLocation.geometry.location.lat;
+				//loc.lng = $scope.eventLocation.geometry.location.lng;
+				loc.lat = $scope.lat;
+				loc.lng = $scope.lng;
 				loc.owner = $rootScope.user_id;
 				loc.games = $scope.eventGames;
 				loc.name = $scope.data.name;
@@ -317,8 +322,7 @@ appCtrl.service('EditEventService', ['$http', function ($http) {
 
 		this.editEvent = function(base_url,data){
 			var url = base_url + "event/";
-			return null;
-			//return $http.post(url,JSON.stringify(data));
+			return $http.put(url,JSON.stringify(data));
 		}
 
 }]);
