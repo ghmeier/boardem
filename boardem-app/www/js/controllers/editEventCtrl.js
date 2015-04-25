@@ -8,6 +8,8 @@ appCtrl.controller('editEventCtrl', function($rootScope, $scope, $stateParams, $
 	$scope.page = 0;
 	$scope.shelf = [];
 	$scope.eventGames = [];
+	$scope.lat = "";
+	$scope.lng = "";
 
 	$ionicModal.fromTemplateUrl('location.html', {
 	    scope: $scope,
@@ -31,6 +33,7 @@ appCtrl.controller('editEventCtrl', function($rootScope, $scope, $stateParams, $
 			$scope.data.name = $scope.event.name;
 
 			var stringDateTime = res.extra.date;
+
 			var dateTimeArr = stringDateTime.split(" ");
 			var dateArr = dateTimeArr[0].split("-");
 			var timeArr = dateTimeArr[1].split(":");
@@ -61,7 +64,19 @@ appCtrl.controller('editEventCtrl', function($rootScope, $scope, $stateParams, $
         GameService.getSingleGame($rootScope.SERVER_LOCATION,$scope.event.games[id]).success(function(gameRaw){
           if (gameRaw.code == 0 || gameRaw.code === "0"){
             $scope.areGames = true;
-            $scope.eventGames.push(gameRaw.extra);
+            $scope.eventGames.push(gameRaw.extra.name);
+            for (id in $scope.games){
+            	if ($scope.games[id].name === gameRaw.extra.name){
+            		$scope.games[id].checked = true;
+            		break;
+            	}
+            }
+            for (id in $rootScope.shelfGames){
+             	if ($rootScope.shelfGames[id].name === gameRaw.extra.name){
+            		$rootScope.shelfGames[id].checked = true;
+            		break;
+            	}
+            }
           }
         });
       }
@@ -114,6 +129,7 @@ appCtrl.controller('editEventCtrl', function($rootScope, $scope, $stateParams, $
 					loc.lat = $scope.event.lat;
 					loc.lng = $scope.event.lng;
 				}
+
 				loc.owner = $rootScope.user_id;
 				loc.games = $scope.eventGames;
 				loc.name = $scope.data.name;
@@ -128,7 +144,7 @@ appCtrl.controller('editEventCtrl', function($rootScope, $scope, $stateParams, $
 						ExperienceService.addToUserXP($rootScope.SERVER_LOCATION, $rootScope.user_id, xp);
 						$rootScope.xp_info = [];
 						ExperienceService.updateUserXPInfo($rootScope.SERVER_LOCATION, $rootScope.user_id, $rootScope.xp_info);
-			    		$state.go("app.single",{eventId:$scope.eventId});
+			    		$state.go("app.single",{eventId:$scope.eventId},{reload: true});
 
 				}).error(function(error){
 					//console.log(error);
@@ -154,9 +170,7 @@ appCtrl.controller('editEventCtrl', function($rootScope, $scope, $stateParams, $
 	}
 
 	$scope.selectGame = function(game){
-		console.log(game);
 		if (game.checked){
-			console.log("wrod")
 			game.checked = false;
 			for (id in $scope.eventGames){
 				if ($scope.eventGames[id] === game.name){
@@ -200,7 +214,7 @@ appCtrl.service('EditEventService', ['$http', function ($http) {
 
 		this.editEvent = function(base_url,event_id,data){
 			var url = base_url + "event/";
-			return $http.put(url+event_id,data);
+			return $http.put(url+event_id+"?name="+data.name+"&date="+data.date+"&lat="+data.lat+"&lng="+data.lng+"&games="+data.games.join("&games="));
 		}
 
 }]);

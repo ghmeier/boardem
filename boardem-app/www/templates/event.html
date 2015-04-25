@@ -2,12 +2,12 @@
   <ion-content>
     <div class="list">
     	<div class="card">
-    		<div class="item item-divider">
+    		<div class="item item-divider" style="background-color:grey;">
 					<ion-item class="item" href="#/app/event/edit/{{eventId}}" ng-show="event.isOwner">
-							<h2 style="color:grey;">{{event.name}}</h2>
+							<h2 style="color:grey; text-align:center;">{{event.name}}</h2>
 					</ion-item>
 					<ion-item class="item" ng-show="!event.isOwner">
-							<h2 style="color:grey;">{{event.name}}</h2>
+							<h2 style="color:grey; text-align:center;">{{event.name}}</h2>
 					</ion-item>
 				</div>
     		<div class="item item-avatar">

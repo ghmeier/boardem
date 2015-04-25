@@ -99,7 +99,6 @@ appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $stat
   };
 
   $scope.comment = function(){
-    console.log($scope.data.comment);
     var message = $scope.data.comment;
     EventService.comment($rootScope.SERVER_LOCATION,$scope.eventId,$rootScope.user_id,message,$scope.event);
     $scope.data.comment = '';
