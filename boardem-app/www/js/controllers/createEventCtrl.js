@@ -170,6 +170,18 @@ appCtrl.service('CreateEventService', ['$http','UtilService', function ($http,Ut
 				}
 		};
 
+		this.setDate = function(tempyear, tempmonth, tempday, temphour){
+			dateObject = new Date(tempyear, tempmonth, tempday, temphour, 0, 0, 0);
+			//Get date in numbers
+			month = dateObject.getMonth();
+			day = dateObject.getDate();
+			year = dateObject.getFullYear();
+			time = dateObject.getHours();
+			currentYear = dateObject.getFullYear();
+			//Get date in string format
+			monthString = monthsArray[dateObject.getMonth()];
+		}
+
 		this.changeEventMonth = function (direction) {
 
 				if(direction == 1 || direction == "1") {

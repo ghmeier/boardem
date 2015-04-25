@@ -68,16 +68,16 @@
 			<div class="button button-positive button-clear" on-tap="gamesModal()">Choose Games</div>
 		</div>
         <div class="item" ng-repeat="game in eventGames">
-            <p>{{game.name}}</p>
+            <p>{{game}}</p>
         </div>
 
 		<div class="item item-button-right">
 			<h2><strong>Location:</strong></h2>
 			<div class="button button-positive button-clear" on-tap="locationModal()">Choose Location</div>
 		</div>
-        <div class="item" ng-show="eventLocation.name">
-            <h2> <strong>{{eventLocation.name}}</strong></h2>
-            <p>{{eventLocation.formatted_address}}</p>
+        <div class="item" ng-show="location[0]">
+            <h2> <strong>{{location[0].name}}</strong></h2>
+            <p>{{location[0].formatted_address}}</p>
         </div>
 
 		</div>

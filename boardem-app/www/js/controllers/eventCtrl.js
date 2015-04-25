@@ -1,4 +1,4 @@
-appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $state, UtilService, EventService,UserService,GameService) {
+appCtrl.controller('eventCtrl', function($rootScope, $scope, $stateParams, $state, UtilService, EventService,UserService,GameService,ExperienceService) {
   $scope.data = {comment:''};
 
   $scope.loadEvent = function(){
