@@ -88,22 +88,22 @@ appCtrl.controller('editEventCtrl', function($rootScope, $scope, $stateParams, $
 
 	$scope.changeEventDay = function(direction) {
 			CreateEventService.changeEventDay(direction);
-			$scope.eventDay = EditEventService.getDay();
+			$scope.eventDay = CreateEventService.getDay();
 	}
 
 	$scope.changeEventMonth = function(direction) {
 			CreateEventService.changeEventMonth(direction);
-			$scope.eventMonth = EditEventService.getMonth();
+			$scope.eventMonth = CreateEventService.getMonth();
 	}
 
 	$scope.changeEventYear = function(direction) {
 			CreateEventService.changeEventYear(direction);
-			$scope.eventYear = EditEventService.getYear();
+			$scope.eventYear = CreateEventService.getYear();
 	}
 
 	$scope.changeEventTime = function(direction){
 			CreateEventService.changeEventTime(direction);
-			$scope.eventTime = EditEventService.getTime();
+			$scope.eventTime = CreateEventService.getTime();
 	}
 
 	$scope.editEvent = function() {

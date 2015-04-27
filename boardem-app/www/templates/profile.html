@@ -23,6 +23,21 @@
                 <p>{{badge.description}}</p>
                 <p>Worth: {{badge.exp}}exp</p>
             </div>
+            <div class="item item-divider">Shelf</div>
+            <div class="item item-avatar" ng-repeat="game in userShelf" ng-show="shelfGames.length!=0" on-tap="toGame('{{game.name}}')" ng-show="game.shelved">
+                    <img src="http://{{game.image}}" style="border-radius:5%"/>
+                    <h2>{{game.name}}</h2>
+                    <p>{{game.minPlayers}}-{{game.maxPlayers}} players</p>
+                    <p>~{{game.playingTime}} minute play time</p>
+                    <p>
+                        {{game.averageRating.toFixed(1)}}/10
+                  </p>
+            </div>
+            <div class="list card" ng-show="shelfGames.length ==0 ">
+                <p>
+                    No Games in Shelf
+                </p>
+            </div>
         </div>
 
     </ion-content>
