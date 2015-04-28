@@ -23,6 +23,7 @@ appCtrl.service("UtilService",['$http','$ionicPopup','$ionicLoading',function($h
     this.showLoad = function(){
         $ionicLoading.show({
           template: 'Loading...',
+          duration: '5000',
           noBackdrop: true
         });
     }

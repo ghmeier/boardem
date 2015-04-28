@@ -20,6 +20,7 @@ appCtrl.controller("signinCtrl",function($window,$rootScope,$scope,$state,$http,
 	    success(function(data, status, headers, config) {
 	        if (data.code === 0){
 	          $window.localStorage.setItem('id', id);
+	          $rootScope.user_id = id;
 	          callback();
 	      }else {
 	      	UtilService.popup("Login Error",data.message);

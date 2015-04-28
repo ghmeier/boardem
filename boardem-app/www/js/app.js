@@ -4,13 +4,14 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers','firebase'
   //$http.defaults.headers.common["Access-Control-Allow-Origin"] = "http://localhost:8100";
 
   $ionicPlatform.ready(function() {
-	 $rootScope.SERVER_LOCATION = "http://boardem.herokuapp.com/";
+	 $rootScope.SERVER_LOCATION = "https://boardem.herokuapp.com/";
    $rootScope.user_id = $window.localStorage['id'];
    $rootScope.events = [];
 	 $rootScope.shelfGames = [];
    $rootScope.userBadges = [];
    $rootScope.roster = [];
 	 $rootScope.xp_info = [];
+
    UserService.getShelf($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.shelfGames)
    UserService.getBadges($rootScope.SERVER_LOCATION,$rootScope.user_id,$rootScope.userBadges);
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

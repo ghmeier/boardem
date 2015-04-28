@@ -3,7 +3,6 @@ appCtrl.controller('profileCtrl',function($window,$rootScope,$http, $scope, $sta
 	$scope.invite = $stateParams.profileId != $rootScope.user_id;
 	$scope.userBadges = [];
 	$scope.userShelf = [];
-	//$scope.initProfile();
 
 	UserService.getUser($rootScope.SERVER_LOCATION,$stateParams.profileId).
 	    success(function(data) {

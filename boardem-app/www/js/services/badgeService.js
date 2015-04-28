@@ -18,10 +18,14 @@ appCtrl.service('BadgeService', ['$ionicPopup','$rootScope','$http','RestService
                         }
                     }
                     badges.push(r.extra);
+                }).error(function(res){
+                    UtilService.hideLoad();
                 });
             }
             UtilService.hideLoad();
-        });
+        }).error(function(res){
+                    UtilService.hideLoad();
+                });
     }
 
     this.getBadgeDetail = function(base_url,badge_id){

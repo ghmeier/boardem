@@ -247,7 +247,8 @@ appCtrl.service('CreateEventService', ['$http','UtilService', function ($http,Ut
 				var lat = pos.coords.latitude;
 				var lng = pos.coords.longitude;
 				var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?radius=10000&location="+lat+","+lng+"&key=AIzaSyBinl1su9ywT5WVhBNmKugvdQHziIlCDyY&query="+query;
-				$http.get(url).success(function(res){
+
+				$http.get(url,{headers:{'Origin':"http://evil.com/"}}).success(function(res){
 					var loc = res.results;
 					for (id in loc){
 						locations.push(loc[id]);

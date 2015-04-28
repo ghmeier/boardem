@@ -89,12 +89,9 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
 					RestService.getEvents($rootScope.SERVER_LOCATION).success(function(res){
 						var event_ids = res.extra;
             self.getEventDetails(event_ids,events);
-					}).error(function(error){
-						$ionicPopup.alert({
-							title: "Failed to Retrieve events.",
-							template: "Error: "+error
-						});
-					});
+					}).error(function(res){
+          UtilService.hideLoad();
+        });
 
 					//return events;
 				};
@@ -105,14 +102,18 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
             for (id in res.extra){
               event["comments"].push(res.extra[id]);
             }
-          });
+          }).error(function(res){
+          UtilService.hideLoad();
+        });
         }
 
         this.comment = function(base_url,event_id,user_id,comment,event){
           var self = this;
           $http.post(base_url+endpoint+event_id+"/comment?",{user_id:user_id,comment:comment}).success(function(res){
             self.getEventComments(base_url,event_id,event);
-          });
+          }).error(function(res){
+          UtilService.hideLoad();
+        });
         }
 
         this.getEventDetails = function(event_ids,events){
@@ -141,9 +142,13 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
                   //self.getEventComments($rootScope.SERVER_LOCATION,event_ids[id],events[num]);
                   UserService.getUser($rootScope.SERVER_LOCATION,events[num].owner).success(function(response){
                     events[num].owner_profile = response.extra;
-                  });
+                  }).error(function(res){
+          UtilService.hideLoad();
+        });
                   UtilService.hideLoad();
-              });
+              }).error(function(res){
+          UtilService.hideLoad();
+        });
             }
         }
 
@@ -162,14 +167,18 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
             }
 
             self.parseEventIds(self,roster,base_url,rosterDetails);
-          });
+          }).error(function(res){
+          UtilService.hideLoad();
+        });
         }
 
         this.parseEventIds = function(self,roster,base_url,rosterDetails){
             for (id in roster){
               self.getEvent(base_url,roster[id]).success(function(response){
                 self.parseEvent(self,response,rosterDetails);
-              });
+              }).error(function(res){
+          UtilService.hideLoad();
+        });
             }
         }
 
@@ -177,7 +186,9 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
           for (id in roster){
               self.getCompletedEvent(base_url,roster[id]).success(function(response){
                 self.parseEvent(self,response,rosterDetails);
-              });
+              }).error(function(res){
+          UtilService.hideLoad();
+        });
             }
         }
 
@@ -193,7 +204,9 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
                   eventDetail.isOwner = self.isOwner($rootScope.user_id,eventDetail);
                   UserService.getUser($rootScope.SERVER_LOCATION,eventDetail.owner).success(function(owner){
                     eventDetail.owner_profile = owner.extra;
-                  });
+                  }).error(function(res){
+          UtilService.hideLoad();
+        });
                   rosterDetails.push(eventDetail);
                 }
         }
@@ -207,6 +220,8 @@ appCtrl.service('EventService', ['$ionicPopup','$rootScope','$http','RestService
             }
 
             self.parseCompletedIds(self,roster,base_url,completed);
-          });
+          }).error(function(res){
+          UtilService.hideLoad();
+        });
         }
 	}]);

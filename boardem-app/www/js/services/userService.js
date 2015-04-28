@@ -30,6 +30,8 @@ appCtrl.service("UserService",['$http','GameService','BadgeService','UtilService
 						}
 					}
 					userDetails.push(res.extra);
+				}).error(function(res){
+					UtilService.hideLoad();
 				});
 			}
 		}
@@ -46,6 +48,8 @@ appCtrl.service("UserService",['$http','GameService','BadgeService','UtilService
 					mes.userDetails = [];
 					messages.push(mes);
 					self.parseUsers(base_url,mes.users,mes.userDetails,userId,[]);
+				}).error(function(res){
+					UtilService.hideLoad();
 				});
 			}
 			UtilService.hideLoad();
@@ -69,6 +73,8 @@ appCtrl.service("UserService",['$http','GameService','BadgeService','UtilService
 			for (id in res.extra.users){
 				self.getUser(base_url,res.extra.users[id]).success(function(use){
 					pics[use.extra.facebook_id] = use.extra.picture_url;
+				}).error(function(res){
+					UtilService.hideLoad();
 				});
 			}
 			UtilService.hideLoad();
@@ -92,7 +98,9 @@ appCtrl.service("UserService",['$http','GameService','BadgeService','UtilService
 			self.getContacts(base_url,skipId).success(function(con){
 				var contacts = con.extra;
 				self.parseUsers(base_url,users,userDetails,skipId,contacts);
-			});
+			}).error(function(res){
+					UtilService.hideLoad();
+				});
 			UtilService.hideLoad();
 		});
 		return userDetails;
@@ -105,7 +113,9 @@ appCtrl.service("UserService",['$http','GameService','BadgeService','UtilService
 		this.getContacts(base_url,userId).success(function(res){
 			self.parseUsers(base_url,res.extra,userDetails,userId,res.extra);
 			UtilService.hideLoad();
-		});
+		}).error(function(res){
+					UtilService.hideLoad();
+				});
 		return userDetails;
 	}
 
@@ -115,6 +125,8 @@ appCtrl.service("UserService",['$http','GameService','BadgeService','UtilService
 			for (id in badge_id){
 				BadgeService.getBadgeDetail(base_url,badge_id[id]).success(function(r){
 					badges.push(r.extra);
+				}).error(function(res){
+					UtilService.hideLoad();
 				});
 			}
 		});
@@ -142,10 +154,14 @@ appCtrl.service("UserService",['$http','GameService','BadgeService','UtilService
 						game.extra.shelved = true;
 						shelf.push(game.extra);
 					}
+				}).error(function(res){
+					UtilService.hideLoad();
 				});
 			}
 			UtilService.hideLoad();
-		});
+		}).error(function(res){
+					UtilService.hideLoad();
+				});
 
 		return shelf;
 	}

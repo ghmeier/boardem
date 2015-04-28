@@ -32,7 +32,9 @@ appCtrl.service("GameService",['$http','UtilService',function($http,UtilService)
 				games.push(gameRaw[id]);
 			}
 			UtilService.hideLoad();
-		});
+		}).error(function(res){
+					UtilService.hideLoad();
+				});
 	}
 
 	this.charConvert = function(value) {
